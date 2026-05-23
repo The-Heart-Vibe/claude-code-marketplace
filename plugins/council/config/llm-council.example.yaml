@@ -1,0 +1,24 @@
+# LLM Council Configuration — The Heart Vibe template
+# Skopiowane przez install.sh do ~/.config/llm-council/config.yaml
+#
+# Providery: claude (Claude Code CLI), codex (ChatGPT Plus), gemini-cli (Google Workspace OAuth)
+# Bez API keys — wszyscy używają lokalnego CLI auth.
+
+providers:
+  - name: claude
+    # Claude Code CLI — działa tylko z terminala, NIE z poziomu aktywnej Claude Code session
+  - name: codex
+    # Codex CLI — zalogowany przez ChatGPT Plus
+  - name: gemini-cli
+    # Gemini CLI — zalogowany przez Google Workspace OAuth (oauth-personal)
+
+defaults:
+  # Domyślni providerzy gdy nie podano --providers.
+  # UWAGA: `claude` NIE działa z poziomu Claude Code session (self-invocation block).
+  # Default = gemini-cli + codex. Jeśli używasz z terminala — dodaj `claude`.
+  providers:
+    - gemini-cli
+    - codex
+  timeout: 180
+  max_retries: 2
+  summary_tier: actions

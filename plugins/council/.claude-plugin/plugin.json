@@ -1,0 +1,13 @@
+{
+  "name": "council",
+  "version": "0.1.0",
+  "description": "Multi-LLM debate dla decyzji technicznych i biznesowych. Wrapper na the-llm-council CLI z routingiem domain × tier i providerami bez API key (Claude Code, Codex/ChatGPT, Gemini CLI).",
+  "author": {
+    "name": "The Heart Vibe"
+  },
+  "repository": "https://github.com/The-Heart-Vibe/claude-code-marketplace",
+  "license": "MIT",
+  "skills": [
+    "./skills/council"
+  ]
+}

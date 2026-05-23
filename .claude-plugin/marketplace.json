@@ -1,0 +1,15 @@
+{
+  "name": "the-heart-vibe",
+  "owner": {
+    "name": "The Heart Vibe",
+    "url": "https://github.com/The-Heart-Vibe"
+  },
+  "description": "Wewnętrzny marketplace pluginów Claude Code dla The Heart Vibe",
+  "plugins": [
+    {
+      "name": "council",
+      "source": "./plugins/council",
+      "description": "Multi-LLM debate przez the-llm-council CLI z routingiem domain × tier (tech / non-tech)"
+    }
+  ]
+}
