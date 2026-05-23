@@ -256,6 +256,100 @@ Jeśli użytkownik chce więcej szczegółów — niech zapyta o konkretną sekc
 
 ---
 
+## Follow-up po werdykcie
+
+Po `council run` użytkownik może chcieć dopytać. **Trzy patterny — wybierz najtańszy z wystarczających:**
+
+### Pattern 1 — Quick clarification (0 sekund, 0 tokenów Council)
+
+Claude ma cały JSON wynik w swoim kontekście. Pytania typu "rozwiń punkt X", "co znaczy proceed_with_conditions", "dlaczego confidence 79%" → odpowiadaj sam z kontekstu, **NIE** odpalaj ponownie council.
+
+Triggery: "rozwiń", "co znaczy", "wyjaśnij", "co miałeś na myśli", "dlaczego ten punkt".
+
+### Pattern 2 — Adversarial second pass (Tier M, ~60s)
+
+Gdy user chce **sceptyczną opinię na poprzedni werdykt** (np. "are we sure?", "find weaknesses", "co przegapiliśmy"):
+
+```bash
+~/.local/bin/council run critic --mode review \
+  "Werdykt rady: <streszczenie poprzedniej decyzji>. 
+   Znajdź wszystkie powody dla których to może być błędna decyzja. 
+   Słabe strony uzasadnienia, niedoszacowane ryzyka, missed assumptions." \
+  --providers gemini-cli,codex \
+  --runtime-profile bounded --reasoning-profile light \
+  --timeout 300 --json
+```
+
+Triggery: "są pewni?", "znajdź słabe strony", "co może pójść nie tak", "red team to".
+
+### Pattern 3 — Deep-dive z pełnym kontekstem (Tier L, ~90-300s)
+
+Gdy follow-up rozwija decyzję w nowy kierunek (np. "skoro SSE, to zaprojektuj migration path", "rozszerz to o monitoring"):
+
+```bash
+# Zapisz pierwszy wynik
+~/.local/bin/council run planner --mode assess "..." \
+  --providers gemini-cli,codex \
+  --output /tmp/council-decision-1.json --json
+
+# Drugie zapytanie z kontekstem poprzedniego
+~/.local/bin/council run planner --mode plan \
+  "Bazując na poprzedniej decyzji, zaprojektuj <następny krok>" \
+  --files /tmp/council-decision-1.json \
+  --providers gemini-cli,codex --timeout 300 --json
+```
+
+Triggery: "skoro X, to jak Y", "rozszerz o", "następny krok", "implementation plan dla".
+
+### Decyzja: który pattern?
+
+| Pytanie usera | Pattern |
+|---------------|---------|
+| Doprecyzowanie/wyjaśnienie | 1 (Claude z kontekstu) |
+| Wątpliwość/skeptycyzm wobec werdyktu | 2 (critic red-team) |
+| Rozwijanie decyzji w nowy projekt | 3 (deep-dive z --files) |
+
+---
+
+## Background execution pattern
+
+Council Tier L/XL = długie wywołania (60-600s). Bash tool **blokuje** `sleep N && cat` jako anti-pattern. Właściwe podejście:
+
+### Krótkie zadania (<60s) — foreground
+```bash
+~/.local/bin/council run drafter --mode impl "..." --providers gemini-cli --json
+```
+
+### Długie zadania (>60s) — `run_in_background: true`
+
+Odpal Bash z flagą `run_in_background: true` — dostaniesz notification gdy task się skończy. **NIE** rób polling przez `until grep` ani `sleep+cat` — to anti-pattern w tym harness.
+
+```
+Bash(command="~/.local/bin/council run planner --mode assess '...' --providers gemini-cli,codex --timeout 600 --json", run_in_background=true)
+```
+
+Po notyfikacji o zakończeniu — odczytaj output via `Read` z task output path (zostanie podana w notyfikacji).
+
+---
+
+## Gemini-cli — gotcha z wydajnością
+
+Gemini CLI ma **cold/warm startup overhead 7-15s per call** (Node startup + OAuth refresh + wewnętrzny reasoning). Konsekwencje:
+
+- `council doctor --deep` z domyślnym 5s timeoutem **zawsze** falsuje na gemini-cli — to NIE jest błąd auth, tylko za krótki timeout
+- W Stage 2 (ranking) z 3-4 odpowiedziami w kontekście, gemini-cli może przekroczyć default 120s per-call timeout
+- **Dla Tier L/XL ZAWSZE** dodawaj `--timeout 600` (lub większy)
+- Graceful degradation: jeśli gemini-cli padnie, council kontynuuje z codex — dostaniesz wynik z 1 providera, nie crash
+
+```bash
+# ZAWSZE dla Tier L+
+~/.local/bin/council run planner ... --timeout 600 --json
+```
+
+Jeśli musisz mieć wynik z gemini-cli (np. dla porównania perspektyw) — **rozbij na 2 mniejsze pytania** zamiast jednego dużego.
+
+---
+
 ## Po wykonaniu — END TURN
 
 Po zwróceniu wyniku council:
