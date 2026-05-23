@@ -87,7 +87,88 @@ echo ""
 "$WRAPPER" doctor || true
 echo ""
 
-# ── 7. Next steps ────────────────────────────────────────────────────────────
+# ── 7. Venture-builder hook (opt-in) ─────────────────────────────────────────
+HOOK_SCRIPT_SRC="$(dirname "$0")/hooks/vb-suggest.sh"
+HOOK_SCRIPT_DST="$HOME/.claude/hooks/council-vb-suggest.sh"
+SETTINGS="$HOME/.claude/settings.json"
+
+if [ -f "$HOOK_SCRIPT_SRC" ]; then
+  echo ""
+  say "Opcjonalny hook: Venture Builder Suggest"
+  cat <<EOF
+   Hook wykrywa promptów wyglądających na decyzje (pricing, GTM, IC memo,
+   FinTech/HealthTech/RealEstate/MarTech, founder fit, build-vs-buy itp.)
+   i poprosi Claude'a żeby zapytał Cię: "uruchomić to przez /council?"
+
+   Opt-out per-prompt: prefiks "BEZ COUNCIL: ..."
+   Disable globalnie: usuń wpis z $SETTINGS hooks.UserPromptSubmit
+EOF
+
+  if [ "${COUNCIL_INSTALL_HOOK:-ask}" = "yes" ]; then
+    REPLY="y"
+  elif [ "${COUNCIL_INSTALL_HOOK:-ask}" = "no" ]; then
+    REPLY="n"
+  else
+    printf "\nZainstalować hook? [y/N]: "
+    read -r REPLY < /dev/tty || REPLY="n"
+  fi
+
+  case "$REPLY" in
+    [Yy]*)
+      mkdir -p "$(dirname "$HOOK_SCRIPT_DST")"
+      cp "$HOOK_SCRIPT_SRC" "$HOOK_SCRIPT_DST"
+      chmod +x "$HOOK_SCRIPT_DST"
+
+      # Add hook to settings.json (backup, then merge via python)
+      if [ -f "$SETTINGS" ]; then
+        cp "$SETTINGS" "${SETTINGS}.bak.$(date +%Y%m%d-%H%M%S)"
+      fi
+      python3 <<PYEOF
+import json, os
+settings_path = os.path.expanduser("~/.claude/settings.json")
+hook_path = os.path.expanduser("~/.claude/hooks/council-vb-suggest.sh")
+
+try:
+    with open(settings_path) as f:
+        cfg = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    cfg = {}
+
+cfg.setdefault("hooks", {})
+cfg["hooks"].setdefault("UserPromptSubmit", [])
+
+# Check if already installed (idempotent)
+already = any(
+    any(h.get("command", "").endswith("council-vb-suggest.sh") for h in entry.get("hooks", []))
+    for entry in cfg["hooks"]["UserPromptSubmit"]
+)
+
+if not already:
+    cfg["hooks"]["UserPromptSubmit"].append({
+        "matcher": ".*",
+        "hooks": [{
+            "type": "command",
+            "command": hook_path,
+            "timeout": 5
+        }]
+    })
+
+os.makedirs(os.path.dirname(settings_path), exist_ok=True)
+with open(settings_path, "w") as f:
+    json.dump(cfg, f, indent=2)
+
+print("✓ Hook zarejestrowany w settings.json" + (" (już był)" if already else ""))
+PYEOF
+      ok "Venture Builder hook aktywny"
+      ;;
+    *)
+      say "Hook pominięty. Aktywujesz później przez:"
+      say "  bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/council/install.sh) z COUNCIL_INSTALL_HOOK=yes"
+      ;;
+  esac
+fi
+
+# ── 8. Next steps ────────────────────────────────────────────────────────────
 cat <<EOF
 
 ──────────────────────────────────────────────────────────────────
@@ -108,4 +189,8 @@ Następnie w Claude Code:
 Lub bezpośrednio z terminala:
   council run planner --mode assess "Twoja decyzja" \\
     --providers gemini-cli,codex --json
+
+Jeśli włączyłeś hook — przy okazji każdej decyzji-podobnej wiadomości
+Claude zapyta "uruchomić przez /council?". Możesz opt-out per-wiadomość:
+  BEZ COUNCIL: jak działa SSE?
 EOF

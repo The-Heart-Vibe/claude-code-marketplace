@@ -26,9 +26,11 @@ Następnie zainstaluj wybrany plugin:
 
 Kolekcje to **dokumentacja** — grupują polecane skille z różnych źródeł per faza pracy. Nie są bundle pluginami; każdy skill instalujesz osobno.
 
-| Kolekcja | Dla kogo | Skille |
-|----------|----------|--------|
-| [Venture Builder](collections/venture-builder.md) | Analitycy + konsultanci VB | 18 skilli pogrupowanych w 6 faz: discovery, validation, strategy, modeling, build prep, IC/pitch |
+| Kolekcja | Dla kogo | Co zawiera |
+|----------|----------|------------|
+| [Venture Builder](collections/venture-builder.md) | Analitycy + konsultanci VB w The Heart | ~25 skilli w 7 fazach + sector addenda (FinTech/HealthTech/RealEstate/MarTech) + token-efficient practices |
+
+👉 **Nowy w zespole?** Zacznij od [**Onboarding VB**](collections/onboarding-vb.md) — 20-min przewodnik krok po kroku.
 
 Więcej kolekcji w [`collections/`](collections/).
 

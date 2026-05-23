@@ -8,7 +8,8 @@ Cel kolekcji: pomóc zespołowi znaleźć właściwy skill dla konkretnej fazy p
 
 | Kolekcja | Dla kogo | Faz |
 |----------|----------|-----|
-| [Venture Builder](venture-builder.md) | Analitycy + konsultanci w obszarze venture building | 6 |
+| [Venture Builder](venture-builder.md) | Analitycy + konsultanci w obszarze venture building (The Heart edition) | 7 |
+| [Onboarding VB](onboarding-vb.md) | Nowy w zespole — 20-min przewodnik krok po kroku | — |
 
 ## Jak dodać nową kolekcję
 

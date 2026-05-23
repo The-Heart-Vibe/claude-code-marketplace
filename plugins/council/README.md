@@ -13,12 +13,23 @@ Po `/plugin install council@the-heart-vibe` zostanie odpalony `install.sh`, któ
 5. Instaluje `the-llm-council[gemini]>=0.7.16`
 6. Tworzy wrapper w `~/.local/bin/council`
 7. Kopiuje config template do `~/.config/llm-council/config.yaml`
-8. Odpala `council doctor` i pokazuje status providerów
+8. **Pyta czy zainstalować Venture Builder hook** (rekomendowane: y)
+9. Odpala `council doctor` i pokazuje status providerów
 
 ### Ręczna instalacja
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/council/install.sh)
+```
+
+### Non-interactive install
+
+```bash
+# Z hookiem (auto-yes)
+COUNCIL_INSTALL_HOOK=yes bash install.sh
+
+# Bez hooka (auto-no)
+COUNCIL_INSTALL_HOOK=no bash install.sh
 ```
 
 ### Override paths
@@ -27,6 +38,43 @@ bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-mark
 COUNCIL_VENV=/custom/path/venv \
 COUNCIL_WRAPPER_DIR=/custom/bin \
 bash install.sh
+```
+
+## Venture Builder hook
+
+Hook wykrywa promptów wyglądających na decyzje (pricing, GTM, IC memo, build-vs-buy, founder fit, sektory FinTech/HealthTech/RealEstate/MarTech) i prosi Claude'a żeby zapytał użytkownika: **"uruchomić to przez /council?"**
+
+Bez hooka adopcja zależy od dyscypliny — analitycy zwykle nie pamiętają o `/council`. Z hookiem narzędzie samo się przypomina.
+
+### Działanie
+
+- Hook event: `UserPromptSubmit`
+- Trigger: ≥1 strong pattern lub ≥2 weak patterns (multi-option choices, financial terms, sectors, decision verbs)
+- Output: `additionalContext` instruujący Claude'a żeby zapytał usera przed odpowiedzią
+- Per-prompt opt-out: prefiks `BEZ COUNCIL:` lub `NO COUNCIL:`
+- Auto-skip: gdy user już wpisał `/council` na początku
+
+### Disable globalnie
+
+Usuń wpis z `~/.claude/settings.json`:
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "matcher": ".*", "hooks": [{"command": "...council-vb-suggest.sh"}] }
+    ]
+  }
+}
+```
+
+Lub usuń sam plik: `rm ~/.claude/hooks/council-vb-suggest.sh`
+
+### Tuning patterns
+
+Edytuj `~/.claude/hooks/council-vb-suggest.sh` — sekcje `STRONG_PATTERNS` i `WEAK_PATTERNS`. Po edycji re-test:
+
+```bash
+echo '{"prompt": "twoja testowa wiadomość"}' | ~/.claude/hooks/council-vb-suggest.sh
 ```
 
 ## Auth providerów
