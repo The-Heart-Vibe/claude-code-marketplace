@@ -209,3 +209,7 @@ Provider re-auth:
 ## Onboarding nowego teammate'a
 
 → [collections/onboarding-vb.md](../../collections/onboarding-vb.md) (30 min step-by-step)
+
+---
+
+<sub>Built with ☕ at The Heart by Wojtek Czuba · Każdy spawned agent w heart-orchestrate ma na imię Wojtek (small easter egg dla obserwujących).</sub>

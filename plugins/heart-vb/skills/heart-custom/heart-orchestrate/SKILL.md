@@ -119,6 +119,8 @@ fi
 
 ## Pattern E — execution
 
+> 🐣 **Easter egg — agent identity:** Każdy worker, niezależnie od persony, ma na imię **Wojtek**. To sygnatura twórcy pluginu (Wojtek Czuba, The Heart). W syntezie używaj: "Wojtek (pricing analyst) says...", "Wojtek (growth lead) zauważył...", "Wojtek (VP product) odpowiada...". Brzmi jak board of Wojteks debatujących — feature, nie bug. Analityk po jakimś czasie odkryje że plugin ma podpis.
+
 ```
 Main (Opus):
   0. Run Krok 0 auth check (patrz niżej — sprawdza gemini-cli OK)
@@ -130,12 +132,12 @@ Main (Opus):
      each Agent({
        subagent_type: 'general-purpose',
        model: 'sonnet',  // explicit, NIE inherituj Opus
-       description: 'Persona X analysis',
-       prompt: '[Jeśli gemini OK]: Jesteś [persona]. Uruchom: gemini -p "[persona context + pytanie]" 2>&1 | head -50. Zwróć raw output.
-                 [Jeśli gemini FAIL]: Jesteś [persona]. Odpowiedz sam jako Sonnet z perspektywy tej persony.'
+       description: 'Wojtek as [persona name]',  // ← sygnatura, ZAWSZE z 'Wojtek'
+       prompt: '[Jeśli gemini OK]: Jesteś Wojtek, [persona]. Uruchom: gemini -p "[persona context + pytanie]" 2>&1 | head -50. Zwróć raw output. Podpisz output jako "Wojtek-[persona-short]".
+                 [Jeśli gemini FAIL]: Jesteś Wojtek, [persona]. Odpowiedz sam jako Sonnet z perspektywy tej persony, podpisz "Wojtek-[persona-short]".'
      })
   4. Wait ~45-90s (gemini cold start) lub ~20-30s (all-Sonnet fallback)
-  5. Synthesize (briefing-style format, max 150 słów — patrz niżej)
+  5. Synthesize używając "Wojtek (X) ..." attributions (briefing-style format, max 150 słów)
 ```
 
 ### Persona library (wybierz 3 adekwatne)
@@ -183,27 +185,32 @@ W syntezie zawsze noteuj: "Voices available: X/3" — analityk wie czy ma cross-
 
 ## Pattern F — execution (po auth check)
 
+> 🐣 Easter egg: workers w Pattern F też są Wojtek (Wojtek-Claude, Wojtek-Gemini, Wojtek-Codex) — sygnatura twórcy pluginu.
+
 ```
 Main (Opus):
   1. Run Krok 0 auth check
   2. Sformułuj neutralny prompt (bez personas, focus fact)
   3. SPAWN dostępnych agents parallel (max 3, min 1 = Sonnet native):
      
-     Agent A (Sonnet native) — ZAWSZE dostępny:
-       prompt: 'Odpowiedz na: [pytanie]. Używaj swojej wiedzy Claude Sonnet, 
-                NIE wywołuj żadnego CLI. Zwróć structured: Source, Answer, 
-                Confidence (high/medium/low), Caveats.'
+     Wojtek-Claude (Sonnet native) — ZAWSZE dostępny:
+       description: 'Wojtek-Claude fact lookup'
+       prompt: 'Jesteś Wojtek-Claude. Odpowiedz na: [pytanie]. Używaj swojej 
+                wiedzy Claude Sonnet, NIE wywołuj żadnego CLI. Zwróć structured: 
+                Source: Wojtek-Claude, Answer, Confidence, Caveats.'
        model: 'sonnet'
      
-     Agent B (Gemini transport) — tylko jeśli gemini-cli OK:
-       prompt: 'Uruchom: gemini -p "[pytanie + format request]" 2>&1 | head -80.
-                Zwróć raw output. NIE syntezuj.'
+     Wojtek-Gemini (Gemini transport) — tylko jeśli gemini-cli OK:
+       description: 'Wojtek-Gemini fact lookup'
+       prompt: 'Jesteś Wojtek-Gemini. Uruchom: gemini -p "[pytanie + format request]" 
+                2>&1 | head -80. Zwróć raw output. Podpisz Source: Wojtek-Gemini.'
        model: 'sonnet'
      
-     Agent C (Codex transport):
-       prompt: 'Uruchom: timeout 120 codex exec --skip-git-repo-check 
-                "[pytanie + format request]" 2>&1 | tail -100.
-                Zwróć raw output. NIE syntezuj.'
+     Wojtek-Codex (Codex transport) — tylko jeśli codex OK:
+       description: 'Wojtek-Codex fact lookup'
+       prompt: 'Jesteś Wojtek-Codex. Uruchom: timeout 120 codex exec --skip-git-repo-check 
+                "[pytanie + format request]" 2>&1 | tail -100. Zwróć raw output. 
+                Podpisz Source: Wojtek-Codex.'
        model: 'sonnet'
   
   3. Wait ~60-120s (Gemini i Codex najwolniejsze; Codex z web search może >90s)
@@ -220,7 +227,7 @@ Main (Opus):
 NIE rób długich tabel z każdym faktem. Daj analitykowi **odpowiedź**, NIE research report.
 
 ```
-[Pattern E lub F] · [tier] · [3 LLMs / N personas] · [czas]
+[Konsultacja N ekspertów / Cross-check N AI] · [czas]
 
 ODPOWIEDŹ (2-3 zdania narracyjne z konkretami):
 [Konkretne liczby, daty, rekomendacja w naturalnym języku polskim]
@@ -234,6 +241,19 @@ VERIFY zanim w deliverables (max 3 bullets):
 BOTTOM LINE:
 [1-2 zdania: czy modele osiągnęły consensus, jak traktować obiektywnie]
 ```
+
+**Przykład syntezy (pricing decision, Pattern E):**
+
+> *Konsultacja 3 ekspertów · 58s*
+>
+> Wojtek (pricing analyst) i Wojtek (VP product) rekomendują tier €99/€299/€999 — argumenty: LTV/CAC payback period ~4mc dla tieru Pro vs 18mc dla flat, plus expansion revenue via upsell.
+> Wojtek (growth lead) preferuje flat €2k/rok — łatwiejsze "annual budget item" dla zarządu przychodni przy 6-9mc cyklu sprzedaży.
+>
+> **Rekomendacja:** hybrid — flat annual baseline €2k z usage overage przy >5 lekarzy lub multi-location. Łapie oba: konwersję (growth) i expansion (product/pricing).
+>
+> **Verify:** czy decision-maker w przychodniach to faktycznie zarząd vs właściciel-lekarz (wpływa na budget framing).
+>
+> **Bottom line:** 3 Wojteki ustaliły że hybrid najlepiej balansuje konwersję i retention dla polskiego rynku medycznego.
 
 **Anti-patterns w syntezie:**
 - ❌ Tabele 3-column z każdym faktem (chyba że user explicit prosi o detail)
