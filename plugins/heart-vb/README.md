@@ -73,17 +73,45 @@ council doctor
 | `codex` | `codex login` (wymaga ChatGPT Plus/Pro) | Council używa GPT-5 zamiast Claude session |
 | `gemini-cli` | `gemini` (OAuth przez Google Workspace) | Council używa Gemini — największa pula tokenów |
 
-## Hooks (oba rekomendowane — install.sh instaluje razem)
+## Hooks (4 rekomendowane — install.sh instaluje wszystkie)
 
-Plugin instaluje 2 hooki UserPromptSubmit, oba opcjonalne ale wzajemnie dopełniające:
+Plugin instaluje 4 hooki UserPromptSubmit. Wszystkie opcjonalne ale wzajemnie dopełniające. Każdy ma własny opt-out prefix.
 
 ### 1. Venture Builder Suggest (`vb-suggest.sh`)
 
-Wykrywa promptów wyglądających na zadania VB i prosi Claude'a żeby zapytał: **"To wygląda na <intent> — proponuję użyć <skill>. Wolisz tak, czy odpowiedzieć od razu?"**
+Wykrywa promptów wyglądających na zadania VB (decision/research/modeling/writing/validation/screening) i sugeruje właściwy skill. Pyta: **"To wygląda na <intent> — proponuję użyć <skill>. Wolisz tak czy odpowiedzieć od razu?"**
 
 ### 2. Research Tool Router (`devtools-suggest.sh`) — token saver
 
 Auto-wykrywa **URL-e + sygnały complex page** i kieruje Claude na `chrome-devtools-mcp` zamiast WebFetch dla **token-efficient browsing**.
+
+### 3. Cowork Spawn Router (`cowork-suggest.sh`) — parallel work detector
+
+Wykrywa **multi-entity tasks** (5 konkurentów, 3 scenariusze, sekcje IC memo, landscape scan) i sugeruje spawn N parallel cowork agents zamiast sequential roboty w main. Każdy worker dostaje 1 entity.
+
+| Sygnał | Akcja |
+|--------|-------|
+| "5 konkurentów", "top 10 firm", "3 sektory" | Spawn N agentów × 1 entity |
+| "base/bull/bear scenario" | Spawn 3 agentów × 1 scenariusz |
+| "porównaj A vs B vs C" | Spawn N agentów × 1 option |
+| "landscape teardown", "scan rynek" | Spawn agentów × 1 segment |
+| "dla każdej z tych firm" | Spawn × 1 firma |
+
+### 4. Model Router (`model-route.sh`) — cost/quality tiering
+
+Klasyfikuje complexity i sugeruje **model tier**:
+
+| Tier | Trigger keywords | Reasoning |
+|------|------------------|-----------|
+| **Haiku** | "co znaczy X", format, rename, krótkie pytania | 3× tańsze, wystarczające dla lookup |
+| **Sonnet** | (default) — wszystkie routine VB tasks | Balanced cost/quality, większość pracy |
+| **Opus** | strategic, IC memo, board prep, council, deep research, ambiguous trade-off | Najdeepsze reasoning dla high-stake decisions |
+
+**Cowork pattern reminder w outpucie:**
+- Main session (orchestrator) → opus
+- Workers (Agent tool calls) → sonnet
+- Trivial helpers → haiku
+- Explicit `model: "sonnet"` parameter w `Agent({...})` calls
 
 | Sygnał | Akcja |
 |--------|-------|
@@ -110,12 +138,15 @@ Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
 | **screening** | "founder fit", "patent", "spin-out" | deal-desk, board-prep |
 | **+sector** | FinTech / HealthTech / RealEstate / MarTech | adds compliance reminder z heart-custom |
 
-### Opt-out per prompt
+### Opt-out per prompt (4 prefixy)
 
 ```
-BEZ COUNCIL: szybko porównaj te 2 vendory      # skip vb-suggest hook
-BEZ DEVTOOLS: użyj WebFetch dla https://...    # skip devtools-suggest hook
-USE WEBFETCH: ...                                # alternative skip dla devtools
+BEZ COUNCIL: ...        # skip vb-suggest (no skill suggestion)
+BEZ DEVTOOLS: ...       # skip devtools-suggest (use WebFetch)
+USE WEBFETCH: ...       # alternative dla devtools-suggest
+BEZ COWORK: ...         # skip cowork-suggest (stay in main session)
+SINGLE SESSION: ...     # alternative dla cowork-suggest
+BEZ ROUTE: ...          # skip model-route (no tier suggestion)
 ```
 
 ### Disable globalnie
@@ -123,6 +154,8 @@ USE WEBFETCH: ...                                # alternative skip dla devtools
 Usuń wpisy z `~/.claude/settings.json` hooks.UserPromptSubmit, lub usuń pliki:
 - `~/.claude/hooks/council-vb-suggest.sh` (vb-suggest)
 - `~/.claude/hooks/heart-devtools-suggest.sh` (devtools-suggest)
+- `~/.claude/hooks/heart-cowork-suggest.sh` (cowork-suggest)
+- `~/.claude/hooks/heart-model-route.sh` (model-route)
 
 ## Self-improving agent (si:*)
 

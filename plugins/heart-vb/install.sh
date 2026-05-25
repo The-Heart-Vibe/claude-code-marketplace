@@ -92,28 +92,40 @@ echo ""
 # ── 7. Hooks (opt-in) ────────────────────────────────────────────────────────
 HOOK_VB_SRC="$(dirname "$0")/hooks/vb-suggest.sh"
 HOOK_DEVTOOLS_SRC="$(dirname "$0")/hooks/devtools-suggest.sh"
+HOOK_COWORK_SRC="$(dirname "$0")/hooks/cowork-suggest.sh"
+HOOK_ROUTE_SRC="$(dirname "$0")/hooks/model-route.sh"
 HOOK_VB_DST="$HOME/.claude/hooks/council-vb-suggest.sh"
 HOOK_DEVTOOLS_DST="$HOME/.claude/hooks/heart-devtools-suggest.sh"
+HOOK_COWORK_DST="$HOME/.claude/hooks/heart-cowork-suggest.sh"
+HOOK_ROUTE_DST="$HOME/.claude/hooks/heart-model-route.sh"
 SETTINGS="$HOME/.claude/settings.json"
 
-if [ -f "$HOOK_VB_SRC" ] || [ -f "$HOOK_DEVTOOLS_SRC" ]; then
+if [ -f "$HOOK_VB_SRC" ] || [ -f "$HOOK_DEVTOOLS_SRC" ] || [ -f "$HOOK_COWORK_SRC" ] || [ -f "$HOOK_ROUTE_SRC" ]; then
   echo ""
-  say "Opcjonalne hooki (rekomendowane: oba)"
+  say "Opcjonalne hooki (rekomendowane: wszystkie 4)"
   cat <<EOF
 
    1. Venture Builder Suggest (vb-suggest.sh):
-      Wykrywa prompty wyglądające na decyzje (pricing, GTM, IC memo,
-      FinTech/HealthTech/RealEstate/MarTech, founder fit, build-vs-buy itp.)
-      i prosi Claude'a żeby zapytał Cię: "uruchomić przez /council?"
+      Wykrywa zadania VB (decision/research/modeling/writing/validation/screening)
+      i sugeruje właściwy skill (council, deep-research, financial-analyst, board-prep, ...).
 
    2. Research Tool Router (devtools-suggest.sh):
-      Wykrywa URL-e w prompcie + sygnały complex page (JS-heavy domains,
-      interactive flow, multi-page workflow, targeted extraction)
-      i rekomenduje chrome-devtools-mcp zamiast WebFetch (token-saving).
+      Wykrywa URL-e + complex page signals → kieruje na chrome-devtools-mcp
+      zamiast WebFetch (token-saving).
+
+   3. Cowork Spawn Router (cowork-suggest.sh):
+      Wykrywa multi-entity work (5 konkurentów, 3 scenariusze, sekcje IC memo)
+      → sugeruje spawn N parallel cowork agents zamiast sequential w main.
+
+   4. Model Router (model-route.sh):
+      Klasyfikuje complexity tier → suggest model (Haiku trivial / Opus strategic /
+      Sonnet routine default). Reminder że workers cowork = sonnet, orchestrator = opus.
 
    Opt-out per-prompt:
      "BEZ COUNCIL: ..."   — skip vb-suggest
-     "BEZ DEVTOOLS: ..."  — skip devtools-suggest (use WebFetch)
+     "BEZ DEVTOOLS: ..."  — skip devtools-suggest
+     "BEZ COWORK: ..."    — skip cowork-suggest
+     "BEZ ROUTE: ..."     — skip model-route
 
    Disable globalnie: usuń wpisy z $SETTINGS hooks.UserPromptSubmit
 EOF
@@ -123,7 +135,7 @@ EOF
   elif [ "${COUNCIL_INSTALL_HOOK:-ask}" = "no" ]; then
     REPLY="n"
   else
-    printf "\nZainstalować oba hooki? [y/N]: "
+    printf "\nZainstalować wszystkie 4 hooki? [y/N]: "
     read -r REPLY < /dev/tty || REPLY="n"
   fi
 
@@ -132,6 +144,8 @@ EOF
       mkdir -p "$(dirname "$HOOK_VB_DST")"
       [ -f "$HOOK_VB_SRC" ] && cp "$HOOK_VB_SRC" "$HOOK_VB_DST" && chmod +x "$HOOK_VB_DST"
       [ -f "$HOOK_DEVTOOLS_SRC" ] && cp "$HOOK_DEVTOOLS_SRC" "$HOOK_DEVTOOLS_DST" && chmod +x "$HOOK_DEVTOOLS_DST"
+      [ -f "$HOOK_COWORK_SRC" ] && cp "$HOOK_COWORK_SRC" "$HOOK_COWORK_DST" && chmod +x "$HOOK_COWORK_DST"
+      [ -f "$HOOK_ROUTE_SRC" ] && cp "$HOOK_ROUTE_SRC" "$HOOK_ROUTE_DST" && chmod +x "$HOOK_ROUTE_DST"
 
       # Backup settings.json
       if [ -f "$SETTINGS" ]; then
@@ -144,6 +158,8 @@ settings_path = os.path.expanduser("~/.claude/settings.json")
 hooks_to_install = [
     ("$HOOK_VB_DST", "council-vb-suggest.sh"),
     ("$HOOK_DEVTOOLS_DST", "heart-devtools-suggest.sh"),
+    ("$HOOK_COWORK_DST", "heart-cowork-suggest.sh"),
+    ("$HOOK_ROUTE_DST", "heart-model-route.sh"),
 ]
 
 try:
