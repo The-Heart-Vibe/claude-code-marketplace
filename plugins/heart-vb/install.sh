@@ -209,7 +209,31 @@ PYEOF
   esac
 fi
 
-# ── 8. Next steps ────────────────────────────────────────────────────────────
+# ── 8. Codex CLI hint (opcjonalny, dla full Pattern F) ──────────────────────
+echo ""
+if ! command -v codex >/dev/null 2>&1; then
+  say "Codex CLI — opcjonalny dla full Pattern F multi-LLM debate (3 LLMs)"
+  cat <<EOF
+
+   Bez Codex Pattern F działa jako 2-voice (Claude + Gemini) — w 90% przypadków wystarczy.
+   Pełny 3-voice (Claude + Gemini + GPT-5) wymaga ChatGPT Plus + Codex CLI:
+
+   1. Wymagana subskrypcja ChatGPT Plus (€22/mo): https://chatgpt.com
+   2. Install Codex CLI (zewnętrzne narzędzie OpenAI — patrz dokumentacja Codex)
+   3. Login: \`codex login\` (browser OAuth z ChatGPT)
+   4. Verify: \`~/.local/bin/council doctor\` → codex powinien być OK
+
+   Plugin DZIAŁA bez Codex — analityk dostaje Pattern F 2-voice fallback automatycznie.
+EOF
+else
+  ok "Codex CLI wykryty: $(codex --version 2>/dev/null | head -1 || echo 'available')"
+  if ! ~/.local/bin/council doctor 2>&1 | grep -q "codex.*OK"; then
+    warn "Codex CLI zainstalowany ALE nie zalogowany — login: \`codex login\` (ChatGPT Plus required)"
+    warn "Bez login: Pattern F będzie pomijać codex worker (graceful degradation = 2-voice)"
+  fi
+fi
+
+# ── 9. Next steps ────────────────────────────────────────────────────────────
 cat <<EOF
 
 ──────────────────────────────────────────────────────────────────
@@ -220,7 +244,7 @@ Auth dla providerów (sprawdź wyżej w doctor):
 
   claude     →  Powinien być OK (Claude Code już zalogowany)
                 ❌ NIE DZIAŁA z poziomu aktywnej Claude Code session
-  codex      →  Jeśli FAIL: \`codex login\` (wymaga ChatGPT Plus/Pro)
+  codex      →  Jeśli FAIL: \`codex login\` (wymaga ChatGPT Plus/Pro). OPCJONALNE — Pattern F bez tego = 2-voice fallback.
   gemini-cli →  Jeśli FAIL: \`gemini\` (OAuth przez Google Workspace)
 
 Następnie w Claude Code:

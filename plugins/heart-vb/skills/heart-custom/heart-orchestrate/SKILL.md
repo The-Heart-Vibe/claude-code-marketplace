@@ -63,6 +63,49 @@ description: Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/dec
 
 ---
 
+## CRITICAL — Explicit user consent przed auto-spawn
+
+**Hook sugeruje Pattern E/F ale TY (Claude main) NIE spawnujesz workers bez potwierdzenia user.** Hooki mogą się mylić, prompt może być deceptively complex. Zawsze:
+
+### KROK -1 — Confirmation (PRZED auth check, PRZED spawn)
+
+Sformułuj krótkie pytanie do user'a:
+```
+"To wygląda na [research/decision/...]. 
+ Mogę puścić to przez [Pattern E z 3 personami / Pattern F z N LLMs] 
+ — ~Xs total, daje multi-perspective. 
+ 
+ Wybierz:
+ (a) Tak, uruchom orchestrate
+ (b) Nie, odpowiedz tylko Ty (Claude solo)
+ (c) Pomijam, sam wiem co chcę"
+```
+
+**Czekaj na explicit yes.** Bez tego — odpowiedz solo z main session.
+
+**Wyjątek:** jeśli user wpisał `/orchestrate` lub explicit "uruchom Pattern E/F" — skip confirmation, spawn directly.
+
+**Anti-pattern:** auto-spawn na każdy multi-entity prompt bo hook tak sugeruje. **Friction > false-positive cost** dla non-tech analityka.
+
+### Cache council doctor (token saving)
+
+Run `council doctor` raz per session, cache wynik do `/tmp/heart-doctor-cache.json` z TTL 5 min. Subsequent Pattern E/F → read cache zamiast re-run. Speedup: ~1-2s na każdy spawn.
+
+```bash
+# Cache write (po pierwszym sprawdzeniu)
+~/.local/bin/council doctor 2>&1 | grep -E "OK|FAIL" > /tmp/heart-doctor-cache.json
+touch /tmp/heart-doctor-cache.json  # set mtime
+
+# Cache read (przed kolejnym Pattern E/F)
+if [ -f /tmp/heart-doctor-cache.json ] && [ $(($(date +%s) - $(stat -f %m /tmp/heart-doctor-cache.json))) -lt 300 ]; then
+  cat /tmp/heart-doctor-cache.json  # use cache
+else
+  ~/.local/bin/council doctor 2>&1 | grep -E "OK|FAIL" | tee /tmp/heart-doctor-cache.json
+fi
+```
+
+---
+
 ## Pattern E — execution
 
 ```
