@@ -161,36 +161,88 @@ Plugin zawiera `/si:` commands które robią agent samodoskonalącym:
 
 ---
 
-## 7. Pierwsze 4 zadania (~2-3h)
+## 7. Cowork mode dla analityków (główny tryb pracy)
 
-Wykonaj te 4 w pierwszym tygodniu — każde używa **innego skilla** żeby poczuć cały toolkit.
+Większość Twojej pracy z heart-vb **nie będzie** typowym "edytuj mi kod". Będziesz robić:
+- Conversational research i synthesis (interviews, market data, competitors)
+- Modeling i analizy (unit econ, projections, scenarios)
+- Document drafting (IC memos, pitch decks, briefs, stakeholder updates)
+- Strategic decisions (pricing, GTM, prioritization)
 
-### Zadanie 1: Research → `deep-research` (~30 min)
-> Zbadaj TAM/SAM/SOM dla AI-powered legal contract review SaaS w Polsce. Profil top 5 konkurentów (lokalni + globalni). Trendy regulacyjne.
+Cowork to **wielo-agent pattern w Claude Code** — równolegli agenci pracują nad różnymi częściami zadania w osobnych worktree. Idealnie sprawdza się w VB gdy:
 
-**Oczekiwany flow:** Hook fires (research intent) → Claude pyta o `deep-research` → zgadzasz się → dostajesz strukturalny report.
+| Wzorzec | Kiedy używać | Jak to zrobić |
+|---------|---------------|---------------|
+| **Parallel research** | Porównujesz 3-5 firm/ventures/sektorów | "Spawn 3 cowork agents — każdy przebada inną firmę przez deep-research, potem synthesize" |
+| **Parallel modeling** | Base/bull/bear scenarios, sensitivity analysis | "Spawn 3 agents — każdy zbuduje 1 scenariusz przez saas-metrics-coach" |
+| **Parallel writing** | IC memo z różnych perspektyw (PM, finance, GTM) | "Spawn 3 agents — każdy napisze sekcję przez board-prep z innym focus" |
+| **Single Claude (no cowork)** | Decyzja, council debate, quick lookup, single IC memo | Pisz normalnie w jednym oknie |
 
-### Zadanie 2: Modeling → `financial-analyst` / `saas-metrics-coach` (~20 min)
-> Zbuduj unit economics dla MarTech SaaS: ARPU €49/mo, GM 78%, CAC €600 z paid+content mix, 4% monthly churn. Pokaż LTV, payback, contribution margin.
+### Jak cowork odnosi się do hooków
 
-**Oczekiwany flow:** Hook fires (modeling intent) → Claude pyta o `saas-metrics-coach` → dostajesz liczby + breakdown.
+**Oba hooki fire w KAŻDYM cowork agencie** (są user-level w `~/.claude/`). Każdy agent:
+- Dostaje vb-suggest (intent classification) i devtools-suggest (URL routing)
+- Może wywołać `~/.local/bin/council` przez Bash tool — agent ma normalny access
+- Może wywołać dowolny skill z heart-vb (auto-loaded)
 
-### Zadanie 3: IC memo → `board-prep` (~30 min)
-> Napisz IC memo dla "Heart [twoje wymyślone venture]" — thesis, market opportunity, team profile, 3-yr financials summary, top 3 risks, ask.
+### Cowork token budget
 
-**Oczekiwany flow:** Hook fires (writing intent) → Claude pyta o `board-prep` → dostajesz IC memo template do dopracowania.
+- 5 cowork agents × 1 council każdy = 5× zużycie limitów Gemini/Codex
+- Ale: każdy agent ma osobny context window → twój main session pozostaje czysty
+- Dla research/synthesis 5 agents oszczędza CAŁKOWITY czas (parallel) ale nie tokeny w sumie
 
-### Zadanie 4: Decision z sector context → `council` + `heart-fintech-compliance` (~30 min)
-> Skoro masz output z 1-3, użyj council: czy ten venture jest fundable? Uwzględnij kontekst FinTech compliance (KNF, AMLD).
+### Pułapki cowork w VB
 
-**Oczekiwany flow:** Hook fires (decision + sector) → Claude pyta o council Tier L z `--context heart-fintech-compliance` → dostajesz syntezę 2-3 LLM + compliance check.
-
-### Zadanie bonus: self-improving (~15 min)
-> Pod koniec tygodnia: `/si:review` — pokaż mi co Claude się nauczył o moich preferencjach. Następnie `/si:promote` najbardziej powtarzających się wzorców do CLAUDE.md.
+1. **Inconsistent decisions** — 5 agents debate niezależnie przez council → różne werdykty na to samo pytanie. Rozwiązanie: SAM zadawaj council, agenci tylko dostarczają input
+2. **Brak shared context** — agent A nie wie co odkrył agent B. Rozwiązanie: synteza na końcu w main session, nie przez cowork
+3. **Drift od kontekstu Heart** — agent w worktree może zapomnieć o sektorze. Rozwiązanie: każdy agent musi dostać explicit `heart-fintech-compliance` (lub odpowiedni) w prompt
 
 ---
 
-## 8. Troubleshooting
+## 8. Pierwsze 5 zadań (~2.5-3.5h)
+
+Wykonaj te 5 w pierwszym tygodniu — każde używa **innego skilla** + ostatnie pokazuje cowork pattern.
+
+### Zadanie 1: Research z URL (~30 min) — devtools hook fires
+> Zbadaj TAM/SAM/SOM dla AI-powered legal contract review SaaS w Polsce. Profil top 5 konkurentów. Trendy regulacyjne. Sprawdź też https://www.g2.com/categories/contract-management-software dla benchmark vendors.
+
+**Oczekiwany flow:** 
+- vb-suggest fires (research intent) → sugeruje `deep-research`
+- devtools-suggest fires (G2 to JS-heavy domain) → sugeruje chrome-devtools-mcp z evaluate_script zamiast WebFetch
+- Claude pyta o oba, zgadzasz się, dostajesz strukturalny report bez wypalonych tokenów na shell HTML
+
+### Zadanie 2: Modeling — konwersacyjnie (~20 min)
+> Zbuduj unit economics dla MarTech SaaS: ARPU €49/mo, GM 78%, CAC €600 z paid+content mix, 4% monthly churn. Pokaż LTV, payback, contribution margin month-on-month. Wytłumacz mi też dlaczego payback period to ważniejsze niż LTV/CAC w naszej fazie.
+
+**Oczekiwany flow:** vb-suggest fires (modeling) → sugeruje `saas-metrics-coach` → odpowiada strukturalnie + wyjaśnia kontekst pro-konwersacyjnie. Nie ma file edits — tylko chat.
+
+### Zadanie 3: IC memo synthesis (~30 min)
+> Mając output z Zadań 1-2, napisz mi IC memo dla wymyślonego venture "Heart Legal AI" — thesis, market opportunity (z polską perspektywą), team profile (1-osobowy lider + 2 advisors), 3-yr financials summary, top 3 risks z mitigations, ask (€500k seed for 18mc runway).
+
+**Oczekiwany flow:** vb-suggest fires (writing) → sugeruje `board-prep` → dostajesz IC memo template który dopracujesz ręcznie.
+
+### Zadanie 4: Council decision + sector context (~30 min)
+> Skoro mam już IC memo i unit economics — uruchom council żeby ocenić czy ten venture jest fundable dla The Heart. Uwzględnij FinTech-like compliance constraints (legal AI dotyka data privacy + professional regulations).
+
+**Oczekiwany flow:** vb-suggest fires (decision + sector hint) → council Tier L z `--context heart-fintech-compliance` jako reference → dostajesz syntezę 2-3 LLM + compliance check + scoring 0-10.
+
+### Zadanie 5: Cowork — parallel competitor research (~40 min)
+> Spawn 3 cowork agentów (przez `/cowork` lub manualnie przez Task tool) — każdy ma przebadać innego z top 5 konkurentów z Zadania 1. Każdy używa `competitive-teardown` (skill z heart-vb). Po 20 min synthesize w main session: porównanie cech, pricingu, GTM, kluczowych słabości każdego.
+
+**Oczekiwany flow:**
+- Agenci pracują równolegle, każdy z własnym context window (nie polluje main)
+- Każdy dostaje hooks (vb-suggest + devtools-suggest fires u nich osobno)
+- Po 20 min wracają z structured outputami
+- Ty w main session synthesize przez prompt "Porównaj te 3 teardowny — common weaknesses, vendor positioning gaps, gdzie widzę okazję dla naszego venture"
+
+### Zadanie bonus: self-improving po tygodniu (~15 min)
+> Pod koniec tygodnia: `/si:review` — pokaż mi co Claude się nauczył o moich preferencjach. Następnie `/si:promote` najbardziej powtarzających się wzorców do CLAUDE.md.
+
+**Oczekiwany flow:** `/si:review` pokazuje promotion candidates z auto-memory. Wybierasz 2-3 i `/si:promote` → trafiają do trwałego CLAUDE.md. Następna sesja zaczyna z tą wiedzą.
+
+---
+
+## 9. Troubleshooting
 
 | Problem | Rozwiązanie |
 |---------|-------------|
@@ -204,7 +256,7 @@ Wykonaj te 4 w pierwszym tygodniu — każde używa **innego skilla** żeby pocz
 
 ---
 
-## 9. Cheat sheet
+## 10. Cheat sheet
 
 ```
 # Najczęstsze patterny
@@ -229,7 +281,7 @@ gemini                                       # Re-auth Google Workspace OAuth
 
 ---
 
-## 10. Feedback po 1-2 tygodniach
+## 11. Feedback po 1-2 tygodniach
 
 Daj znać:
 - Patterny hookowe są za szerokie / za wąskie?

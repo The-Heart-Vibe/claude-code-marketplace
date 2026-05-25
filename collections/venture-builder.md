@@ -314,13 +314,80 @@ Council i deep-research wyniki **zapisuj** w projekcie (`research/`, `decisions/
 
 ## Sugerowany flow tygodnia
 
-| Dzień | Faza | Skille |
-|-------|------|--------|
-| Pn | Pipeline screening: nowe inquires | deal-desk, council, board-prep |
-| Wt | Discovery: deep dive w wybrane opportunities | deep-research, exa-search, competitive-teardown |
-| Śr | Validation: interviews / experiment design | product-discovery, experiment-designer |
-| Cz | Modeling: unit econ + projekcje | saas-metrics-coach, financial-analyst |
-| Pt | Komunikacja: IC update / pitch refinement | board-prep, investor-materials, /si:review |
+| Dzień | Faza | Skille | Cowork? |
+|-------|------|--------|---------|
+| Pn | Pipeline screening: nowe inquires | deal-desk, council, board-prep | ❌ single Claude |
+| Wt | Discovery: deep dive w wybrane opportunities | deep-research, exa-search, competitive-teardown | ✅ parallel research per company |
+| Śr | Validation: interviews / experiment design | product-discovery, experiment-designer | ❌ single (sequential reasoning) |
+| Cz | Modeling: unit econ + projekcje | saas-metrics-coach, financial-analyst | ✅ parallel scenarios (base/bull/bear) |
+| Pt | Komunikacja: IC update / pitch refinement | board-prep, investor-materials, /si:review | ✅ parallel section drafts |
+
+---
+
+## Cowork patterns dla analityków VB
+
+Analitycy w The Heart pracują głównie w trybie cowork (multi-agent w Claude Code), nie typical "edit my code". Te wzorce pomagają wykorzystać cowork tam gdzie naprawdę się opłaca.
+
+### Kiedy używać cowork
+
+| Sytuacja | Pattern | Skille |
+|----------|---------|--------|
+| Porównanie 3-5 firm/ventures/sektorów | **Parallel research** — N agentów × 1 firma | competitive-teardown, deep-research |
+| Base/bull/bear scenarios | **Parallel modeling** — 3 agenci × 1 scenariusz | saas-metrics-coach, financial-analyst |
+| IC memo z multi-perspective | **Parallel sections** — agenci piszą różne sekcje | board-prep |
+| Multi-sector landscape scan | **Parallel discovery** — agent per sektor | deep-research + heart-* contexts |
+| Stress test decision z różnych angle | **Parallel red-team** — N agentów z różnymi personami | hard-call, stress-test |
+
+### Kiedy NIE używać cowork
+
+- **Decyzja** (council, planner assess) → single Claude, lub Ty zadajesz radę
+- **Quick lookup** ("co znaczy CAC") → single, instant
+- **Sequential reasoning** (krok 1 wymaga output kroku 0) → single
+- **Synthesis** (łączenie outputów) → single Claude w main session
+
+### Typowy cowork flow (Wt — competitor research)
+
+```
+Główna sesja:
+1. "Zidentyfikuj top 5 konkurentów na rynku AML CEE"
+   → Claude z deep-research zwraca listę
+
+2. "Spawn 5 cowork agents — każdy bierze 1 konkurenta z listy:
+   przebadaj przez competitive-teardown (model biznesowy, pricing, GTM,
+   tech stack), użyj chrome-devtools-mcp jeśli mają complex pricing page.
+   Zwróć structured output po 20 min."
+   → 5 agentów pracuje równolegle, każdy z własnym context
+
+3. Po 20 min, synteza w main:
+   "Tu są 5 teardownów [agents wrap up]. Porównaj — common weaknesses,
+   vendor positioning gaps, gdzie widzę okazję dla naszego venture?"
+   → Claude analizuje synteza
+```
+
+### Cowork × hooks
+
+**Każdy cowork agent dostaje:**
+- vb-suggest fires u niego osobno przy każdym prompt
+- devtools-suggest fires u niego (z URL detection)
+- Pełen access do skilli heart-vb (auto-loaded markdown)
+- Bash tool → może wywołać `~/.local/bin/council`
+
+**Konsekwencje:**
+- 5 cowork agents × 1 council każdy = 5× zużycie limitów Gemini/Codex
+- Zalecane: agenci robią research/teardown, NIE wywołują council. Ty wywołujesz council na koniec syntezy.
+
+### Cowork × token budget
+
+| Wzorzec | Tokens (szac.) | Czas |
+|---------|----------------|------|
+| 5 parallel research agents | ~5× single research = ~25k tok total ale każdy izolowany | ~20 min (parallel) |
+| 5 sequential research w main | ~5× single research = ~25k tok ale wszystko w jednym context | ~80 min (sequential) |
+| 5 agents + 1 council synthesis | ~25k + ~5k = ~30k tok | ~25 min |
+
+Cowork **nie oszczędza** tokenów netto, ale:
+- 4× szybciej (parallel)
+- main session pozostaje czysty (nie zaśmiecony intermediate state)
+- każdy agent może użyć innego heart-* context bez zatłaczania głównego
 
 ---
 
