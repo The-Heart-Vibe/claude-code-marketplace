@@ -1,7 +1,7 @@
 {
   "name": "heart-vb",
-  "version": "0.2.0",
-  "description": "Heart Venture Builder toolkit — 30 skilli w 8 kategoriach. Council multi-LLM debate, self-improving agent (si:* commands), product discovery/competitive teardown/experiment design, financial modeling, deal screening, IC memo & board prep, investor materials, plus 4 Heart-specific sector contexts (FinTech/HealthTech/RealEstate/MarTech). Hook auto-suggests właściwy skill per intent. Bundle z attribution dla upstream (MIT).",
+  "version": "0.3.0",
+  "description": "Heart Venture Builder toolkit — 31 skilli w 8 kategoriach + 4 auto-hooki. Council multi-LLM debate, self-improving agent (si:*), product discovery/competitive teardown/experiment design, financial modeling, deal screening, IC memo & board prep, investor materials, plus heart-orchestrate (auto-spawn cowork agents wzorca orchestrator+workers), 4 Heart-specific sector contexts (FinTech/HealthTech/RealEstate/MarTech). Hooki auto-suggesta skill/cowork/model/research-tool per prompt — analityk nie musi świadomie wybierać. Bundle z attribution dla upstream (MIT).",
   "author": {
     "name": "The Heart Vibe"
   },
@@ -37,6 +37,7 @@
     "./skills/heart-custom/heart-fintech-compliance",
     "./skills/heart-custom/heart-healthtech-compliance",
     "./skills/heart-custom/heart-realestate-context",
-    "./skills/heart-custom/heart-martech-ecosystem"
+    "./skills/heart-custom/heart-martech-ecosystem",
+    "./skills/heart-custom/heart-orchestrate"
   ]
 }
