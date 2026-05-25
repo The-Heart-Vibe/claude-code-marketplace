@@ -65,25 +65,36 @@ description: Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/dec
 
 ## CRITICAL — Explicit user consent przed auto-spawn
 
-**Hook sugeruje Pattern E/F ale TY (Claude main) NIE spawnujesz workers bez potwierdzenia user.** Hooki mogą się mylić, prompt może być deceptively complex. Zawsze:
+**Hook sugeruje orkiestrację ale TY (Claude main) NIE spawnujesz workers bez potwierdzenia user.** Hooki mogą się mylić, prompt może być deceptively complex. Zawsze:
 
 ### KROK -1 — Confirmation (PRZED auth check, PRZED spawn)
 
-Sformułuj krótkie pytanie do user'a:
+**Sformułuj pytanie w języku BIZNESOWYM, NIE technicznym.** Nigdy nie używaj "Pattern E/F" w pytaniu do user — to nasze internal lingo które nic mu nie mówi.
+
+**Dla decision intent (E):**
 ```
-"To wygląda na [research/decision/...]. 
- Mogę puścić to przez [Pattern E z 3 personami / Pattern F z N LLMs] 
- — ~Xs total, daje multi-perspective. 
+"To wygląda na decyzję wartą konsultacji z kilkoma ekspertami.
+ Mogę puścić to przez 3 perspektywy ([persona X / Y / Z dostosowane do typu decyzji]) 
+ — ~60s, dostaniesz multi-perspective rekomendację.
  
- Wybierz:
- (a) Tak, uruchom orchestrate
- (b) Nie, odpowiedz tylko Ty (Claude solo)
- (c) Pomijam, sam wiem co chcę"
+ (a) Tak, zapytaj 3 ekspertów
+ (b) Nie, odpowiedz Ty sam
+ (c) Sam wiem co wybrać"
+```
+
+**Dla research intent (F):**
+```
+"To wygląda na pytanie faktualne. Mogę zweryfikować przez 3 niezależne AI 
+ (Claude + Gemini + GPT-5) — wykryje hallucinacje pojedynczego modelu, ~90s.
+
+ (a) Tak, cross-check przez 3 AI
+ (b) Nie, odpowiedź ze swojej wiedzy
+ (c) Sam zweryfikuję w źródłach"
 ```
 
 **Czekaj na explicit yes.** Bez tego — odpowiedz solo z main session.
 
-**Wyjątek:** jeśli user wpisał `/orchestrate` lub explicit "uruchom Pattern E/F" — skip confirmation, spawn directly.
+**Wyjątek:** jeśli user wpisał `/orchestrate` lub explicit "zapytaj radę / cross-check / zapytaj ekspertów" — skip confirmation, spawn directly.
 
 **Anti-pattern:** auto-spawn na każdy multi-entity prompt bo hook tak sugeruje. **Friction > false-positive cost** dla non-tech analityka.
 

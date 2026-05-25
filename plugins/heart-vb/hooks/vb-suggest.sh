@@ -182,7 +182,7 @@ cat <<EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "UserPromptSubmit",
-    "additionalContext": "💡 [Venture Builder hook] User's prompt matches **${PRIMARY}** intent (decision:${DEC_HITS} research:${RES_HITS} modeling:${MOD_HITS} writing:${WRT_HITS} validation:${VAL_HITS} screening:${SCR_HITS} pricing:${PRI_HITS} sector:${SEC_HITS}). Suggested skill(s): ${SKILLS}${SECTOR_NOTE} BEFORE answering directly, briefly ask the user (Polish): 'To wygląda na zadanie typu \"${PRIMARY}\" — proponuję użyć: <wskazany skill>. Wolisz tak, czy odpowiedzieć od razu?'. Wait for their reply. Skip prompt on simple lookups (user can also prefix BEZ COUNCIL: to opt-out). For collection map: collections/venture-builder.md in The-Heart-Vibe/claude-code-marketplace."
+    "additionalContext": "💡 [Venture Builder hook] User's prompt matches **${PRIMARY}** intent (decision:${DEC_HITS} research:${RES_HITS} modeling:${MOD_HITS} writing:${WRT_HITS} validation:${VAL_HITS} screening:${SCR_HITS} pricing:${PRI_HITS} sector:${SEC_HITS}). Suggested skill(s): ${SKILLS}${SECTOR_NOTE} BEFORE answering: briefly ask user in PLAIN BUSINESS LANGUAGE (NIE 'Pattern E/F' jargon). For decisions use 'konsultacja z 3 ekspertami (~60s)'. For research use 'cross-check przez 3 niezależne AI (~90s)'. Always offer choice: (a) tak (b) tylko Ty (c) sam wiem. Wait for explicit yes. Skip on simple lookups. Opt-out: prefix 'BEZ COUNCIL:'. Pełen pattern w skills/heart-custom/heart-orchestrate/SKILL.md (KROK -1 confirmation)."
   }
 }
 EOF
