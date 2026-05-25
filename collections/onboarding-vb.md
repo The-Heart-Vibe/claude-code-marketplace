@@ -66,21 +66,44 @@ bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-mark
 
 ## 3. Auth providerów dla council (~5 min)
 
+### Dwa profile — analityk vs tech
+
+Council używa różnych LLM jako "rady" debaty. Realnie z poziomu Claude Code session:
+
+| Provider | Profil ANALITYK / KONSULTANT | Profil TECH TEAM |
+|----------|------------------------------|--------------------|
+| `gemini-cli` | ✅ wymagany (login: `gemini`) | ✅ wymagany |
+| `codex` | ⏸️ opcjonalny (wymaga ChatGPT Plus) | ✅ rekomendowany (`codex login`) |
+| `claude` | ❌ nie działa z CC session | ❌ nie działa z CC session |
+
+**Analityk bez ChatGPT Plus:** council degrade'uje się do 1-LLM (gemini) zamiast pełnej rady. To nadal **przydatne** — Gemini ma największy token pool przez Workspace OAuth, a inne skille (board-prep, competitive-teardown, sector contexts) działają niezależnie od council. Nie musisz kupować ChatGPT Plus tylko dla council.
+
+**Tech team z Codex:** pełna 2-LLM debate (gemini vs gpt-5) — wykryta różnica zdań to często najcenniejszy sygnał.
+
+### Setup
+
 Otwórz terminal i odpal:
 
 ```bash
 council doctor
 ```
 
-Zobaczysz status 3 providerów. Jeśli któryś `FAIL`:
+Jeśli któryś **wymagany** dla Twojego profilu `FAIL`:
 
 | Provider | Komenda | Co da |
 |----------|---------|-------|
-| `codex` FAIL | `codex login` (wymaga ChatGPT Plus) | Council używa GPT-5 |
-| `gemini-cli` FAIL | `gemini` (otworzy przeglądarkę → OAuth Google) | Council używa Gemini, największa pula |
-| `claude` FAIL | Normal — to nie błąd jeśli odpalasz z Claude Code session | Self-invocation block; tylko z terminala działa |
+| `gemini-cli` FAIL | `gemini` (otworzy przeglądarkę → OAuth Google Workspace) | Council używa Gemini |
+| `codex` FAIL (tech) | `codex login` (wymaga ChatGPT Plus/Pro) | Council używa GPT-5 |
+| `claude` FAIL | Normal jeśli odpalasz z CC session | Self-invocation block — działa tylko z terminala spoza CC |
 
-Po fix odpal `council doctor` ponownie — wszystkie 3 powinny być OK (lub claude FAIL gdy z CC session, co jest OK).
+### Po setupie — sprawdź config
+
+Plik `~/.config/llm-council/config.yaml` ma 3 profile (odkomentuj swój):
+- ANALITYK (domyślnie aktywny): `[gemini-cli]` solo
+- TECH TEAM: `[gemini-cli, codex]`
+- POWER (terminal-only): `[gemini-cli, codex, claude]`
+
+Edytuj plik żeby odkomentować właściwy profil dla siebie.
 
 ---
 

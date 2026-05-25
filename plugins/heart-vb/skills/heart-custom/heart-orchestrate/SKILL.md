@@ -164,6 +164,117 @@ Main (Opus):
   3. Synthesize: cross-sector heat map, where Heart has best fit
 ```
 
+### Pattern E: Lightweight council (dla analityka bez Codex) ⭐
+
+Trigger: decision intent (pricing, GTM, build/buy) + profil ANALITYK (gemini-cli only, brak ChatGPT Plus)
+
+**Idea:** Skoro `claude` provider w council CLI nie działa z poziomu Claude Code session, **emulujemy radę** przez:
+- **Main session (Claude Opus)** = "Claude perspective" — Twoja własna perspektywa orchestrator
+- **N spawned workers (sonnet)** = każdy wywołuje `gemini-cli` przez Bash z **inną PERSONĄ** (sector context to opcjonalny dodatek)
+- **Main synthesize** = Claude widzi N gemini perspektyw + ma własną → "effectively 4-LLM debate" bez Codex
+
+**Kluczowe:** **PERSONA jest primary**, sector context to opcjonalny dodatek. Heart pracuje w wielu sektorach (portfolio + corporate VB partnerships) — większość sectors nie jest pre-zdefiniowana w `heart-*-compliance` skillach. Persona reuses across sectors, sector context jest tylko gdy mamy dedykowany skill (FinTech/HealthTech/RealEstate/MarTech z Heart portfolio).
+
+```
+Main (Opus, "Twoja perspektywa Claude"):
+  1. Zdefiniuj decyzję + zbierz fakty (1-2 min)
+  2. Wybierz 3 persony adekwatne do typu decyzji (patrz Persona Library niżej)
+  3. SPAWN 3 agents (sonnet) parallel, każdy:
+     - Wywołuje przez Bash: ~/.local/bin/council run planner --mode assess \
+         "<decyzja>" --providers gemini-cli \
+         --context "<persona prompt>" --json
+     - OPCJONALNIE: dołącz heart-{sector} context jeśli dotyczy portfolio sektora
+     - Zwraca structured gemini output
+  4. Main (Opus): masz 3 gemini perspektyw + własną Claude perspective
+     → Synthesize:
+        - Gdzie wszyscy się zgadzają (high confidence)
+        - Gdzie się różnią (kluczowe trade-offs)
+        - Twoja finalna rekomendacja
+```
+
+### Persona Library — primary mechanism dla Pattern E
+
+Persony pasują **do każdego sektora**. Wybierz 3 adekwatne do typu decyzji:
+
+**Dla pricing / commercial decisions:**
+- `pricing analyst` — value-based vs feature-based, elasticity, price floor analysis
+- `growth lead / GTM lead` — conversion impact, sales motion fit, ICP signaling
+- `VP product` — retention, expansion revenue, tier psychology, usage-based design
+- `CFO / financial analyst` — unit economics implications, gross margin, payback
+
+**Dla product / strategy decisions:**
+- `product strategist` — market positioning, differentiation, moat building
+- `UX researcher` — JTBD, friction analysis, behavioral signals
+- `VP engineering` — feasibility, technical debt, scalability trade-offs
+- `board member / IC` — strategic narrative, risk appetite, milestone clarity
+
+**Dla GTM / launch decisions:**
+- `growth lead` — channel ROI, CAC dynamics, viral coefficients
+- `customer success leader` — onboarding friction, expansion paths, churn signals
+- `sales leader` — pipeline mechanics, sales cycle, deal velocity
+- `marketing lead` — positioning, content strategy, demand gen
+
+**Dla research / opportunity screening:**
+- `domain expert` (specific — np. "senior fintech advisor", "ex-McKinsey healthcare lead")
+- `skeptic / red-team` — find weaknesses, missed assumptions, downside scenarios
+- `customer voice` — would a real buyer pay? what would block them?
+- `VC partner` — fundability, exit potential, comparable benchmarks
+
+**Cross-cutting personas (zawsze przydatne):**
+- `executive mentor` — long-term strategic angle, second-order effects
+- `pragmatist` — what can we actually execute w naszym constraint
+- `contrarian` — explicit devil's advocate
+
+### Sector context — OPCJONALNY add-on
+
+Mamy 4 sector contexts w `heart-custom/` które dodaję się DO persony (NIE zastępują):
+- `heart-fintech-compliance` (gdy Heart portfolio FinTech: VASBOX, Digital Gateways)
+- `heart-healthtech-compliance` (gdy HealthTech: Wellnoted)
+- `heart-realestate-context` (gdy Real Estate: Flatte, HomeAlert)
+- `heart-martech-ecosystem` (gdy MarTech: UniPerks)
+
+**Reguła:** sector context dodaję się tylko jeśli decyzja DOTYCZY portfolio sektora. Dla NEW sectors (np. EdTech, Energy, Manufacturing) Heart pracuje bez dedykowanego skilla — persona alone jest wystarczająca, opcjonalnie z explicit "industry expert in <X>" w prompt persona.
+
+### Przykład — pricing decision dla VASBOX (FinTech, portfolio)
+
+```
+Pytanie: "Pricing $99/$299/$999 tier vs flat $2k roczny dla AML SaaS"
+
+Main (Opus):
+  - Moja Claude perspective: dynamika cyklu sprzedaży banków, rolą platform...
+  - Spawn 3 workers (sonnet, gemini-cli):
+    Agent A → "pricing analyst" + heart-fintech-compliance (opcjonalny sector)
+    Agent B → "growth lead" + heart-fintech-compliance
+    Agent C → "VP product" + heart-fintech-compliance
+  - Synthesize: tier vs flat vs usage-based, KNF compliance constraints
+```
+
+### Przykład — pricing decision dla EdTech venture (nowy sektor, brak heart-skilla)
+
+```
+Pytanie: "Pricing dla AI-powered tutoring platform dla polskich liceów"
+
+Main (Opus):
+  - Spawn 3 workers (sonnet, gemini-cli):
+    Agent A → "pricing analyst" — bez sector skilla, focus na K-12 B2B2C dynamics
+    Agent B → "growth lead" — focus na akwizycji szkół (przetargi, demos)
+    Agent C → "customer voice" — rola rodziców/uczniów/szkół jako trzy buyer types
+  - Brak heart-* sector context — persony niosą wystarczająco kontekstu
+  - Synthesize bez dependency na portfolio sectorach
+```
+
+**Koszt vs prawdziwy council:**
+
+| Opcja | Cost | Czas | Diverse perspectives |
+|-------|------|------|---------------------|
+| Pattern E (3 gemini workers z personami + main Claude) | ~3 gemini calls + main Opus | ~3-5 min | 4 (Claude + 3 personas) |
+| Council CLI gemini solo (degraded analyst) | 1 gemini call | ~30s | 1 (gemini default) |
+| Council CLI gemini+codex (tech profile) | 1 gemini + 1 codex | ~1-3 min | 2 (gemini vs gpt-5) |
+
+Pattern E daje **najwięcej różnorodności** dla analityka bez Codex — kosztem ~3 calls gemini (a Workspace ma duży pool). I działa w **DOWOLNYM sektorze** dzięki persona library.
+
+```
+
 ---
 
 ## Token budget — kiedy się opłaca
