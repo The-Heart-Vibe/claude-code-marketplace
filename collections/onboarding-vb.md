@@ -198,13 +198,14 @@ Po prostu **pisz normalnie** do Claude. Hook wykrywa intent i Claude sugeruje w�
 | Twoja wiadomość | Hook intent | Sugerowany skill |
 |------------------|-------------|-------------------|
 | "cześć, jak się masz?" | ❌ nie fires | – |
-| "Zbadaj TAM dla AML SaaS w CEE banking" | research | deep-research / market-research / exa-search |
+| "Zbadaj TAM dla AML SaaS w CEE banking" | research | **heart-orchestrate Pattern F** (3 LLMs cross-check fact) + deep-research |
 | "Zbuduj unit econ HealthTech telemedycyna: ARPU €120, CAC €1200" | modeling | financial-analyst / saas-metrics-coach |
-| "Napisz IC memo dla projektu X" | writing | board-prep / investor-materials |
-| "Pricing $99/$299/$999 vs flat $2k — co wybrać?" | decision + pricing | /council Tier L + pricing-strategist |
-| "Zaprojektuj fake door experiment dla DSO managerów (BMS storage)" | validation | experiment-designer / ux-researcher-designer + heart-energy-storage |
-| "Profesor z PAN + patent biomarker — fit dla Heart?" | screening | deal-desk + heart-academic-spinouts |
-| "Pricing dla BESS Storage-as-a-Service dla industrial PL" | decision + pricing + sector | council + pricing-strategist + heart-energy-storage |
+| "Napisz IC memo dla projektu X" | writing | board-prep / heart-pitch-deck + opcjonalnie Pattern E (sekcje) |
+| "Pricing $99/$299/$999 vs flat $2k — co wybrać?" | decision + pricing | **heart-orchestrate Pattern E** (3 personas: pricing analyst/growth lead/VP product) |
+| "Jakie wymagania EU Battery Reg 2023/1542 dla recycled content?" | research + sector | **heart-orchestrate Pattern F** (multi-LLM fact-check — wykrywa hallucinacje) + heart-energy-storage |
+| "Zaprojektuj fake door experiment dla DSO managerów" | validation | experiment-designer / ux-researcher-designer + heart-energy-storage |
+| "Profesor z PAN + patent biomarker — fit dla Heart?" | screening | deal-desk / heart-dd-checklist + heart-academic-spinouts |
+| "Pricing dla BESS Storage-as-a-Service dla industrial PL" | decision + pricing + sector | **Pattern E** (3 personas) + heart-energy-storage + pricing-strategist |
 
 ### Skip hook na konkretnej wiadomości
 

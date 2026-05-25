@@ -137,28 +137,28 @@ if [ "$SCR_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="screening"; PRIMARY_HITS=$
 
 case "$PRIMARY" in
   decision)
-    SKILLS="**/council** Tier L (multi-LLM debate) lub **heart-orchestrate** Pattern E (lightweight council via main+workers). Dla porównania cech: critic --mode review."
+    SKILLS="**heart-orchestrate Pattern E** (3 cowork workers z różnymi personami pricing/growth/VP product, gemini-cli przez Bash) — judgment przez role-play divergence. Council CLI tylko z terminala (nie z CC session)."
     ;;
   research)
-    SKILLS="**deep-research** (multi-step), **market-research** (TAM/SAM), **exa-search** (token-efficient) lub **competitive-teardown** (vendor rozbiór). Dla multi-page browser sources: **chrome-devtools-mcp** taniej niż WebFetch."
+    SKILLS="**heart-orchestrate Pattern F** (3 workers, KAŻDY INNY LLM: Sonnet native + Gemini + Codex z `codex exec --skip-git-repo-check`) — fact verification przez cross-LLM divergence; wykrywa hallucinacje pojedynczego modelu. Lub samo **deep-research**/**market-research** dla single-source research, **exa-search** token-efficient, **chrome-devtools-mcp** dla multi-page browser."
     ;;
   modeling)
-    SKILLS="**saas-metrics-coach** (CAC/LTV/payback/churn/unit econ) lub **financial-analyst** (P&L + 3-statement + DCF valuation). Council dopiero przy interpretacji wyników."
+    SKILLS="**saas-metrics-coach** (CAC/LTV/payback/churn/unit econ) lub **financial-analyst** (P&L + 3-statement + DCF). Dla interpretacji wyników: heart-orchestrate Pattern E z personami (CFO/pricing analyst/VP product)."
     ;;
   writing)
-    SKILLS="**board-prep** (IC memo), **heart-pitch-deck** (deck inwestorski 10-12 slide), **investor-materials** (one-pagery), **heart-stakeholder-update** (weekly/monthly update do stakeholders)."
+    SKILLS="**board-prep** (IC memo), **heart-pitch-deck** (10-12 slide deck), **investor-materials** (one-pagery), **heart-stakeholder-update** (weekly/monthly update). Dla multi-section deliverables: heart-orchestrate Pattern E (1 persona per sekcja)."
     ;;
   validation)
-    SKILLS="**product-discovery** (JTBD framework), **experiment-designer** (smoke test / fake door), **ux-researcher-designer** (interview plan + synthesis), opcjonalnie **customer-research** equivalent przez ux-researcher."
+    SKILLS="**product-discovery** (JTBD), **experiment-designer** (smoke test / fake door), **ux-researcher-designer** (interview plan + synthesis). Dla simulacji stakeholderów: heart-orchestrate Pattern E (różne user personas)."
     ;;
   screening)
-    SKILLS="**deal-desk** (quick fit/no-fit incoming opportunities), **heart-dd-checklist** (sector-aware DD checklist generator), **heart-dd-prep** (one-page DD case dla IC). Dla founder fit: council Tier L z personą 'VC partner'."
+    SKILLS="**deal-desk** (quick fit/no-fit), **heart-dd-checklist** (sector-aware DD), **heart-dd-prep** (one-page DD case dla IC). Dla founder fit assessment: heart-orchestrate Pattern E (VC partner + operator + skeptic personas)."
     ;;
 esac
 
 # Pricing usually = decision + modeling
 if [ "$PRI_HITS" -ge 1 ]; then
-  SKILLS="$SKILLS Bonus: **pricing-strategist** + **heart-comps-analysis** dla benchmarków valuation + council Tier L dla decision."
+  SKILLS="$SKILLS Bonus: **pricing-strategist** + **heart-comps-analysis** dla benchmarków valuation."
 fi
 
 # Sector hint adds compliance/context reminder for Heart portfolio sectors.

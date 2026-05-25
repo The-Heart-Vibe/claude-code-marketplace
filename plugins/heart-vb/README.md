@@ -130,13 +130,15 @@ Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
 
 | Intent | Trigger keywords | Suggested skill |
 |--------|------------------|------------------|
-| **decision** | "vs", "co wybrać", "build-vs-buy" | council Tier L |
-| **research** | "TAM", "konkurenci", "research" | deep-research, market-research, exa-search |
-| **modeling** | "CAC", "LTV", "DCF", "unit econ" | financial-analyst, saas-metrics-coach |
-| **writing** | "IC memo", "pitch deck", "term sheet" | board-prep, investor-materials |
-| **validation** | "JTBD", "interview", "fake door" | product-discovery, experiment-designer |
-| **screening** | "founder fit", "patent", "spin-out" | deal-desk, board-prep |
-| **+sector** | HealthTech / academic spinout / energy storage / FinTech (legacy) | adds compliance/context reminder z heart-custom |
+| **decision** | "vs", "co wybrać", "build-vs-buy" | **heart-orchestrate Pattern E** (3 personas → judgment przez role-play) |
+| **research** | "TAM", "konkurenci", "regulacja" | **heart-orchestrate Pattern F** (3 LLMs: Claude+Gemini+Codex → fact verification + hallucination detection) |
+| **modeling** | "CAC", "LTV", "DCF", "unit econ" | financial-analyst, saas-metrics-coach (+ Pattern E dla interpretacji) |
+| **writing** | "IC memo", "pitch deck", "term sheet" | board-prep, heart-pitch-deck, investor-materials (+ Pattern E dla multi-section) |
+| **validation** | "JTBD", "interview", "fake door" | product-discovery, experiment-designer, ux-researcher-designer |
+| **screening** | "founder fit", "patent", "spin-out" | deal-desk, heart-dd-checklist, heart-dd-prep |
+| **+sector** | HealthTech / academic / energy / FinTech | adds sector context z heart-custom (np. heart-healthtech-compliance) |
+
+**Council CLI**: terminal-only (z poziomu CC session zazwyczaj failuje — nested invocation block). Pattern F to workaround który daje multi-LLM debate z CC bez tego problemu.
 
 ### Opt-out per prompt (4 prefixy)
 

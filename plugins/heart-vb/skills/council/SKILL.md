@@ -5,6 +5,16 @@ description: Multi-LLM debate via the-llm-council CLI. Invoke ONLY when user exp
 
 # LLM Council Skill (v0.7.16)
 
+> ⚠️ **WAŻNE — z poziomu Claude Code session council CLI rzadko działa**.
+> Nested CLI invocation triggeruje self-invocation block w codex (i czasem gemini timeout).
+> Zweryfikowane 3× empirycznie 2026-05-25.
+>
+> **Z CC session używaj zamiast tego: `heart-orchestrate` Pattern F (multi-LLM debate przez Agent tool isolation).**
+> Daje to samo (Claude + Gemini + Codex perspectives) **i działa** z CC.
+>
+> **Council CLI = terminal-only** (poza CC, np. dedykowany worktree shell).
+> Wtedy potrzebujesz POWER profil w `~/.config/llm-council/config.yaml` (3 providery).
+
 > **Trigger:** Tylko explicit `/council <opis problemu>` od użytkownika.
 > **Po wykonaniu:** Zwróć wynik i **zakończ turę** — nie pytaj "co dalej", nie auto-invokuj skilla.
 
