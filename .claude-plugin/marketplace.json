@@ -4,12 +4,12 @@
     "name": "The Heart Vibe",
     "url": "https://github.com/The-Heart-Vibe"
   },
-  "description": "Wewnętrzny marketplace pluginów Claude Code dla The Heart Vibe",
+  "description": "Wewnętrzny marketplace pluginów Claude Code dla The Heart Vibe — venture builder toolkit z 30 skillami w jednym pluginie",
   "plugins": [
     {
-      "name": "council",
-      "source": "./plugins/council",
-      "description": "Multi-LLM debate przez the-llm-council CLI z routingiem domain × tier (tech / non-tech)"
+      "name": "heart-vb",
+      "source": "./plugins/heart-vb",
+      "description": "Venture Builder toolkit dla The Heart — 30 skilli w 8 kategoriach (council, self-improving, research, product, finance, commercial, comms, heart-custom). Jeden install, kompletne pokrycie od opportunity screening do IC memo."
     }
   ]
 }

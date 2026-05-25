@@ -1,25 +1,27 @@
 # Onboarding: Venture Builder toolkit w Claude Code (The Heart)
 
-Przewodnik dla analityków i konsultantów VB w The Heart. Pokrywa instalację **całego toolkitu** (nie tylko council!) oraz jak go używać w codziennej pracy.
+Przewodnik dla analityków i konsultantów VB. **Jedna instalacja, kompletny VB stack.**
 
-**Czas onboardingu:** 30-45 minut (głównie czekanie na install pluginów).
+**Czas:** 20-30 minut (głównie czekanie na install i auth providerów).
 
 ---
 
-## Co dostajesz po onboardingu
+## Co dostajesz po install
 
-| Faza pracy | Skille (przykłady) | Source marketplace |
-|------------|---------------------|---------------------|
-| **Discovery + sizing** | deep-research, market-research, competitive-teardown | everything-claude-code, product-skills |
-| **Validation** | product-discovery, experiment-designer, ux-researcher-designer | product-skills |
-| **Strategy decisions** | **council** ⭐ (multi-LLM debate), brainstorming, product-strategist | the-heart-vibe, superpowers, product-skills |
-| **Financial modeling** | unit-economics, 3-statement-model, dcf-model, comps-analysis | private-equity, model-builder |
-| **Build prep** | write-spec, landing-page-generator, saas-scaffolder | product-management, product-skills |
-| **IC + pitch** | ic-memo, pitch-deck, investor-materials, stakeholder-update | private-equity, pitch-agent |
-| **Token-saving** | chrome-devtools-mcp, context7-plugin, exa-search | chrome-devtools-plugins, context7-marketplace, everything-claude-code |
-| **Cross-cutting** | stop-slop (anti-AI-slop), brainstorming | superpowers |
+Jeden plugin `heart-vb` zawiera **30 skilli** w 8 kategoriach:
 
-➡️ Pełna mapa skilli per faza: [venture-builder.md](venture-builder.md)
+| Kategoria | Skille | Do czego |
+|-----------|--------|----------|
+| **council** ⭐ | council (multi-LLM debate) + 13 subagentów | Każda strategiczna decyzja |
+| **self-improving** | si:remember, si:review, si:extract, si:promote, si:status, self-improving-agent | Agent uczy się z MEMORY.md — promote patterns, extract skills |
+| **vb-research** | deep-research, market-research, exa-search | Discovery, TAM/SAM/SOM, sizing |
+| **vb-product** | product-discovery, competitive-teardown, experiment-designer, ux-researcher-designer, product-strategist | Validation, persona, JTBD, smoke tests |
+| **vb-finance** | financial-analyst, saas-metrics-coach | Unit economics, P&L, KPIs, projekcje |
+| **vb-commercial** | pricing-strategist, deal-desk, commercial-forecaster, channel-economics | Pricing, deal screening, GTM forecasts |
+| **vb-comms** | board-prep (IC memo), stress-test, hard-call, investor-materials, investor-outreach | IC memo, pitch deck, investor comms |
+| **heart-custom** | heart-fintech-compliance, heart-healthtech-compliance, heart-realestate-context, heart-martech-ecosystem | Sector context dla portfolio (KNF/MDR/RODO/polskie specyfiki) |
+
+➡️ Pełna mapa skilli per faza pracy: [venture-builder.md](venture-builder.md)
 
 ---
 
@@ -28,199 +30,181 @@ Przewodnik dla analityków i konsultantów VB w The Heart. Pokrywa instalację *
 | Konto | Po co | Link |
 |-------|-------|------|
 | Claude Code (Pro/Max) | Główny interfejs | https://claude.ai/code |
-| ChatGPT Plus | Token-saving dla council (provider `codex`) | https://chatgpt.com |
-| Google Workspace login | Token-saving dla council (provider `gemini-cli`) | (już masz przez @theheart.tech) |
+| ChatGPT Plus | Council provider `codex` (token-saving) | https://chatgpt.com |
+| Google Workspace (@theheart.tech) | Council provider `gemini-cli` (token-saving) | (już masz) |
 
-> ChatGPT Plus i Workspace **nie są wymagane** dla samych skilli — wymagane tylko żeby `/council` używał alternatywnych providerów zamiast zjadać Twoją Claude Code session.
-
----
-
-## 2. Dodaj marketplaces (~5 min)
-
-Cały VB toolkit pochodzi z **3 publicznych marketplaces + naszego**. Wykonaj w Claude Code po kolei:
-
-```
-# 1. Nasz marketplace (council + ten onboarding + kolekcja)
-/plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-
-# 2. Affaan Mustafa's everything-claude-code (research, market, exa-search, investor-*)
-/plugin marketplace add affaan-m/everything-claude-code
-
-# 3. Alireza Rezvani's claude-skills (product, marketing, finance, IC memo, pitch)
-/plugin marketplace add alirezarezvani/claude-skills
-
-# 4. Claude plugins official (superpowers, brainstorming, stop-slop)
-/plugin marketplace add anthropics/claude-plugins
-```
-
-> Po każdej komendzie zobaczysz "✓ Added marketplace". Jeśli któryś fail — zgłoś do mnie/Wojtka, prawdopodobnie zmiana ścieżki w upstream.
+> ChatGPT Plus i Workspace **nie są wymagane** dla samych skilli. Wymagane tylko żeby `/council` używał alternatywnych providerów zamiast zjadać Twoją Claude Code session.
 
 ---
 
-## 3. Zainstaluj kluczowe pluginy (~10-15 min, zależy od sieci)
+## 2. Install (~3 min)
 
 W Claude Code:
 
 ```
-# Sercem zestawu — council (multi-LLM debate)
-/plugin install council@the-heart-vibe
-
-# Cross-cutting toolkit (research, exa-search, market analysis)
-/plugin install everything-claude-code@everything-claude-code
-
-# Product skills (discovery, competitive teardown, UX research, experiment design)
-/plugin install product-skills@product-skills
-
-# Financial + IC tools (assume hosted under finance/ in claude-skills)
-/plugin install private-equity@claude-skills
-/plugin install model-builder@claude-skills
-/plugin install pitch-agent@claude-skills
-
-# Quality / anti-slop
-/plugin install superpowers@claude-plugins-official
-/plugin install stop-slop@claude-plugins-official
+/plugin marketplace add The-Heart-Vibe/claude-code-marketplace
+/plugin install heart-vb@the-heart-vibe
 ```
 
-> **Council installer zapyta:** "Zainstalować Venture Builder hook? [y/N]" — **odpowiedz `y`**. Hook pattern-matchuje Twoje wiadomości i przypomina o właściwym skillu (research → deep-research, decision → council, modeling → unit-economics itd).
+Installer (run automatically) wykona w terminalu:
+1. Instaluje `uv` (Python package manager) jeśli brak
+2. Sprawdza Node.js
+3. Instaluje `@google/gemini-cli` globalnie jeśli brak
+4. Tworzy venv w `~/tools/council-env`
+5. Instaluje `the-llm-council[gemini]>=0.7.16`
+6. Tworzy wrapper `~/.local/bin/council`
+7. Kopiuje config template
+8. **Pyta: "Zainstalować Venture Builder hook? [y/N]"** → **odpowiedz `y`**
+9. Odpala `council doctor` — pokazuje status providerów
 
-> **Niektóre nazwy pluginów mogą się różnić** w upstream — jeśli `private-equity@claude-skills` nie działa, zerknij na `https://github.com/alirezarezvani/claude-skills` i znajdź odpowiednią subkatalog (`finance/`, `commercial/`).
-
----
-
-## 4. Token-saving tools (~5 min)
-
-| Plugin | Dlaczego | Komenda |
-|--------|----------|---------|
-| chrome-devtools-mcp | Browser session do multi-page research, znacznie tańsze niż N×WebFetch | `/plugin install chrome-devtools-mcp@chrome-devtools-plugins` |
-| context7-plugin | Bezpośredni dostęp do docs index bibliotek/API, omija drogie web search | `/plugin install context7-plugin@context7-marketplace` |
-
-Jeśli te marketplaces nie były dodane, dodaj je:
-```
-/plugin marketplace add ChromeDevTools/chrome-devtools-mcp
-/plugin marketplace add upstash/context7
+Jeśli installer się nie uruchomił automatycznie:
+```bash
+bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/heart-vb/install.sh)
 ```
 
 ---
 
-## 5. Setup providerów dla council (opcjonalny, ale ważny)
+## 3. Auth providerów dla council (~5 min)
 
-Po install council odpal w terminalu:
+Otwórz terminal i odpal:
 
 ```bash
 council doctor
 ```
 
-Zobaczysz status 3 providerów:
+Zobaczysz status 3 providerów. Jeśli któryś `FAIL`:
 
-| Provider | Jak ustawić jeśli FAIL | Co daje |
-|----------|------------------------|---------|
-| `codex` | `codex login` (wymaga ChatGPT Plus) | Council używa GPT-5 zamiast Twojej Claude session |
-| `gemini-cli` | `gemini` (OAuth przez Google Workspace) | Council używa Gemini, największa pula tokenów |
-| `claude` | Już zalogowany | ❌ **NIE używać z poziomu Claude Code** — self-invocation block |
+| Provider | Komenda | Co da |
+|----------|---------|-------|
+| `codex` FAIL | `codex login` (wymaga ChatGPT Plus) | Council używa GPT-5 |
+| `gemini-cli` FAIL | `gemini` (otworzy przeglądarkę → OAuth Google) | Council używa Gemini, największa pula |
+| `claude` FAIL | Normal — to nie błąd jeśli odpalasz z Claude Code session | Self-invocation block; tylko z terminala działa |
 
-Jeśli odpalisz `council doctor` z poziomu Claude Code — claude będzie `FAIL`. To OK. Z terminala działa.
+Po fix odpal `council doctor` ponownie — wszystkie 3 powinny być OK (lub claude FAIL gdy z CC session, co jest OK).
 
 ---
 
-## 6. Jak to faktycznie używać
+## 4. Jak to faktycznie używać
 
 ### Tryb domyślny — z hookiem (rekomendowany)
 
-Po prostu **pisz normalnie** do Claude. Hook wykryje intent i Claude zapyta np.:
+Po prostu **pisz normalnie** do Claude. Hook wykrywa intent i Claude sugeruje właściwy skill:
 
-> *"To wygląda na zadanie typu modeling — proponuję użyć: **unit-economics** (CAC/LTV/payback) lub **3-statement-model**. Wolisz tak, czy odpowiedzieć od razu?"*
+> *"To wygląda na zadanie typu **modeling** — proponuję użyć **financial-analyst** lub **saas-metrics-coach**. Wolisz tak, czy odpowiedzieć od razu?"*
 
-**Tabela przykładów z odpowiednim skillem:**
+### Tabela co fires na co
 
-| Twoja wiadomość | Hook fires? | Sugerowany skill |
+| Twoja wiadomość | Hook intent | Sugerowany skill |
 |------------------|-------------|-------------------|
-| "cześć, jak się masz?" | ❌ nie | – |
-| "Zbadaj TAM dla AML SaaS w CEE banking" | ✅ research | deep-research / market-research |
-| "Zbuduj unit econ dla MarTech SaaS: ARPU €49, CAC €600, churn 4%" | ✅ modeling | unit-economics |
-| "Napisz IC memo dla projektu X" | ✅ writing | ic-memo |
-| "Pricing $99/$299/$999 vs flat $2k — co wybrać?" | ✅ decision + pricing | council + pricing-strategy + comps-analysis |
-| "Zaprojektuj fake door experiment dla brokerów RE" | ✅ validation | experiment-designer / ux-researcher-designer |
-| "Profesor X z patentem — fit dla nas?" | ✅ screening | screen-deal / dd-checklist |
-
-### Manualne wywołanie
-
-Jeśli wiesz dokładnie co chcesz:
-
-```
-/council Pricing FinTech B2B, mid-market PL banki, target ARR €500k/24mc
-```
+| "cześć, jak się masz?" | ❌ nie fires | – |
+| "Zbadaj TAM dla AML SaaS w CEE banking" | research | deep-research / market-research / exa-search |
+| "Zbuduj unit econ MarTech: ARPU €49, CAC €600" | modeling | financial-analyst / saas-metrics-coach |
+| "Napisz IC memo dla projektu X" | writing | board-prep / investor-materials |
+| "Pricing $99/$299/$999 vs flat $2k — co wybrać?" | decision + pricing | /council Tier L + pricing-strategist |
+| "Zaprojektuj fake door experiment dla brokerów RE" | validation | experiment-designer / ux-researcher-designer |
+| "Profesor z patentem — fit dla nas?" | screening | deal-desk + heart-custom contexts |
+| "Pricing FinTech B2B SaaS dla mid-market PL banków" | decision + pricing + sector | council + pricing-strategist + heart-fintech-compliance |
 
 ### Skip hook na konkretnej wiadomości
 
 ```
-BEZ COUNCIL: szybko porównaj te 2 vendory, bez pełnej rady
+BEZ COUNCIL: szybko porównaj te 2 vendory
+```
+
+### Manualne wywołanie konkretnego skilla
+
+Skille są auto-discovery przez Claude, ale możesz też nazwać explicit:
+
+```
+Użyj saas-metrics-coach: ARPU €49/mo, GM 78%, CAC €600, monthly churn 4% — pokaż LTV i payback.
+
+Użyj heart-fintech-compliance + council: pricing dla AML monitoring SaaS dla mid-market PL banków.
+
+/si:review              # przejrzyj MEMORY.md, pokaż promotion candidates
+/si:status              # memory health dashboard
 ```
 
 ---
 
-## 7. Co rób / czego nie rób
+## 5. Self-improving agent — używaj systematycznie
+
+Plugin zawiera `/si:` commands które robią agent samodoskonalącym:
+
+- **`/si:remember <wiedza>`** — zapisz wprost do auto-memory. Używaj gdy uczy się ważnej rzeczy o kliencie/branży
+- **`/si:review`** — raz na 1-2 tygodnie. Pokazuje co warto promote z auto-memory do trwałych rules
+- **`/si:promote <pattern>`** — przenieś learning z MEMORY.md → CLAUDE.md (trwałe)
+- **`/si:extract <pattern>`** — przekształć recurring pattern w nowy reusable skill
+- **`/si:status`** — health dashboard auto-memory
+
+**Praktyka:** kończ tydzień przez `/si:review` i `/si:promote` najbardziej powtarzających się wzorców. Po miesiącu Twoje CLAUDE.md staje się żywym playbookiem.
+
+---
+
+## 6. Co rób / czego nie rób
 
 ### ✅ Rób
 
-- **Pisz konkretnie z kontekstem** — "Pricing dla FinTech B2B, ICP banki PL, target ARR €500k/24mc" jest 10× lepsze niż "pomóż z pricingiem"
-- **Dołączaj artefakty przez `--files`** — masz brief? Persona research? `--files brief.md,personas.md` (limit: 50KB/plik, 200KB łącznie)
+- **Pisz konkretnie z kontekstem** — "Pricing FinTech B2B SaaS, ICP banki PL, target ARR €500k/24mc" jest 10× lepsze niż "pomóż z pricingiem"
+- **Dołączaj artefakty przez `--files`** — masz brief? Persony? Wrzuć przez `--files brief.md,personas.md` (limit: 50KB/plik, 200KB łącznie)
 - **Sprawdź `council doctor`** co tydzień — providerzy mogą wymagać re-login OAuth
 - **Zapisuj wyniki w projekcie** (`decisions/2026-05-pricing-decision.md`) — następna sesja zaczyna z `--files <previous>`
-- **Używaj browser tools (chrome-devtools-mcp) dla multi-page research** — nie N×WebFetch
 - **Słuchaj hooka** — jeśli sugeruje skill X, zwykle ma rację
+- **Używaj `/si:` regularnie** — bez tego agent się nie uczy
 
 ### ❌ Nie rób
 
-- **Nie pytaj council o trywialne rzeczy** — np. "co znaczy CAC" → odpowie Claude solo
-- **Nie kopiuj output 1:1 do dokumentów** — to syntheza, nie deliverable. Przetwórz, dopisz kontekst Heart, zweryfikuj liczby
-- **Nie odpalaj 5 rad council pod rząd** — limity providerów się skończą. Pomyśl: czy potrzebuję rady czy mogę z tego co mam?
-- **Nie ufaj ślepo w sprawach regulacyjnych** — KNF/MDR/RODO modele mogą dawać przestarzałe info. Zweryfikuj z prawnikiem
-- **Nie używaj council do code review** — to nie use case dla analityka VB
+- **Nie pytaj council o trywialne rzeczy** — "co znaczy CAC" → odpowie Claude solo
+- **Nie kopiuj output 1:1 do dokumentów** — to syntheza, nie deliverable. Przetwórz, dodaj kontekst Heart, zweryfikuj liczby
+- **Nie odpalaj 5 rad council pod rząd** — limity providerów się skończą. Z 1-2 odpowiedzi zwykle wynika dalsze pytania
+- **Nie ufaj ślepo w sprawach regulacyjnych** — KNF/MDR/RODO modele mogą podawać przestarzałe info. Zweryfikuj z prawnikiem
 - **Nie skip hooka "BEZ COUNCIL:" gdy to NAPRAWDĘ decyzja** — bo zjesz tokeny Claude Code zamiast oddelegować
 
 ---
 
-## 8. Pierwsze 3 zadania do przećwiczenia
+## 7. Pierwsze 4 zadania (~2-3h)
 
-Wykonaj te 3 w pierwszym tygodniu. **Każde używa innego skilla** — pomoże Ci poczuć cały toolkit.
+Wykonaj te 4 w pierwszym tygodniu — każde używa **innego skilla** żeby poczuć cały toolkit.
 
-### Zadanie 1: Research + sizing → `deep-research`
-> Zbadaj TAM/SAM/SOM dla AI-powered legal contract review SaaS w Polsce. Profil top 5 konkurentów (lokalni + globalni). Trendy regulacyjne. ~50 firm prawniczych z 50-500 employees.
+### Zadanie 1: Research → `deep-research` (~30 min)
+> Zbadaj TAM/SAM/SOM dla AI-powered legal contract review SaaS w Polsce. Profil top 5 konkurentów (lokalni + globalni). Trendy regulacyjne.
 
-**Oczekiwany flow:** Hook fires (research intent) → Claude pyta o `deep-research` (lub `market-research`) → zgadzasz się → dostajesz strukturalny report.
+**Oczekiwany flow:** Hook fires (research intent) → Claude pyta o `deep-research` → zgadzasz się → dostajesz strukturalny report.
 
-### Zadanie 2: Modeling → `unit-economics`
-> Zbuduj unit economics dla MarTech SaaS (UniPerks-like): ARPU €49/mo, GM 78%, CAC €600 z paid+content mix, 4% monthly churn. Pokaż LTV, payback, contribution margin.
+### Zadanie 2: Modeling → `financial-analyst` / `saas-metrics-coach` (~20 min)
+> Zbuduj unit economics dla MarTech SaaS: ARPU €49/mo, GM 78%, CAC €600 z paid+content mix, 4% monthly churn. Pokaż LTV, payback, contribution margin.
 
-**Oczekiwany flow:** Hook fires (modeling intent) → Claude pyta o `unit-economics` → dostajesz konkretne liczby + breakdown.
+**Oczekiwany flow:** Hook fires (modeling intent) → Claude pyta o `saas-metrics-coach` → dostajesz liczby + breakdown.
 
-### Zadanie 3: IC memo → `ic-memo`
+### Zadanie 3: IC memo → `board-prep` (~30 min)
 > Napisz IC memo dla "Heart [twoje wymyślone venture]" — thesis, market opportunity, team profile, 3-yr financials summary, top 3 risks, ask.
 
-**Oczekiwany flow:** Hook fires (writing intent) → Claude pyta o `ic-memo` (lub `pitch-deck`) → dostajesz IC memo template do dopracowania.
+**Oczekiwany flow:** Hook fires (writing intent) → Claude pyta o `board-prep` → dostajesz IC memo template do dopracowania.
 
-### Zadanie bonus 4: Decision → `council`
-> Skoro już masz output z zadań 1-3, użyj `/council` żeby ocenić: czy ten venture jest fundable?
+### Zadanie 4: Decision z sector context → `council` + `heart-fintech-compliance` (~30 min)
+> Skoro masz output z 1-3, użyj council: czy ten venture jest fundable? Uwzględnij kontekst FinTech compliance (KNF, AMLD).
 
-**Oczekiwany flow:** Hook fires (decision intent) → Claude pyta o `/council Tier L` → dostajesz syntezę z 2-3 LLM perspektyw.
+**Oczekiwany flow:** Hook fires (decision + sector) → Claude pyta o council Tier L z `--context heart-fintech-compliance` → dostajesz syntezę 2-3 LLM + compliance check.
+
+### Zadanie bonus: self-improving (~15 min)
+> Pod koniec tygodnia: `/si:review` — pokaż mi co Claude się nauczył o moich preferencjach. Następnie `/si:promote` najbardziej powtarzających się wzorców do CLAUDE.md.
 
 ---
 
-## 9. Troubleshooting
+## 8. Troubleshooting
 
 | Problem | Rozwiązanie |
 |---------|-------------|
 | `command not found: council` | PATH nie zawiera `~/.local/bin` — dodaj `export PATH="$HOME/.local/bin:$PATH"` do `~/.zshrc` |
-| `Provider claude failed: unknown` | Council nie może odpalić zagnieżdżonego Claude Code. To NIE jest błąd — fala kontynuuje z innymi providerami |
+| `Provider claude failed: unknown` | Council nie może odpalić zagnieżdżonego Claude Code (self-invocation block). To NIE jest błąd — fala kontynuuje z innymi providerami |
 | `Gemini CLI timed out` | Cold start Gemini ~10s. Dla Tier L+ dodaj `--timeout 600` |
-| Plugin install fail z 404 | Marketplace mógł być przeniesiony. Spawdź upstream README repo source |
-| Hook fires zbyt często | Edit `~/.claude/hooks/council-vb-suggest.sh` — usuń niektóre patterny z `WEAK_PATTERNS` |
-| Hook nie fires nigdy | `cat ~/.claude/settings.json | grep council-vb-suggest` — sprawdź czy zarejestrowany |
+| Plugin install fail | Sprawdź `gh auth status`; jeśli OK, retry. Jeśli upstream zmieniony — zgłoś |
+| Hook fires zbyt często | Edit `~/.claude/hooks/council-vb-suggest.sh` — usuń niektóre patterny |
+| Hook nie fires nigdy | `cat ~/.claude/settings.json \| grep council-vb-suggest` — sprawdź czy zarejestrowany |
 | Zła rekomendacja od council | To opinion model, nie sąd. Zweryfikuj liczby, dodaj kontekst Heart, decyduj jako człowiek |
 
 ---
 
-## 10. Cheat sheet
+## 9. Cheat sheet
 
 ```
 # Najczęstsze patterny
@@ -228,25 +212,29 @@ Wykonaj te 3 w pierwszym tygodniu. **Każde używa innego skilla** — pomoże C
 /council <pytanie>                           # Wymuszone wywołanie rady
 BEZ COUNCIL: <pytanie>                       # Skip hook na tę wiadomość
 council doctor                               # Status providerów (terminal)
-council doctor --deep --provider gemini-cli  # Live test (zużywa tokeny!)
 codex login                                  # Re-auth ChatGPT Plus
 gemini                                       # Re-auth Google Workspace OAuth
 
+# Self-improving (run weekly)
+/si:review                                   # Co warto promote
+/si:promote                                  # Pattern → CLAUDE.md
+/si:status                                   # Memory health
+
 # Token-saving wzorce
-"Użyj chrome-devtools-mcp żeby otworzyć X i wyciągnąć Y"   # Multi-page research
-"Użyj context7-plugin żeby sprawdzić docs biblioteki Z"    # Library docs lookup
+"Użyj chrome-devtools-mcp z evaluate_script..."  # Multi-page research
+"Użyj context7 żeby sprawdzić docs..."           # Library docs lookup
 ```
 
-**Pełna referencja:** [Venture Builder collection](venture-builder.md)
+**Pełna referencja:** [Venture Builder map](venture-builder.md) · [Plugin README](../plugins/heart-vb/README.md)
 
 ---
 
-## 11. Feedback po 1-2 tygodniach
+## 10. Feedback po 1-2 tygodniach
 
 Daj znać:
 - Patterny hookowe są za szerokie / za wąskie?
 - Które skille faktycznie używasz, które ignorujesz?
 - Brakuje skill dla konkretnego use case?
-- Marketplace install instructions — gdzie się wykrzaczyło?
+- Sector context (heart-custom) działa czy zbyt powierzchowny?
 
 Issue lub PR: https://github.com/The-Heart-Vibe/claude-code-marketplace

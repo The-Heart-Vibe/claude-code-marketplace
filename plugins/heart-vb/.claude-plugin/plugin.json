@@ -1,0 +1,42 @@
+{
+  "name": "heart-vb",
+  "version": "0.2.0",
+  "description": "Heart Venture Builder toolkit — 30 skilli w 8 kategoriach. Council multi-LLM debate, self-improving agent (si:* commands), product discovery/competitive teardown/experiment design, financial modeling, deal screening, IC memo & board prep, investor materials, plus 4 Heart-specific sector contexts (FinTech/HealthTech/RealEstate/MarTech). Hook auto-suggests właściwy skill per intent. Bundle z attribution dla upstream (MIT).",
+  "author": {
+    "name": "The Heart Vibe"
+  },
+  "repository": "https://github.com/The-Heart-Vibe/claude-code-marketplace",
+  "license": "MIT",
+  "skills": [
+    "./skills/council",
+    "./skills/self-improving/self-improving-agent",
+    "./skills/self-improving/remember",
+    "./skills/self-improving/review",
+    "./skills/self-improving/extract",
+    "./skills/self-improving/promote",
+    "./skills/self-improving/status",
+    "./skills/vb-research/deep-research",
+    "./skills/vb-research/market-research",
+    "./skills/vb-research/exa-search",
+    "./skills/vb-product/product-discovery",
+    "./skills/vb-product/competitive-teardown",
+    "./skills/vb-product/experiment-designer",
+    "./skills/vb-product/ux-researcher-designer",
+    "./skills/vb-product/product-strategist",
+    "./skills/vb-finance/financial-analyst",
+    "./skills/vb-finance/saas-metrics-coach",
+    "./skills/vb-commercial/pricing-strategist",
+    "./skills/vb-commercial/deal-desk",
+    "./skills/vb-commercial/commercial-forecaster",
+    "./skills/vb-commercial/channel-economics",
+    "./skills/vb-comms/board-prep",
+    "./skills/vb-comms/stress-test",
+    "./skills/vb-comms/hard-call",
+    "./skills/vb-comms/investor-materials",
+    "./skills/vb-comms/investor-outreach",
+    "./skills/heart-custom/heart-fintech-compliance",
+    "./skills/heart-custom/heart-healthtech-compliance",
+    "./skills/heart-custom/heart-realestate-context",
+    "./skills/heart-custom/heart-martech-ecosystem"
+  ]
+}

@@ -2,65 +2,58 @@
 
 Wewnętrzny marketplace pluginów Claude Code dla zespołu The Heart Vibe.
 
-**Co tu jest:**
-1. **`council` plugin** — nasz autorski wrapper na multi-LLM debate. Hostujemy.
-2. **Kuratorskie kolekcje** (docs) — mapy polecanych skilli per rola, **odnoszą się do skilli z innych publicznych marketplaces** (ich nie hostujemy).
+**Zasada:** wszystko w jednym pluginie. **Bez dodawania innych marketplaces.**
 
-## 🚀 Quick start dla zespołu
-
-**Nowy w The Heart?** → idź prosto do [**Onboarding VB**](collections/onboarding-vb.md) (30-45 min, pełna instalacja toolkitu).
-
-**Już znasz Claude Code, chcesz dodać tylko nasze rzeczy?**
+## 🚀 Quick start
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install council@the-heart-vibe
+/plugin install heart-vb@the-heart-vibe
 ```
 
-(Council installer dopyta o opt-in Venture Builder hook.)
+I masz całą Venture Builder toolkit — 30 skilli w 8 kategoriach.
 
-## Pluginy hostowane tutaj
+Installer (~3 min) zapyta o opt-in Venture Builder hook → **odpowiedz `y`**.
 
-| Plugin | Opis | Status |
-|--------|------|--------|
-| [`council`](plugins/council) | Multi-LLM debate (Claude Code + Codex + Gemini CLI) z routingiem domain × tier i hookiem przypominającym o właściwym skillu | ✅ stable |
+**Nowy w zespole?** → [**Onboarding VB**](collections/onboarding-vb.md) — step-by-step 30 min.
 
-## Kolekcje (kuratorskie zestawy per rola)
+## Plugin
 
-Kolekcje to **dokumentacja** — mapują pracę zespołu na zewnętrzne skille z różnych marketplaces. **Nie są bundle pluginami** — instalujesz każdy skill osobno z jego oryginalnego źródła (instrukcje w onboardingu).
+| Plugin | Co zawiera | Status |
+|--------|------------|--------|
+| [`heart-vb`](plugins/heart-vb) | **30 skilli** w 8 kategoriach: council (multi-LLM debate), self-improving (si:*), vb-research, vb-product, vb-finance, vb-commercial, vb-comms, heart-custom (sector contexts) | ✅ stable v0.2.0 |
+
+Pełna lista skilli w [plugins/heart-vb/.claude-plugin/plugin.json](plugins/heart-vb/.claude-plugin/plugin.json). Atrybucja upstream'ów: [plugins/heart-vb/skills/ATTRIBUTION.md](plugins/heart-vb/skills/ATTRIBUTION.md).
+
+## Kolekcje (dokumentacja użycia)
 
 | Kolekcja | Dla kogo | Co zawiera |
 |----------|----------|------------|
-| [Venture Builder](collections/venture-builder.md) | Analitycy + konsultanci VB w The Heart | ~25 skilli w 7 fazach (discovery → IC) z 5+ zewnętrznych marketplaces + sector addenda (FinTech/HealthTech/RealEstate/MarTech) + token-efficient practices |
-| [Onboarding VB](collections/onboarding-vb.md) | Pierwsze 30-45 min nowego teammate'a | Step-by-step: jak dodać marketplaces, zainstalować skille, skonfigurować providerów, 3 zadania praktyczne |
+| [Venture Builder map](collections/venture-builder.md) | Analitycy + konsultanci VB | Mapa 30 skilli na 7 faz pracy (discovery → IC) + sector addenda + token-saving practices |
+| [Onboarding VB](collections/onboarding-vb.md) | Nowy teammate | Setup w 30 min: install, providery, hook, 3 praktyczne zadania |
 
-Więcej w [`collections/`](collections/).
+## Co odróżnia od poprzedniej wersji (v0.1.0)
 
-## Zewnętrzne marketplaces, na których opieramy się
+Poprzednio: 1 mały plugin (council) + collection wskazująca na 5 zewnętrznych marketplaces.
+Teraz: 1 mega-plugin (heart-vb) który **bundluje** wszystkie skille z atrybucją MIT — jedna instalacja, koniec.
 
-Kolekcje referują skille z (podzielone wg ich oryginalnego sourceów):
+## Skille z upstream sources (bundled)
 
-| Skille z... | Marketplace | Add command |
-|-------------|-------------|-------------|
-| Council (nasze) | `The-Heart-Vibe/claude-code-marketplace` | (już dodane jeśli czytasz to repo) |
-| Research, market analysis, exa-search, investor-* | `affaan-m/everything-claude-code` | `/plugin marketplace add affaan-m/everything-claude-code` |
-| Product discovery, UX research, competitive teardown, IC memo, pitch deck, unit economics | `alirezarezvani/claude-skills` | `/plugin marketplace add alirezarezvani/claude-skills` |
-| Superpowers (brainstorming, TDD), stop-slop | `claude-plugins-official` | `/plugin marketplace add anthropics/claude-plugins` |
-| Browser tooling (token-saving) | `ChromeDevTools/chrome-devtools-mcp` | `/plugin marketplace add ChromeDevTools/chrome-devtools-mcp` |
-| Docs lookup (Context7) | `upstash/context7` | `/plugin marketplace add upstash/context7` |
+Wszystkie z licencją MIT. Atrybucja w każdym SKILL.md i w [ATTRIBUTION.md](plugins/heart-vb/skills/ATTRIBUTION.md):
 
-> Jeśli któryś `marketplace add` zawiedzie — upstream przeniosło ścieżki. Zgłoś do nas, zaktualizujemy onboarding.
+- [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) — product-team, finance, commercial, c-level-advisor, engineering-team subdirs
+- [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) — research + investor skills
+- Heart-custom — sektor-specific context dla FinTech/HealthTech/RealEstate/MarTech (nasze)
 
-## Dodawanie nowego pluginu
+Nie auto-syncujemy z upstream — update wymaga ręcznego re-copy + diff review (PR mile widziane).
 
-1. Stwórz katalog `plugins/<nazwa>/` z:
-   - `.claude-plugin/plugin.json` — metadata
-   - `skills/<nazwa>/SKILL.md` — body skilla
-   - `README.md` — instrukcje setup i użycia
-   - `install.sh` (opcjonalnie) — automatyzacja instalacji zależności
-2. Dodaj wpis do `.claude-plugin/marketplace.json`
-3. PR z opisem do czego ten plugin służy i jak był testowany
-4. Po merge teammate'y robią `/plugin update council@the-heart-vibe` żeby pociągnąć zmiany
+## Dodawanie nowego skilla do heart-vb
+
+1. Skopiuj SKILL.md do właściwej kategorii pod `plugins/heart-vb/skills/<kategoria>/`
+2. Dodaj wpis do `skills` array w `plugins/heart-vb/.claude-plugin/plugin.json`
+3. Jeśli z upstream — dodaj wiersz do `ATTRIBUTION.md`
+4. PR z opisem use case
+5. Teammate'y robią `/plugin update heart-vb@the-heart-vibe`
 
 ## Konwencje
 
@@ -71,4 +64,7 @@ Kolekcje referują skille z (podzielone wg ich oryginalnego sourceów):
 
 ## Licencja
 
-MIT — wewnętrzne narzędzia, ale otwarte na opensourceing jeśli zdecydujemy.
+- Nasze: MIT
+- Upstream: MIT (zobacz [ATTRIBUTION.md](plugins/heart-vb/skills/ATTRIBUTION.md))
+
+Wewnętrzne narzędzie, ale otwarte na opensourceing jeśli zdecydujemy.
