@@ -89,21 +89,33 @@ echo ""
 "$WRAPPER" doctor || true
 echo ""
 
-# ── 7. Venture-builder hook (opt-in) ─────────────────────────────────────────
-HOOK_SCRIPT_SRC="$(dirname "$0")/hooks/vb-suggest.sh"
-HOOK_SCRIPT_DST="$HOME/.claude/hooks/council-vb-suggest.sh"
+# ── 7. Hooks (opt-in) ────────────────────────────────────────────────────────
+HOOK_VB_SRC="$(dirname "$0")/hooks/vb-suggest.sh"
+HOOK_DEVTOOLS_SRC="$(dirname "$0")/hooks/devtools-suggest.sh"
+HOOK_VB_DST="$HOME/.claude/hooks/council-vb-suggest.sh"
+HOOK_DEVTOOLS_DST="$HOME/.claude/hooks/heart-devtools-suggest.sh"
 SETTINGS="$HOME/.claude/settings.json"
 
-if [ -f "$HOOK_SCRIPT_SRC" ]; then
+if [ -f "$HOOK_VB_SRC" ] || [ -f "$HOOK_DEVTOOLS_SRC" ]; then
   echo ""
-  say "Opcjonalny hook: Venture Builder Suggest"
+  say "Opcjonalne hooki (rekomendowane: oba)"
   cat <<EOF
-   Hook wykrywa promptów wyglądających na decyzje (pricing, GTM, IC memo,
-   FinTech/HealthTech/RealEstate/MarTech, founder fit, build-vs-buy itp.)
-   i poprosi Claude'a żeby zapytał Cię: "uruchomić to przez /council?"
 
-   Opt-out per-prompt: prefiks "BEZ COUNCIL: ..."
-   Disable globalnie: usuń wpis z $SETTINGS hooks.UserPromptSubmit
+   1. Venture Builder Suggest (vb-suggest.sh):
+      Wykrywa prompty wyglądające na decyzje (pricing, GTM, IC memo,
+      FinTech/HealthTech/RealEstate/MarTech, founder fit, build-vs-buy itp.)
+      i prosi Claude'a żeby zapytał Cię: "uruchomić przez /council?"
+
+   2. Research Tool Router (devtools-suggest.sh):
+      Wykrywa URL-e w prompcie + sygnały complex page (JS-heavy domains,
+      interactive flow, multi-page workflow, targeted extraction)
+      i rekomenduje chrome-devtools-mcp zamiast WebFetch (token-saving).
+
+   Opt-out per-prompt:
+     "BEZ COUNCIL: ..."   — skip vb-suggest
+     "BEZ DEVTOOLS: ..."  — skip devtools-suggest (use WebFetch)
+
+   Disable globalnie: usuń wpisy z $SETTINGS hooks.UserPromptSubmit
 EOF
 
   if [ "${COUNCIL_INSTALL_HOOK:-ask}" = "yes" ]; then
@@ -111,24 +123,28 @@ EOF
   elif [ "${COUNCIL_INSTALL_HOOK:-ask}" = "no" ]; then
     REPLY="n"
   else
-    printf "\nZainstalować hook? [y/N]: "
+    printf "\nZainstalować oba hooki? [y/N]: "
     read -r REPLY < /dev/tty || REPLY="n"
   fi
 
   case "$REPLY" in
     [Yy]*)
-      mkdir -p "$(dirname "$HOOK_SCRIPT_DST")"
-      cp "$HOOK_SCRIPT_SRC" "$HOOK_SCRIPT_DST"
-      chmod +x "$HOOK_SCRIPT_DST"
+      mkdir -p "$(dirname "$HOOK_VB_DST")"
+      [ -f "$HOOK_VB_SRC" ] && cp "$HOOK_VB_SRC" "$HOOK_VB_DST" && chmod +x "$HOOK_VB_DST"
+      [ -f "$HOOK_DEVTOOLS_SRC" ] && cp "$HOOK_DEVTOOLS_SRC" "$HOOK_DEVTOOLS_DST" && chmod +x "$HOOK_DEVTOOLS_DST"
 
-      # Add hook to settings.json (backup, then merge via python)
+      # Backup settings.json
       if [ -f "$SETTINGS" ]; then
         cp "$SETTINGS" "${SETTINGS}.bak.$(date +%Y%m%d-%H%M%S)"
       fi
+
       python3 <<PYEOF
 import json, os
 settings_path = os.path.expanduser("~/.claude/settings.json")
-hook_path = os.path.expanduser("~/.claude/hooks/council-vb-suggest.sh")
+hooks_to_install = [
+    ("$HOOK_VB_DST", "council-vb-suggest.sh"),
+    ("$HOOK_DEVTOOLS_DST", "heart-devtools-suggest.sh"),
+]
 
 try:
     with open(settings_path) as f:
@@ -139,29 +155,36 @@ except (FileNotFoundError, json.JSONDecodeError):
 cfg.setdefault("hooks", {})
 cfg["hooks"].setdefault("UserPromptSubmit", [])
 
-# Check if already installed (idempotent)
-already = any(
-    any(h.get("command", "").endswith("council-vb-suggest.sh") for h in entry.get("hooks", []))
-    for entry in cfg["hooks"]["UserPromptSubmit"]
-)
-
-if not already:
-    cfg["hooks"]["UserPromptSubmit"].append({
-        "matcher": ".*",
-        "hooks": [{
-            "type": "command",
-            "command": hook_path,
-            "timeout": 5
-        }]
-    })
+installed_count = 0
+for hook_path, marker in hooks_to_install:
+    if not os.path.exists(hook_path):
+        continue
+    # Idempotent — sprawdź czy już jest
+    already = any(
+        any(h.get("command", "").endswith(marker) for h in entry.get("hooks", []))
+        for entry in cfg["hooks"]["UserPromptSubmit"]
+    )
+    if not already:
+        cfg["hooks"]["UserPromptSubmit"].append({
+            "matcher": ".*",
+            "hooks": [{
+                "type": "command",
+                "command": hook_path,
+                "timeout": 5
+            }]
+        })
+        installed_count += 1
 
 os.makedirs(os.path.dirname(settings_path), exist_ok=True)
 with open(settings_path, "w") as f:
     json.dump(cfg, f, indent=2)
 
-print("✓ Hook zarejestrowany w settings.json" + (" (już był)" if already else ""))
+if installed_count == 0:
+    print("✓ Hooks juz byly w settings.json")
+else:
+    print(f"✓ Zarejestrowano {installed_count} hook(s) w settings.json")
 PYEOF
-      ok "Venture Builder hook aktywny"
+      ok "Hooks aktywne"
       ;;
     *)
       say "Hook pominięty. Aktywujesz później przez:"

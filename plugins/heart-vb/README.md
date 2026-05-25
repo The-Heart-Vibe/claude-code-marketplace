@@ -73,11 +73,30 @@ council doctor
 | `codex` | `codex login` (wymaga ChatGPT Plus/Pro) | Council używa GPT-5 zamiast Claude session |
 | `gemini-cli` | `gemini` (OAuth przez Google Workspace) | Council używa Gemini — największa pula tokenów |
 
-## Venture Builder hook (rekomendowany)
+## Hooks (oba rekomendowane — install.sh instaluje razem)
 
-Hook (UserPromptSubmit) wykrywa promptów wyglądających na zadania VB i prosi Claude'a żeby zapytał: **"To wygląda na <intent> — proponuję użyć <skill>. Wolisz tak, czy odpowiedzieć od razu?"**
+Plugin instaluje 2 hooki UserPromptSubmit, oba opcjonalne ale wzajemnie dopełniające:
 
-### Multi-intent classification
+### 1. Venture Builder Suggest (`vb-suggest.sh`)
+
+Wykrywa promptów wyglądających na zadania VB i prosi Claude'a żeby zapytał: **"To wygląda na <intent> — proponuję użyć <skill>. Wolisz tak, czy odpowiedzieć od razu?"**
+
+### 2. Research Tool Router (`devtools-suggest.sh`) — token saver
+
+Auto-wykrywa **URL-e + sygnały complex page** i kieruje Claude na `chrome-devtools-mcp` zamiast WebFetch dla **token-efficient browsing**.
+
+| Sygnał | Akcja |
+|--------|-------|
+| ≥2 URL-i w jednym prompcie | Multi-page workflow → DevTools z jedną sesją |
+| JS-heavy domain (G2, Crunchbase, Linkedin, app.*, dashboard.*, etc.) | WebFetch widzi shell HTML → DevTools |
+| Interactive flow (click/fill/login/scroll) | WebFetch nie umie → DevTools |
+| Dynamic content (infinite scroll, SPA, lazy load) | DevTools renderuje JS |
+| Targeted extraction (top 10, każdy, tabela) | DevTools `evaluate_script` ~200 tok vs WebFetch ~600+ |
+| Workflow keywords (porównaj konkurentów, scan landscape) | Multi-page DevTools wins |
+
+Skip threshold: 1 statyczna URL + brak signals → milczy (WebFetch jest OK).
+
+### Multi-intent classification (vb-suggest)
 
 Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
 
@@ -94,12 +113,16 @@ Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
 ### Opt-out per prompt
 
 ```
-BEZ COUNCIL: szybko porównaj te 2 vendory
+BEZ COUNCIL: szybko porównaj te 2 vendory      # skip vb-suggest hook
+BEZ DEVTOOLS: użyj WebFetch dla https://...    # skip devtools-suggest hook
+USE WEBFETCH: ...                                # alternative skip dla devtools
 ```
 
 ### Disable globalnie
 
-Usuń wpis z `~/.claude/settings.json` hooks.UserPromptSubmit, lub usuń `~/.claude/hooks/council-vb-suggest.sh`.
+Usuń wpisy z `~/.claude/settings.json` hooks.UserPromptSubmit, lub usuń pliki:
+- `~/.claude/hooks/council-vb-suggest.sh` (vb-suggest)
+- `~/.claude/hooks/heart-devtools-suggest.sh` (devtools-suggest)
 
 ## Self-improving agent (si:*)
 
