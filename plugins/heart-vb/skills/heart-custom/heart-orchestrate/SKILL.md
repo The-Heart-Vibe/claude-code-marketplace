@@ -67,6 +67,9 @@ description: Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/dec
 
 ```
 Main (Opus):
+  0. Run Krok 0 auth check (patrz niżej — sprawdza gemini-cli OK)
+     - Jeśli gemini-cli OK → workers wywołują gemini przez Bash
+     - Jeśli gemini-cli FAIL → fallback: workers all-Sonnet (drożej, ale działa)
   1. Zdefiniuj decyzję + zbierz fakty z user prompta (30s)
   2. Wybierz 3 persony z library poniżej, adekwatne do typu decyzji
   3. SPAWN 3 agents parallel:
@@ -74,9 +77,10 @@ Main (Opus):
        subagent_type: 'general-purpose',
        model: 'sonnet',  // explicit, NIE inherituj Opus
        description: 'Persona X analysis',
-       prompt: 'Jesteś [persona]. Uruchom: gemini -p "[persona context + pytanie]" 2>&1 | head -50. Zwróć raw output.'
+       prompt: '[Jeśli gemini OK]: Jesteś [persona]. Uruchom: gemini -p "[persona context + pytanie]" 2>&1 | head -50. Zwróć raw output.
+                 [Jeśli gemini FAIL]: Jesteś [persona]. Odpowiedz sam jako Sonnet z perspektywy tej persony.'
      })
-  4. Wait ~45-90s (gemini cold start + reasoning per worker)
+  4. Wait ~45-90s (gemini cold start) lub ~20-30s (all-Sonnet fallback)
   5. Synthesize (briefing-style format, max 150 słów — patrz niżej)
 ```
 
@@ -96,20 +100,48 @@ Sector context (heart-fintech-/healthtech-/academic-spinouts/energy-storage) = o
 
 ---
 
-## Pattern F — execution
+## Krok 0 — Pre-spawn auth check (CRITICAL)
+
+**Zawsze przed Pattern E/F**: sprawdź którzy providerzy są dostępni. Bez tego workers się crashują gdy brak login.
+
+```bash
+# Quick check (1-2s)
+~/.local/bin/council doctor 2>&1 | grep -E "claude|codex|gemini-cli" | grep -E "OK|FAIL"
+```
+
+Interpretacja:
+- `claude OK` — Sonnet native worker zawsze możliwy (Claude Code z definicji)
+- `gemini-cli OK` — gemini worker możliwy
+- `codex OK` — codex worker możliwy
+- Każdy FAIL → SKIP tego workera (nie spawnuj, NIE crash)
+
+### Graceful degradation matrix
+
+| Available providers | Pattern E (decision) | Pattern F (research) |
+|---------------------|----------------------|----------------------|
+| **Tylko Sonnet** (no Gemini, no Codex) | 3 Sonnet workers z personami (zjada Claude session) | **1-voice fallback** — solo Claude z explicit caveats |
+| **Sonnet + Gemini** *(default Heart analytic)* | 3 gemini workers z personami | **2-voice** (Sonnet + Gemini) |
+| **Sonnet + Gemini + Codex** (power user) | 3 gemini z personami (codex jako 4th fallback) | **3-voice full** Pattern F |
+
+W syntezie zawsze noteuj: "Voices available: X/3" — analityk wie czy ma cross-check czy nie.
+
+---
+
+## Pattern F — execution (po auth check)
 
 ```
 Main (Opus):
-  1. Sformułuj neutralny prompt (bez personas, focus fact)
-  2. SPAWN 3 agents parallel:
+  1. Run Krok 0 auth check
+  2. Sformułuj neutralny prompt (bez personas, focus fact)
+  3. SPAWN dostępnych agents parallel (max 3, min 1 = Sonnet native):
      
-     Agent A (Sonnet native):
+     Agent A (Sonnet native) — ZAWSZE dostępny:
        prompt: 'Odpowiedz na: [pytanie]. Używaj swojej wiedzy Claude Sonnet, 
                 NIE wywołuj żadnego CLI. Zwróć structured: Source, Answer, 
                 Confidence (high/medium/low), Caveats.'
        model: 'sonnet'
      
-     Agent B (Gemini transport):
+     Agent B (Gemini transport) — tylko jeśli gemini-cli OK:
        prompt: 'Uruchom: gemini -p "[pytanie + format request]" 2>&1 | head -80.
                 Zwróć raw output. NIE syntezuj.'
        model: 'sonnet'
