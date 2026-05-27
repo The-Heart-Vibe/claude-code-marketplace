@@ -7,7 +7,7 @@
 2. **Founder partnerships** — building ventures z founderami przyprowadzającymi koncept
 3. **Corporate venture building** — partnerstwa z korporatami
 
-**Aktualny focus 2026:** **HealthTech** (Wellnoted), **academic spinouts** (ventures budowane z polskimi uczelniami/instytutami PAN), **energy storage / cleantech** (magazyny energii, BESS, V2G). FinTech (VASBOX, Digital Gateways) jako legacy portfolio.
+**Aktualny focus 2026:** **HealthTech** (Wellnoted), **academic spinouts** (ventures budowane z polskimi uczelniami/instytutami PAN), **energetyka / cleantech** (cała branża — generation OZE, T&D PSE/DSO, storage BESS, e-mobility, wodór, heat & buildings, EnergyTech SaaS). FinTech (VASBOX, Digital Gateways) jako legacy portfolio.
 
 **Metodologia:** design thinking workshops → PoC → MVP → market.
 
@@ -98,7 +98,7 @@ skonstruować landing po polsku z language relevant dla energetyki
 (URE, capacity market, peak shaving ROI).
 ```
 
-→ Hook fires (validation + energy sector) → sugeruje `experiment-designer` + `heart-energy-storage`.
+→ Hook fires (validation + energy sector) → sugeruje `experiment-designer` + `heart-energy`.
 
 ---
 
@@ -216,9 +216,9 @@ MDR classification (zwykle IIa+), RODO art. 9 (dane szczególnych kategorii), IR
 
 PAN instytuty + AGH/PW/PWr/UW/UJ/WUM, IP ownership negotiations z CTT, funding paths (NCBR Szybka Ścieżka/LIDER/Bridge Alpha, NCN, FENG, EU Horizon EIC), cooperation models z academic founderami (CSO vs CEO splits), IP Box + Ulga B+R. **Coraz większy focus Heart — kluczowa ścieżka dla deep tech ventures.**
 
-### `heart-energy-storage` ⭐ (magazyny energii, BESS, V2G, cleantech)
+### `heart-energy` ⭐ (cała branża energetyczna PL/EU)
 
-PSE/DSO sales realities (PGE/Tauron/Enea/Energa), EU Battery Regulation 2023/1542 compliance, capacity market participation, NFOŚiGW/EU Innovation Fund funding paths, BESS business models (Storage-as-a-Service, aggregation platforms, hardware+maintenance). **Nowy focus area 2026.**
+Pokrywa: **generation** (OZE — PV/wind onshore+offshore Baltic, nuclear AP1000+SMR, gas, biogas, geothermal), **T&D** (PSE TSO + 5 DSO: PGE/Tauron/Enea/Energa/STOEN), **storage** (BESS, V2G, pumped hydro, redox flow, thermal), **e-mobility** (CPO/EMSP, fast DC, heavy-duty, V2G), **wodór** (electrolyzers, fuel cells, storage salt caverns), **heat & buildings** (heat pumps, district heating, EMS, EPBD), **energy services SaaS** (PPA brokering, demand response, forecasting, trading optimization, carbon accounting). Regulator stack: URE, PSE, EU RED III, EU Battery Reg 2023/1542, EU ETS, EPBD recast, CSRD, Fit-for-55. Funding: NFOŚiGW, NCBR FENG/Szybka Ścieżka, EU Innovation Fund, H2 Bank, CEF, KPO. **Nowy focus area 2026 — szeroki scope, nie tylko storage.**
 
 ### `heart-fintech-compliance` (VASBOX, Digital Gateways — legacy portfolio)
 

@@ -13,7 +13,7 @@ Pakiet `heart-vb` zawiera skille z otwartych źródeł, wszystkie na licencji MI
 | `vb-commercial/` (4 skills) | [alirezarezvani/claude-skills/commercial](https://github.com/alirezarezvani/claude-skills/tree/main/commercial) | Alireza Rezvani |
 | `vb-comms/` (5 skills) | alirezarezvani (board-prep, stress-test, hard-call) + everything-claude-code (investor-*) | Alireza Rezvani + Affaan Mustafa |
 | `council/` | The Heart Vibe (wrapper na sherifkozman/the-llm-council) | The Heart Vibe |
-| `heart-custom/` (5 skills) | The Heart Vibe — sector contexts (HealthTech / academic spinouts / energy storage / FinTech legacy) + heart-orchestrate | The Heart Vibe |
+| `heart-custom/` (5 skills) | The Heart Vibe — sector contexts (HealthTech / academic spinouts / energy / FinTech legacy) + heart-orchestrate | The Heart Vibe |
 
 ## License
 

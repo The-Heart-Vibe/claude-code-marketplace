@@ -19,7 +19,7 @@ Jeden plugin `heart-vb` zawiera **36 skilli** w 8 kategoriach:
 | **vb-finance** | financial-analyst, saas-metrics-coach | Unit economics, P&L, KPIs, projekcje |
 | **vb-commercial** | pricing-strategist, deal-desk, commercial-forecaster, channel-economics | Pricing, deal screening, GTM forecasts |
 | **vb-comms** | board-prep (IC memo), stress-test, hard-call, investor-materials, investor-outreach | IC memo, pitch deck, investor comms |
-| **heart-custom** | **Sector:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy-storage ⭐, heart-fintech-compliance (legacy). **Daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate | Sector contexts (focus 2026) + atomic daily VB tools (pitch decks, updates, comps, DD) |
+| **heart-custom** | **Sector:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża — generation/T&D/storage/e-mobility/H2/heat/services), heart-fintech-compliance (legacy). **Daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate | Sector contexts (focus 2026) + atomic daily VB tools (pitch decks, updates, comps, DD) |
 
 ➡️ Pełna mapa skilli per faza pracy: [venture-builder.md](venture-builder.md)
 
@@ -202,10 +202,10 @@ Po prostu **pisz normalnie** do Claude. Hook wykrywa intent i Claude sugeruje w�
 | "Zbuduj unit econ HealthTech telemedycyna: ARPU €120, CAC €1200" | modeling | financial-analyst / saas-metrics-coach |
 | "Napisz IC memo dla projektu X" | writing | board-prep / heart-pitch-deck + opcjonalnie Pattern E (sekcje) |
 | "Pricing $99/$299/$999 vs flat $2k — co wybrać?" | decision + pricing | **heart-orchestrate Pattern E** (3 personas: pricing analyst/growth lead/VP product) |
-| "Jakie wymagania EU Battery Reg 2023/1542 dla recycled content?" | research + sector | **heart-orchestrate Pattern F** (multi-LLM fact-check — wykrywa hallucinacje) + heart-energy-storage |
-| "Zaprojektuj fake door experiment dla DSO managerów" | validation | experiment-designer / ux-researcher-designer + heart-energy-storage |
+| "Jakie wymagania EU Battery Reg 2023/1542 dla recycled content?" | research + sector | **heart-orchestrate Pattern F** (multi-LLM fact-check — wykrywa hallucinacje) + heart-energy |
+| "Zaprojektuj fake door experiment dla DSO managerów" | validation | experiment-designer / ux-researcher-designer + heart-energy |
 | "Profesor z PAN + patent biomarker — fit dla Heart?" | screening | deal-desk / heart-dd-checklist + heart-academic-spinouts |
-| "Pricing dla BESS Storage-as-a-Service dla industrial PL" | decision + pricing + sector | **Pattern E** (3 personas) + heart-energy-storage + pricing-strategist |
+| "Pricing dla BESS Storage-as-a-Service dla industrial PL" | decision + pricing + sector | **Pattern E** (3 personas) + heart-energy + pricing-strategist |
 
 ### Skip hook na konkretnej wiadomości
 

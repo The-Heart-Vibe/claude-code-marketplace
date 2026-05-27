@@ -20,7 +20,7 @@ I masz wszystko. Bez dodawania innych marketplaces.
 | **vb-finance** | financial-analyst, saas-metrics-coach (unit economics, P&L, KPIs) | alirezarezvani (MIT) |
 | **vb-commercial** | pricing-strategist, deal-desk, commercial-forecaster, channel-economics | alirezarezvani (MIT) |
 | **vb-comms** | board-prep (IC memo), stress-test, hard-call, investor-materials, investor-outreach | mixed (MIT) |
-| **heart-custom** | **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy-storage ⭐, heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork pattern) | The Heart Vibe |
+| **heart-custom** | **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża: generation/T&D/storage/e-mobility/H2/heat/services), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork pattern) | The Heart Vibe |
 
 **Total: 36 skilli.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
@@ -181,7 +181,7 @@ Pełna referencja: [skills/self-improving/self-improving-agent/SKILL.md](skills/
 
 - **heart-healthtech-compliance** ⭐ — MDR, RODO art. 9, NFZ procurement, IRB approval. Use case: Wellnoted + new HealthTech ventures
 - **heart-academic-spinouts** ⭐ — PAN/AGH/PW/PWr/UW/UJ/WUM, IP transfer z CTT, NCBR Szybka Ścieżka/LIDER/Bridge Alpha, NCN, FENG, IP Box. Use case: ventures budowane z polskimi uczelniami
-- **heart-energy-storage** ⭐ — PSE/DSO sales, EU Battery Regulation 2023/1542, capacity market, BESS business models (Storage-as-a-Service, aggregation, hardware). Use case: magazyny energii, V2G, cleantech
+- **heart-energy** ⭐ — Cała branża energetyczna: generation (OZE, nuclear/SMR, gas), T&D (PSE/DSO), storage (BESS, V2G), e-mobility (CPO/EMSP), wodór (H2), heat & buildings (heat pumps, district heating), energy services SaaS (forecasting, EMS, trading). Regulator stack: RED III, EU ETS, EU Battery Reg, EPBD, CSRD. Funding: NFOŚiGW, NCBR FENG, EU Innovation Fund
 - **heart-fintech-compliance** — KNF, AMLD6, MIFID2, PSD2, RODO, DORA. Use case: VASBOX, Digital Gateways (legacy portfolio)
 
 Loaderzy `--context` dla council + standalone reference podczas IC memo. **Dla sektorów spoza tej listy** (EdTech, Defense, AgriTech, etc.) — persona alone wystarczy (patrz Pattern E w heart-orchestrate).

@@ -101,10 +101,10 @@ PRICING_PAT=(
 # SECTOR hints — adds context, doesn't trigger alone
 # Heart portfolio focus: HealthTech, Academic spinouts, Energy storage, FinTech (legacy)
 SECTOR_PAT=(
-  '\b(FinTech|HealthTech|CleanTech|EnergyTech|energy storage|magazyn(y)? energii|BESS|grid storage|V2G)\b'
+  '\b(FinTech|HealthTech|CleanTech|EnergyTech|energ(ia|etyk|ii)|magazyn(y)? energii|BESS|V2G|fotowoltaik|PV|wiatr|offshore wind|nuclear|SMR|OZE|elektrolizer|wodór|H2|electrolyzer|hydrogen|heat pump|pompa ciepła|biogaz|biogas|ciepłownict|district heating)\b'
   '\b(academic spinout|spin[- ]?out|tech transfer|uczelni|profesor|PAN|NCBR|NCN|patent|IP commercializ)\b'
-  '\b(KNF|RODO|AMLD|MDR|NFZ|MIFID|PSD2|EU Battery|CSRD|EU Taxonomy)\b'
-  '\b(bank|przychodni|klinika|szpital|PSE|TSO|DSO|PGE|Tauron|Enea|Energa)\b'
+  '\b(KNF|RODO|AMLD|MDR|NFZ|MIFID|PSD2|EU Battery|CSRD|EU Taxonomy|RED III|EU ETS|EPBD|Fit-for-55|CBAM)\b'
+  '\b(bank|przychodni|klinika|szpital|PSE|TSO|DSO|PGE|Tauron|Enea|Energa|URE|TGE|Orlen|KGHM|CPO|EMSP|ładowarka|charger|charging)\b'
 )
 
 DEC_HITS=$(match_count "$PROMPT" "${DECISION_PAT[@]}")
@@ -169,8 +169,8 @@ if [ "$SEC_HITS" -ge 1 ]; then
     SECTOR_NOTE=" ⚠️ HealthTech kontekst — załącz **heart-healthtech-compliance** (MDR, RODO art. 9, IRB approval, NFZ procurement)."
   elif printf '%s' "$PROMPT" | grep -qiE 'academic spinout|spin[- ]?out|tech transfer|uczelni|profesor|PAN|NCBR|NCN|IP commercializ'; then
     SECTOR_NOTE=" ⚠️ Academic spinout kontekst — załącz **heart-academic-spinouts** (IP ownership, NCBR/NCN funding paths, cooperation models z profesorami)."
-  elif printf '%s' "$PROMPT" | grep -qiE 'energy storage|magazyn(y)? energii|BESS|grid storage|V2G|PSE|TSO|DSO|EU Battery|CSRD'; then
-    SECTOR_NOTE=" ⚠️ Energy Storage kontekst — załącz **heart-energy-storage** (PSE/DSO sales, EU Battery Regulation, capacity market, BESS business models)."
+  elif printf '%s' "$PROMPT" | grep -qiE 'energ(ia|etyk|ii)|magazyn(y)? energii|BESS|V2G|PSE|TSO|DSO|URE|TGE|fotowoltaik|PV|wiatr|offshore wind|nuclear|SMR|OZE|elektrolizer|wodór|H2|hydrogen|heat pump|pompa ciepła|ciepłownict|district heating|ładowarka|charging|CPO|EMSP|EU Battery|RED III|EPBD|EU ETS'; then
+    SECTOR_NOTE=" ⚠️ Energy kontekst — załącz **heart-energy** (generation/OZE/nuclear, T&D PSE/DSO, storage/BESS, e-mobility, H2, heat & buildings, energy services SaaS; regulator stack RED III/Battery Reg/ETS/EPBD/CSRD, funding NFOŚiGW/NCBR/EU Innovation Fund)."
   elif printf '%s' "$PROMPT" | grep -qiE 'FinTech|KNF|AMLD|MIFID|PSD2|bank'; then
     SECTOR_NOTE=" ⚠️ FinTech kontekst — załącz **heart-fintech-compliance** (KNF, AMLD6, MIFID2, PSD2, RODO, DORA)."
   fi

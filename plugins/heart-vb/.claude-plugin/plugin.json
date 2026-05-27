@@ -1,6 +1,6 @@
 {
   "name": "heart-vb",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "Heart Venture Builder toolkit — 36 skilli w 8 kategoriach + 4 auto-hooki. Core: council multi-LLM debate (terminal-only), heart-orchestrate z dwoma patternami (Pattern E persona-driven + Pattern F multi-LLM debate przez agent isolation — działa z CC session bypass council CLI nested block), self-improving agent (si:*), product discovery/teardown/experiment, financial modeling (saas-metrics, 3-statement, DCF), deal screening (deal-desk + heart-dd-checklist + heart-dd-prep), pitch/IC/investor comms (board-prep + heart-pitch-deck + heart-stakeholder-update + investor-materials), heart-comps-analysis, 4 sector contexts (HealthTech/Academic/Energy/FinTech). Hooki auto-suggesta skill/cowork/model/research-tool — analityk pisze normalnie, system orchestruje. Bundle z attribution (MIT).",
   "author": {
     "name": "The Heart Vibe"
@@ -36,7 +36,7 @@
     "./skills/vb-comms/investor-outreach",
     "./skills/heart-custom/heart-healthtech-compliance",
     "./skills/heart-custom/heart-academic-spinouts",
-    "./skills/heart-custom/heart-energy-storage",
+    "./skills/heart-custom/heart-energy",
     "./skills/heart-custom/heart-fintech-compliance",
     "./skills/heart-custom/heart-orchestrate",
     "./skills/heart-custom/heart-pitch-deck",

@@ -152,7 +152,7 @@ Main (Opus):
 
 **Cross-cutting:** executive mentor, pragmatist, contrarian
 
-Sector context (heart-fintech-/healthtech-/academic-spinouts/energy-storage) = opcjonalny add-on dla Heart portfolio sektorów.
+Sector context (heart-fintech-compliance / heart-healthtech-compliance / heart-academic-spinouts / heart-energy) = opcjonalny add-on dla Heart portfolio sektorów.
 
 ---
 

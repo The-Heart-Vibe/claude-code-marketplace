@@ -76,8 +76,8 @@ Target: €2M Series A. Konkurencja: Northvolt, kilka mniejszych integratorów.
 ```
 
 **Expected behavior:**
-- vb-suggest: writing intent + energy storage sector
-- Aktywacja `heart-pitch-deck` + `heart-energy-storage`
+- vb-suggest: writing intent + energy sector
+- Aktywacja `heart-pitch-deck` + `heart-energy`
 - Output: 10-12 slide outline z capacity market, EU Battery Reg compliance, BESS biz model
 
 **Co pokazuje:** strukturyzowany deck-ready artifact dopasowany do Heart portfolio sektora.
@@ -151,20 +151,22 @@ w 2026? Konkretnie:
 
 ---
 
-### Prompt 8: Energy storage regulatory check
+### Prompt 8: Energy regulatory check (cross-vertical)
 ```
-Co MUSZE wiedzieć przed pilotem BESS z DSO (PGE/Tauron) o:
-- EU Battery Regulation 2023/1542 compliance scope dla industrial >2 kWh
-- Capacity market participation rules dla storage w PL
-- Grid connection requirements URE
+Co MUSZE wiedzieć przed wejściem na polski rynek energetyczny z ofertą 
+EnergyTech SaaS (forecasting + EMS) dla OZE wytwórców i DSO:
+- RED III RFNBO targets — kto i kiedy musi raportować
+- TGE day-ahead/intraday: czy SaaS wymaga licencji URE
+- Capacity market 2026: nowe rules dla DR aggregators
+- CSRD scope: kogo dotyczy w PL (próg pracownicy/przychody)
 ```
 
 **Expected behavior:**
-- Research + energy storage sector → cross-check 3 AI + heart-energy-storage context
+- Research + energy sector (cross-vertical: OZE + T&D + services + regulator) → cross-check 3 AI + heart-energy context
 - Pattern catches potential hallucinacje regulatory data
-- Synthesis: high-confidence facts vs flagged dla EUR-Lex verify
+- Synthesis: high-confidence facts vs flagged dla EUR-Lex / URE verify
 
-**Co pokazuje:** real value Pattern F dla regulatory research — gdzie pojedynczy model może mylić daty/procenty.
+**Co pokazuje:** real value Pattern F dla regulatory research — gdzie pojedynczy model może mylić daty/procenty. Plus szeroki scope heart-energy (NIE tylko storage — pokrywa OZE/T&D/SaaS/regulator naraz).
 
 ---
 
