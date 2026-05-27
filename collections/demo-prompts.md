@@ -6,7 +6,7 @@
 - [ ] User ma zainstalowane: `/plugin install heart-vb@the-heart-vibe`
 - [ ] `~/.local/bin/council doctor` → minimum `gemini-cli OK`
 - [ ] `cat ~/.claude/settings.json | grep heart-` → powinno być 4 hooki
-- [ ] `claude mcp list | grep chrome-devtools` → MCP zainstalowany (wymagane dla Prompt 10). Jeśli FAIL: `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest`
+- [ ] `claude mcp list | grep chrome-devtools` → MCP zainstalowany przez install.sh (wymagane dla Prompt 10). Jeśli FAIL: re-run install.sh — auto-instaluje przez `claude mcp add`
 - [ ] User wie że może użyć `BEZ COUNCIL:` / `BEZ COWORK:` / `BEZ DEVTOOLS:` jako opt-out
 
 **Co obserwować w trakcie demo:**

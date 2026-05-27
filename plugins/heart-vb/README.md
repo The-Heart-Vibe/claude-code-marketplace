@@ -85,7 +85,7 @@ Wykrywa promptów wyglądających na zadania VB (decision/research/modeling/writ
 
 Auto-wykrywa **URL-e + sygnały complex page** i kieruje Claude na `chrome-devtools-mcp` zamiast WebFetch dla **token-efficient browsing**.
 
-> ⚠️ **Wymaga zainstalowanego `chrome-devtools-mcp`.** Install.sh sprawdza i pokazuje hint instalacji. Najprostsza opcja: `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest`. Bez tego hook fire'uje, ale Claude i tak fallbackuje na WebFetch.
+> ⚠️ **Wymaga `chrome-devtools-mcp`.** Install.sh **instaluje automatycznie** przez `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest`. Po instalacji wymagany restart Claude Code aby MCP server był aktywny. Bez tego hook fire'uje, ale Claude fallbackuje na WebFetch.
 
 ### 3. Cowork Spawn Router (`cowork-suggest.sh`) — parallel work detector
 

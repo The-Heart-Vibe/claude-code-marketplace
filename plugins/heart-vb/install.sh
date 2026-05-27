@@ -254,24 +254,24 @@ fi
 if [ "$DEVTOOLS_INSTALLED" = "yes" ]; then
   ok "chrome-devtools-mcp wykryty — devtools-suggest hook ma czego potrzebuje"
 else
-  say "Chrome DevTools MCP — wymagany dla pełnego efektu devtools-suggest hook"
-  cat <<EOF
-
-   Hook \`devtools-suggest.sh\` sugeruje Claude użycie \`chrome-devtools-mcp\` zamiast
-   WebFetch dla JS-heavy stron (G2, Crunchbase, LinkedIn) — token-efficient browsing.
-   Bez tego MCP hook fire'uje ale Claude i tak spadnie do WebFetch.
-
-   Instalacja (jedna z opcji):
-
-   A) Jako MCP server (rekomendowane, działa natychmiast):
-      claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
-
-   B) Jako Claude Code plugin (jeśli masz marketplace z chrome-devtools-mcp):
-      /plugin install chrome-devtools-mcp
-
-   Wymagania: Node.js (już zainstalowany ✓), Chrome/Chromium na maszynie.
-   Plugin DZIAŁA bez tego — hook po prostu fallbackuje na WebFetch automatycznie.
-EOF
+  say "Chrome DevTools MCP — wymagany dla devtools-suggest hook. Instaluję automatycznie..."
+  if command -v claude >/dev/null 2>&1; then
+    # Try user scope first (persists across all projects)
+    if claude mcp add --scope user chrome-devtools npx chrome-devtools-mcp@latest 2>/dev/null \
+       || claude mcp add chrome-devtools npx chrome-devtools-mcp@latest 2>/dev/null; then
+      ok "chrome-devtools-mcp zainstalowany via \`claude mcp add\`"
+      ok "Restart Claude Code aby nowy MCP server był aktywny w aktualnej sesji"
+    else
+      warn "Auto-install nie powiódł się — uruchom ręcznie:"
+      warn "  claude mcp add chrome-devtools npx chrome-devtools-mcp@latest"
+      warn "Plugin DZIAŁA bez tego — hook fallbackuje na WebFetch automatycznie."
+    fi
+  else
+    warn "\`claude\` CLI nie znalezione — nie mogę zainstalować chrome-devtools-mcp automatycznie."
+    warn "Po doinstalowaniu Claude Code, uruchom ręcznie:"
+    warn "  claude mcp add chrome-devtools npx chrome-devtools-mcp@latest"
+    warn "Plugin DZIAŁA bez tego — hook fallbackuje na WebFetch automatycznie."
+  fi
 fi
 
 # ── 10. Next steps ───────────────────────────────────────────────────────────
