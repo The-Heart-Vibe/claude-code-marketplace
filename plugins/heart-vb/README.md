@@ -85,6 +85,8 @@ Wykrywa promptów wyglądających na zadania VB (decision/research/modeling/writ
 
 Auto-wykrywa **URL-e + sygnały complex page** i kieruje Claude na `chrome-devtools-mcp` zamiast WebFetch dla **token-efficient browsing**.
 
+> ⚠️ **Wymaga zainstalowanego `chrome-devtools-mcp`.** Install.sh sprawdza i pokazuje hint instalacji. Najprostsza opcja: `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest`. Bez tego hook fire'uje, ale Claude i tak fallbackuje na WebFetch.
+
 ### 3. Cowork Spawn Router (`cowork-suggest.sh`) — parallel work detector
 
 Wykrywa **multi-entity tasks** (5 konkurentów, 3 scenariusze, sekcje IC memo, landscape scan) i sugeruje spawn N parallel cowork agents zamiast sequential roboty w main. Każdy worker dostaje 1 entity.

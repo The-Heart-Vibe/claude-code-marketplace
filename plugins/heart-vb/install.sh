@@ -233,7 +233,48 @@ else
   fi
 fi
 
-# ── 9. Next steps ────────────────────────────────────────────────────────────
+# ── 9. Chrome DevTools MCP hint (wymagany dla devtools-suggest hook) ────────
+echo ""
+DEVTOOLS_INSTALLED="no"
+if command -v claude >/dev/null 2>&1; then
+  if claude mcp list 2>/dev/null | grep -qi "chrome-devtools"; then
+    DEVTOOLS_INSTALLED="yes"
+  fi
+fi
+# Fallback: check ~/.claude.json or ~/.claude/mcp.json for chrome-devtools entry
+if [ "$DEVTOOLS_INSTALLED" = "no" ]; then
+  for cfg in "$HOME/.claude.json" "$HOME/.claude/mcp.json" "$HOME/.config/claude/mcp.json"; do
+    if [ -f "$cfg" ] && grep -qi "chrome-devtools" "$cfg" 2>/dev/null; then
+      DEVTOOLS_INSTALLED="yes"
+      break
+    fi
+  done
+fi
+
+if [ "$DEVTOOLS_INSTALLED" = "yes" ]; then
+  ok "chrome-devtools-mcp wykryty — devtools-suggest hook ma czego potrzebuje"
+else
+  say "Chrome DevTools MCP — wymagany dla pełnego efektu devtools-suggest hook"
+  cat <<EOF
+
+   Hook \`devtools-suggest.sh\` sugeruje Claude użycie \`chrome-devtools-mcp\` zamiast
+   WebFetch dla JS-heavy stron (G2, Crunchbase, LinkedIn) — token-efficient browsing.
+   Bez tego MCP hook fire'uje ale Claude i tak spadnie do WebFetch.
+
+   Instalacja (jedna z opcji):
+
+   A) Jako MCP server (rekomendowane, działa natychmiast):
+      claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
+
+   B) Jako Claude Code plugin (jeśli masz marketplace z chrome-devtools-mcp):
+      /plugin install chrome-devtools-mcp
+
+   Wymagania: Node.js (już zainstalowany ✓), Chrome/Chromium na maszynie.
+   Plugin DZIAŁA bez tego — hook po prostu fallbackuje na WebFetch automatycznie.
+EOF
+fi
+
+# ── 10. Next steps ───────────────────────────────────────────────────────────
 cat <<EOF
 
 ──────────────────────────────────────────────────────────────────
