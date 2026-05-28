@@ -29,6 +29,7 @@ Skill dla **dziennych nie-produktowych tasków** które nie mają wyraźnego VB 
 ## Core flow
 
 ```
+0. Consent gate (KROK -1)    — spytaj usera czy chce dialog brainstormingowy LUB quick inline answer
 1. Explore context           — zorientuj się gdzie jesteś
 2. Clarify (jedno pytanie)   — purpose, constraints, success criteria
 3. Propose 2-3 approaches    — trade-offs + Twoja rekomendacja
@@ -37,6 +38,16 @@ Skill dla **dziennych nie-produktowych tasków** które nie mają wyraźnego VB 
 6. Output                    — short note / spec / plan w user-chosen formacie
 7. Transition (optional)     — sugeruj kolejny skill jeśli scope się skrystalizował
 ```
+
+## Krok 0 — Consent gate (KROK -1)
+
+Brainstorming flow jest multi-turn (3-7 wymian zanim dojdziesz do output). To czas usera. **ZANIM wejdziesz w dialog**, zapytaj plain language:
+
+> "To wygląda na temat warty wspólnego przemyślenia. Mogę zaproponować flow: kilka pytań od ogółu do szczegółu, potem 2-3 podejścia z trade-offami, na końcu krótki plan. ~5-10 minut dialogu. **(a)** tak, jedźmy **(b)** odpowiedz krótko inline, bez dialogu **(c)** sam wiem czego chcę, zadaj jedno konkretne pytanie."
+
+**Czekaj na explicit yes.** Jeśli (b) → daj 2-3 zdania bezpośredniej odpowiedzi. Jeśli (c) → niech user dopowie czego potrzebuje.
+
+**Skip consent ONLY gdy:** user explicitly napisał "brainstorm:", "pomyślmy" w pierwszym prompcie (clear intent), lub prefix `BEZ PYTANIA:`.
 
 ## Krok 1 — Explore context
 

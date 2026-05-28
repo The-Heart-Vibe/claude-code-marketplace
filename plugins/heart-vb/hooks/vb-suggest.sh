@@ -25,7 +25,7 @@ except Exception:
 # Bail conditions
 if [ -z "$PROMPT" ]; then exit 0; fi
 if [ "${#PROMPT}" -lt 40 ]; then exit 0; fi
-if printf '%s' "$PROMPT" | grep -qiE '^(bez\s*council|no\s*council|skip\s*council|skip\s*vb)[: ]'; then exit 0; fi
+if printf '%s' "$PROMPT" | grep -qiE '^(bez\s*council|no\s*council|skip\s*council|skip\s*vb|bez\s*pytania|skip\s*consent|just\s*do)[: ]'; then exit 0; fi
 if printf '%s' "$PROMPT" | grep -qE '^\s*/[a-z]'; then exit 0; fi  # any slash command
 
 # ── Intent detection — match per category ────────────────────────────────────
@@ -109,7 +109,8 @@ BRAINSTORM_PAT=(
   '\b(nie wiem (jak|od czego))\b'
   '\b(mam (pomysł|pomysl|ideę|idee).*(pomóż|pomoz|ułóż|uloz))\b'
   '\b(agenda spotkania|struktura warsztatu|format eventu|plan retreat)\b'
-  '\b(brainstorm|burza mózgów|burza mozgow|przemyśl|przemysl)\b'
+  '\b(brainstorm|burza mózgów|burza mozgow|przemyśl|przemysl|pomyślmy|pomyslmy|przemyślmy|przemyslmy|rozważmy|rozwazmy) (razem|sobie|nad|o)\b'
+  '\b(brainstorm|burza mózgów|burza mozgow)\b'
   '\b(zorganiz(uj|ować|owac) (mi|spotkanie|warsztaty|event|retreat))\b'
 )
 
@@ -208,7 +209,7 @@ cat <<EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "UserPromptSubmit",
-    "additionalContext": "💡 [Venture Builder hook] User's prompt matches **${PRIMARY}** intent (decision:${DEC_HITS} research:${RES_HITS} modeling:${MOD_HITS} writing:${WRT_HITS} validation:${VAL_HITS} screening:${SCR_HITS} pricing:${PRI_HITS} sector:${SEC_HITS}). Suggested skill(s): ${SKILLS}${SECTOR_NOTE} BEFORE answering: briefly ask user in PLAIN BUSINESS LANGUAGE (NIE 'Pattern E/F' jargon). For decisions use 'konsultacja z 3 ekspertami (~60s)'. For research use 'cross-check przez 3 niezależne AI (~90s)'. Always offer choice: (a) tak (b) tylko Ty (c) sam wiem. Wait for explicit yes. Skip on simple lookups. Opt-out: prefix 'BEZ COUNCIL:'. Pełen pattern w skills/heart-custom/heart-orchestrate/SKILL.md (KROK -1 confirmation)."
+    "additionalContext": "💡 [Venture Builder hook] User's prompt matches **${PRIMARY}** intent (decision:${DEC_HITS} research:${RES_HITS} modeling:${MOD_HITS} writing:${WRT_HITS} validation:${VAL_HITS} screening:${SCR_HITS} pricing:${PRI_HITS} sector:${SEC_HITS} brainstorm:${BRN_HITS}). Suggested skill(s): ${SKILLS}${SECTOR_NOTE} === UNIVERSAL CONSENT GATE === BEFORE invoking ANY skill or starting workflow (brainstorming, Pattern E/F, board-prep, financial-analyst, deep-research, any skill), ask user in 1-2 sentences PLAIN BUSINESS LANGUAGE (NIE 'Pattern E/F' jargon). Template: 'To wygląda na [intent w plain] — proponuję [skill X / dialog / 3 ekspertów / cross-check 3 AI]. (a) tak (b) odpowiedz inline bez skill (c) sam wiem co chcę.' Wait for explicit yes. Skip consent ONLY na: trivial lookups (haiku tier, definicje, 1-line answers), single Read/Bash commands, slash commands. Opt-out per prompt: 'BEZ PYTANIA: ...' / 'BEZ COUNCIL: ...' / 'BEZ COWORK: ...'. Pełen pattern w skills/heart-custom/heart-orchestrate/SKILL.md (KROK -1 confirmation)."
   }
 }
 EOF

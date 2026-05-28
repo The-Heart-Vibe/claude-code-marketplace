@@ -67,6 +67,8 @@ description: Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/dec
 
 **Hook sugeruje orkiestrację ale TY (Claude main) NIE spawnujesz workers bez potwierdzenia user.** Hooki mogą się mylić, prompt może być deceptively complex. Zawsze:
 
+> **Note: KROK -1 to plugin-wide pattern (od v0.6.9).** Ten sam consent gate stosujemy przed odpaleniem **brainstorming flow** i **każdego innego skill activation** (board-prep, financial-analyst, deep-research, etc.). Skip consent tylko dla trivial lookups (haiku tier). User może wyłączyć per-prompt prefixem `BEZ PYTANIA:`. Pełna lista skille-specific consent w README → "Consent-first design".
+
 ### KROK -1 — Confirmation (PRZED auth check, PRZED spawn)
 
 **Sformułuj pytanie w języku BIZNESOWYM, NIE technicznym.** Nigdy nie używaj "Pattern E/F" w pytaniu do user — to nasze internal lingo które nic mu nie mówi.

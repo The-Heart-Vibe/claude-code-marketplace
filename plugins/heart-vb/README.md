@@ -143,9 +143,28 @@ Hook klasyfikuje 7 intentów (6 VB + brainstorming jako fall-through) i sugeruje
 
 **Council CLI**: terminal-only (z poziomu CC session zazwyczaj failuje — nested invocation block). Pattern F to workaround który daje multi-LLM debate z CC bez tego problemu.
 
-### Opt-out per prompt (4 prefixy)
+### Consent-first design (KROK -1)
+
+**Plugin zawsze pyta przed odpaleniem skill'a lub workflow.** Nie ma "magicznego" auto-spawn 3 ekspertów ani auto-brainstorm bez Twojej zgody. Pattern:
+
+> *"To wygląda na [intent w plain language] — proponuję [skill/dialog/3 ekspertów]. (a) tak (b) odpowiedz inline bez skill (c) sam wiem co chcę."*
+
+**Co wymaga consent:**
+- Cowork spawn (Pattern E/F z heart-orchestrate) — ~60-90s + tokeny
+- Brainstorming flow (multi-turn dialog ~5-10 min)
+- Skill activation z istotnym scope'em (board-prep, financial-analyst, deep-research)
+
+**Co skip consent:**
+- Trivial lookups (Haiku tier) — "co znaczy ARPU"
+- Single Read/Bash commands
+- Slash commands (`/...`)
+
+Power user może wyłączyć consent gate per-prompt: `BEZ PYTANIA: ...`
+
+### Opt-out per prompt (5 prefixów)
 
 ```
+BEZ PYTANIA: ...        # skip universal consent gate (just do)
 BEZ COUNCIL: ...        # skip vb-suggest (no skill suggestion)
 BEZ DEVTOOLS: ...       # skip devtools-suggest (use WebFetch)
 USE WEBFETCH: ...       # alternative dla devtools-suggest
