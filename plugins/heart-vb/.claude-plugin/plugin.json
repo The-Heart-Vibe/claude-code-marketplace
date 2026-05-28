@@ -1,7 +1,7 @@
 {
   "name": "heart-vb",
-  "version": "0.6.7",
-  "description": "Heart Venture Builder toolkit — 36 skilli w 8 kategoriach + 4 auto-hooki. Core: council multi-LLM debate (terminal-only), heart-orchestrate z dwoma patternami (Pattern E persona-driven + Pattern F multi-LLM debate przez agent isolation — działa z CC session bypass council CLI nested block), self-improving agent (si:*), product discovery/teardown/experiment, financial modeling (saas-metrics, 3-statement, DCF), deal screening (deal-desk + heart-dd-checklist + heart-dd-prep), pitch/IC/investor comms (board-prep + heart-pitch-deck + heart-stakeholder-update + investor-materials), heart-comps-analysis, 4 sector contexts (HealthTech/Academic/Energy/FinTech). Hooki auto-suggesta skill/cowork/model/research-tool — analityk pisze normalnie, system orchestruje. Bundle z attribution (MIT).",
+  "version": "0.6.8",
+  "description": "Heart Venture Builder toolkit — 37 skilli w 8 kategoriach + 4 auto-hooki. Core: council multi-LLM debate (terminal-only), heart-orchestrate z dwoma patternami (Pattern E persona-driven + Pattern F multi-LLM debate przez agent isolation — działa z CC session bypass council CLI nested block), self-improving agent (si:*), product discovery/teardown/experiment, financial modeling (saas-metrics, 3-statement, DCF), deal screening (deal-desk + heart-dd-checklist + heart-dd-prep), pitch/IC/investor comms (board-prep + heart-pitch-deck + heart-stakeholder-update + investor-materials), heart-comps-analysis, 4 sector contexts (HealthTech/Academic/Energy/FinTech), brainstorming (generic thinking partner dla non-product tasków). Hooki auto-suggesta skill/cowork/model/research-tool — analityk pisze normalnie, system orchestruje. Bundle z attribution (MIT).",
   "author": {
     "name": "The Heart Vibe"
   },
@@ -43,6 +43,7 @@
     "./skills/heart-custom/heart-stakeholder-update",
     "./skills/heart-custom/heart-comps-analysis",
     "./skills/heart-custom/heart-dd-checklist",
-    "./skills/heart-custom/heart-dd-prep"
+    "./skills/heart-custom/heart-dd-prep",
+    "./skills/heart-custom/brainstorming"
   ]
 }

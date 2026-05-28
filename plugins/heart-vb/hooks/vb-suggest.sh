@@ -98,6 +98,21 @@ PRICING_PAT=(
   '\b(price (point|elasticity)|monetiz)\b'
 )
 
+# BRAINSTORM intent — generic exploratory tasks bez clear VB context
+# (organizacja eventu, struktura spotkania, ad-hoc decyzja, draft komunikacji,
+#  refleksja strategiczna). Fall-through gdy żaden inny intent nie pasuje.
+BRAINSTORM_PAT=(
+  '\b(pomyśl|pomysl) ze mną\b'
+  '\b(pomóż|pomoz) mi (z|ułożyć|ulozyc|zaplanować|zaplanowac|przemyśleć|przemysl|wymyślić|wymyslic|ogarn)\b'
+  '\b(jak (ułożyć|ulozyc|zorganiz|zaplanować|zaplanowac|podejść|podejsc|ugryźć|ugryzc|ogarn|napisać|napisac))\b'
+  '\b(co (napisać|napisac|odpowiedzieć|odpowiedziec)) (.*do|.*na)\b'
+  '\b(nie wiem (jak|od czego))\b'
+  '\b(mam (pomysł|pomysl|ideę|idee).*(pomóż|pomoz|ułóż|uloz))\b'
+  '\b(agenda spotkania|struktura warsztatu|format eventu|plan retreat)\b'
+  '\b(brainstorm|burza mózgów|burza mozgow|przemyśl|przemysl)\b'
+  '\b(zorganiz(uj|ować|owac) (mi|spotkanie|warsztaty|event|retreat))\b'
+)
+
 # SECTOR hints — adds context, doesn't trigger alone
 # Heart portfolio focus: HealthTech, Academic spinouts, Energy storage, FinTech (legacy)
 SECTOR_PAT=(
@@ -115,23 +130,31 @@ VAL_HITS=$(match_count "$PROMPT" "${VALIDATION_PAT[@]}")
 SCR_HITS=$(match_count "$PROMPT" "${SCREENING_PAT[@]}")
 PRI_HITS=$(match_count "$PROMPT" "${PRICING_PAT[@]}")
 SEC_HITS=$(match_count "$PROMPT" "${SECTOR_PAT[@]}")
+BRN_HITS=$(match_count "$PROMPT" "${BRAINSTORM_PAT[@]}")
 
 TOTAL=$((DEC_HITS + RES_HITS + MOD_HITS + WRT_HITS + VAL_HITS + SCR_HITS + PRI_HITS))
 
 # Trigger threshold
-if [ "$TOTAL" -lt 1 ]; then exit 0; fi
-if [ "$TOTAL" -eq 1 ] && [ "$SEC_HITS" -eq 0 ]; then exit 0; fi  # single weak signal — skip
+# Brainstorming jest fall-through: fire'uje gdy BRAINSTORM_PAT match a żaden VB intent nie złapał
+if [ "$TOTAL" -lt 1 ] && [ "$BRN_HITS" -lt 1 ]; then exit 0; fi
+if [ "$TOTAL" -eq 1 ] && [ "$SEC_HITS" -eq 0 ] && [ "$BRN_HITS" -eq 0 ]; then exit 0; fi  # single weak signal — skip
 
 # ── Determine primary intent (highest hit count) ─────────────────────────────
 
-PRIMARY="decision"
-PRIMARY_HITS=$DEC_HITS
+# Fall-through to brainstorming gdy żaden VB intent nie złapał (TOTAL=0) ale BRAINSTORM_PAT match
+if [ "$TOTAL" -eq 0 ] && [ "$BRN_HITS" -ge 1 ]; then
+  PRIMARY="brainstorm"
+  PRIMARY_HITS=$BRN_HITS
+else
+  PRIMARY="decision"
+  PRIMARY_HITS=$DEC_HITS
 
-if [ "$RES_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="research"; PRIMARY_HITS=$RES_HITS; fi
-if [ "$MOD_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="modeling"; PRIMARY_HITS=$MOD_HITS; fi
-if [ "$WRT_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="writing"; PRIMARY_HITS=$WRT_HITS; fi
-if [ "$VAL_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="validation"; PRIMARY_HITS=$VAL_HITS; fi
-if [ "$SCR_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="screening"; PRIMARY_HITS=$SCR_HITS; fi
+  if [ "$RES_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="research"; PRIMARY_HITS=$RES_HITS; fi
+  if [ "$MOD_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="modeling"; PRIMARY_HITS=$MOD_HITS; fi
+  if [ "$WRT_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="writing"; PRIMARY_HITS=$WRT_HITS; fi
+  if [ "$VAL_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="validation"; PRIMARY_HITS=$VAL_HITS; fi
+  if [ "$SCR_HITS" -gt "$PRIMARY_HITS" ]; then PRIMARY="screening"; PRIMARY_HITS=$SCR_HITS; fi
+fi
 
 # ── Map intent to skill suggestions ──────────────────────────────────────────
 
@@ -153,6 +176,9 @@ case "$PRIMARY" in
     ;;
   screening)
     SKILLS="**deal-desk** (quick fit/no-fit), **heart-dd-checklist** (sector-aware DD), **heart-dd-prep** (one-page DD case dla IC). Dla founder fit assessment: heart-orchestrate Pattern E (VC partner + operator + skeptic personas)."
+    ;;
+  brainstorm)
+    SKILLS="**brainstorming** — generic thinking partner dla non-VB tasków bez precyzyjnego kontekstu (organizacja eventu, struktura spotkania, ad-hoc decyzja personal/operacyjna, draft komunikacji). Flow: explore context → clarify questions one-at-a-time → propose 2-3 approaches → user approves → output. Po dialogu, jeśli scope się skrystalizował, transition do bardziej specyficznego skill (heart-orchestrate / board-prep / heart-pitch-deck etc.)."
     ;;
 esac
 

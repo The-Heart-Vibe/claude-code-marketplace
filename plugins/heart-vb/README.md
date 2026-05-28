@@ -20,9 +20,9 @@ I masz wszystko. Bez dodawania innych marketplaces.
 | **vb-finance** | financial-analyst, saas-metrics-coach (unit economics, P&L, KPIs) | alirezarezvani (MIT) |
 | **vb-commercial** | pricing-strategist, deal-desk, commercial-forecaster, channel-economics | alirezarezvani (MIT) |
 | **vb-comms** | board-prep (IC memo), stress-test, hard-call, investor-materials, investor-outreach | mixed (MIT) |
-| **heart-custom** | **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża: generation/T&D/storage/e-mobility/H2/heat/services), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork pattern) | The Heart Vibe |
+| **heart-custom** | **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża: generation/T&D/storage/e-mobility/H2/heat/services), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork pattern). **Utility:** brainstorming (generic thinking partner dla non-VB tasków) | The Heart Vibe + obra (MIT) |
 
-**Total: 36 skilli.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
+**Total: 37 skilli.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
 ## Co robi install.sh
 
@@ -128,7 +128,7 @@ Skip threshold: 1 statyczna URL + brak signals → milczy (WebFetch jest OK).
 
 ### Multi-intent classification (vb-suggest)
 
-Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
+Hook klasyfikuje 7 intentów (6 VB + brainstorming jako fall-through) i sugeruje właściwy skill:
 
 | Intent | Trigger keywords | Suggested skill |
 |--------|------------------|------------------|
@@ -138,6 +138,7 @@ Hook klasyfikuje 6 intentów i sugeruje właściwy skill:
 | **writing** | "IC memo", "pitch deck", "term sheet" | board-prep, heart-pitch-deck, investor-materials (+ Pattern E dla multi-section) |
 | **validation** | "JTBD", "interview", "fake door" | product-discovery, experiment-designer, ux-researcher-designer |
 | **screening** | "founder fit", "patent", "spin-out" | deal-desk, heart-dd-checklist, heart-dd-prep |
+| **brainstorm** (fall-through) | "pomyśl ze mną", "pomóż mi ułożyć", "jak zorganizować/zaplanować/podejść", "nie wiem jak", "agenda spotkania" | **brainstorming** — generic thinking partner dla non-VB tasków (organizacja eventu, struktura spotkania, ad-hoc decyzja, draft komunikacji) |
 | **+sector** | HealthTech / academic / energy / FinTech | adds sector context z heart-custom (np. heart-healthtech-compliance) |
 
 **Council CLI**: terminal-only (z poziomu CC session zazwyczaj failuje — nested invocation block). Pattern F to workaround który daje multi-LLM debate z CC bez tego problemu.
