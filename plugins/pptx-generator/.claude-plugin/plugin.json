@@ -1,7 +1,7 @@
 {
   "name": "pptx-generator",
-  "version": "0.1.0-wip",
-  "description": "Generate branded .pptx presentations from a topic or brief using The Heart templates. Produces a spec JSON and calls generate.py to build the file. NOT ready for production — templates must be manually added and layout mappings need refinement.",
+  "version": "1.0.0",
+  "description": "Two-mode plugin for The Heart brand. Mode 1: generate branded .pptx decks (33 generic layouts + 13 pitch sections + 10 narratives + Raleway brand chrome). Mode 2: export the design system as a Claude-Design-importable React + Tailwind repo.",
   "author": {
     "name": "The Heart Vibe"
   },
@@ -10,5 +10,5 @@
   "skills": [
     "./skills/presentation-generator"
   ],
-  "status": "wip"
+  "status": "stable"
 }

@@ -1,47 +1,122 @@
-# brand.yaml — The Heart / VAS Introducer brand configuration
-# Edit this file to match your organisation's brand
+# brand.yaml — The Heart brand configuration
+#
+# Sourced from the official "New Core TH Template [10.2025]" (blank.pptx).
+# The brand guidelines slide in that template (slide 11) is the authoritative
+# reference. Real font/colour usage across all 51 slides confirms the
+# guideline:
+#   1455× Raleway   684× Raleway SemiBold   208× Raleway Light
+#    127× #E61B25 (red)   178× #000000 (black)   14× #13A538 (green)
+#
+# The PowerPoint theme XML in blank.pptx contains generic Google Slides
+# defaults (accent1=#058DC7, accent2=#50B432) — those are NOT the brand
+# tokens and must not be used.
 
-version: "1.0.0"
+version: "2.0.0"
 
 identity:
   company_name: "The Heart"
   tagline: ""
   website: "https://theheart.tech"
 
+# ── Colour palette ──────────────────────────────────────────────────────────
+# Main colours = use freely. Accents = sparingly, when an additional hue is
+# needed. Greys = backgrounds, dividers, secondary text only.
 colors:
-  primary: "#1A1A2E"        # dark navy
-  secondary: "#E94560"      # accent red
+  # main
+  primary:    "#E61B25"   # Red — the brand's signature accent
+  black:      "#000000"   # Main text, key statements
+  green:      "#13A538"   # Positive / confirmed / growth signals
   background: "#FFFFFF"
-  text: "#1A1A2E"
-  text_light: "#6B7280"
-  accent: "#E94560"
-  success: "#10B981"
-  warning: "#F59E0B"
 
+  # accents (use sparingly)
+  red_light:  "#E9787E"   # Soft red — secondary highlights, hover tones
+  blue:       "#0056A4"   # Blue accent — links, contrasting callouts
+
+  # greyscale
+  gray_1:     "#969696"   # Secondary text, captions, footnotes
+  gray_2:     "#E6E6E6"   # Subtle dividers, table borders, soft surfaces
+  gray_3:     "#F0F0F0"   # Section backgrounds, hover states
+
+  # ── Semantic aliases the renderer reads ────────────────────────────────
+  # Keep these so generate.py / chart engine keep working without rewrites.
+  secondary:  "#E61B25"   # Red is the secondary highlight in our charts
+  text:       "#000000"
+  text_light: "#969696"
+  accent:     "#0056A4"
+  success:    "#13A538"
+  warning:    "#E9787E"
+
+# ── Typography ──────────────────────────────────────────────────────────────
+# Raleway is the brand font. SemiBold weight for emphasis, Regular for body,
+# Light for de-emphasised supporting copy.
+#
+# Toolkit rule (blank.pptx slide 10):
+#   "Czcionka 10 jako najmniejsza, a wciąż czytelna czcionka na slajdzie"
+#   "Tytuł sekcji czcionką 12"
+#   "Różnica pomiędzy wielkością czcionek min. 2 dla klarownego odcięcia
+#    — najlepiej parzyste"
+#   "Wyróżnienia z użyciem semi bold"
 typography:
-  heading_font: "Calibri"   # fallback-safe for Windows + macOS
-  body_font: "Calibri"
-  heading_size_title: 36
-  heading_size_h1: 28
-  heading_size_h2: 20
-  body_size: 14
-  caption_size: 10
+  heading_font:    "Raleway SemiBold"
+  body_font:       "Raleway"
+  emphasis_font:   "Raleway SemiBold"
+  light_font:      "Raleway Light"
+  fallback_font:   "Arial"               # used by PowerPoint if Raleway absent
 
+  # Recommended sizes — parzyste skoki, min step = 2, min size = 10.
+  size_title:           36   # cover / main_point / big_number headlines
+  size_h1:              28   # standard slide title
+  size_h2:              20   # section headings inside a slide
+  size_section_title:   12   # tytuł sekcji per toolkit
+  size_body:            14
+  size_supporting:      12
+  size_caption:         10   # min size — only for reporting/dense slides
+
+  emphasis_weight: "semibold"
+
+# ── Layout tokens ───────────────────────────────────────────────────────────
 layout:
-  slide_width_emu: 9144000   # 16:9 standard
+  slide_width_emu:  9144000   # 16:9 standard
   slide_height_emu: 5143500
-  margin_h: 0.08             # % of slide width
-  margin_v: 0.08             # % of slide height
+  margin_h: 0.08              # % of slide width
+  margin_v: 0.08              # % of slide height
 
+# ── Image generation defaults ───────────────────────────────────────────────
 image_generation:
   provider: "google_imagen"
   model: "imagen-3.0-generate-001"
-  api_key_env: "GOOGLE_API_KEY"    # set in environment
+  api_key_env: "GOOGLE_API_KEY"
   default_style: "professional business, clean minimal, no text, white background"
   aspect_ratio: "16:9"
-  fallback: "placeholder"          # use placeholder if no API key
+  fallback: "placeholder"
 
+# ── Icons ──────────────────────────────────────────────────────────────────
+# Lucide icon set rendered to PNG. Default colour matches brand primary (red),
+# so icons sit visually alongside the red accents in the template.
+# Fall back to black for high-density slides where red would compete with
+# data ink.
 icons:
   library: "lucide"
-  default_size: 64                 # px
-  default_color: "#1A1A2E"        # matches brand primary
+  default_size: 64                # px
+  default_color: "#E61B25"        # brand red — matches main palette
+  muted_color:   "#000000"        # use for dense report slides
+  size_small: 32
+  size_large: 96
+
+# ── Bullets and symbols ─────────────────────────────────────────────────────
+# From blank.pptx slide 11 ("Symbols": ✔ ✘ ⬤).
+symbols:
+  bullet:     "•"
+  check:      "✔"
+  cross:      "✘"
+  marker:     "⬤"
+  arrow:      "→"
+
+# ── Tone defaults ──────────────────────────────────────────────────────────
+# Pitchdecks lean formal English. Internal toolkit decks lean Polish unless
+# stated otherwise. generate.py reads these to seed defaults; the skill can
+# override per request.
+tone:
+  pitchdeck:        { language: "en", register: "formal",   contractions: false }
+  internal_update:  { language: "pl", register: "direct",   contractions: true  }
+  product_overview: { language: "en", register: "semiformal", contractions: true }

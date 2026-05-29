@@ -1,47 +1,47 @@
 """
-generate.py — Presentation generation engine
+generate.py — Presentation generation engine (v2).
+
 The Heart / VASBOX Plugin
 
-Architecture:
-- Loads a real branded template .pptx from bundled/templates/
-- Clones the correct layout slide for each spec entry
-- Identifies title / body / column shapes by position heuristics
-- Injects text while preserving run-level font formatting
-- Renders icons via cairosvg and inserts as images
-- Generates charts with matplotlib and inserts as images
+Architecture (v2):
+  * Loads a branded template .pptx whose Slide Master ships with named layouts.
+  * Each spec entry resolves to a Slide Master layout (`prs.slide_layouts[idx]`)
+    via `template_map.yaml`, NOT to a cloned slide.
+  * Layout modules in `layouts/` fill placeholders by semantic role
+    (`title`, `body`, `col1_heading`, ...) instead of by geometric heuristics.
+  * Semantic pitch sections (`problem`, `solution`, ...) come from
+    `narrative/pitchdeck.yaml` and pick the right generic layout for the
+    content shape.
 
-template_map.yaml maps each template name + layout → slide index to clone.
-
-Usage:
-    python generate.py --spec spec.json --output /path/to/output.pptx [--template blank]
+This removes ~500 lines of slide cloning, position heuristics, and
+example-text scrubbing that v1 needed because it cloned full template slides.
 """
+from __future__ import annotations
 
 import argparse
-import copy
 import json
-import os
-from datetime import date
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 import yaml
 from pptx import Presentation
-from pptx.util import Emu
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
+import layouts as layouts_pkg
+
+# ── Paths ──────────────────────────────────────────────────────────────────
 BUNDLE_DIR    = Path(__file__).parent
 ICONS_DIR     = BUNDLE_DIR / "icons"
 SVG_DIR       = ICONS_DIR / "svgs"
 CACHE_DIR     = ICONS_DIR / "cache"
 BRAND_FILE    = BUNDLE_DIR / "brand.yaml"
 TMAP_FILE     = BUNDLE_DIR / "template_map.yaml"
+NARRATIVE_DIR = BUNDLE_DIR / "narrative"
 TEMPLATES_DIR = BUNDLE_DIR / "templates"
-DEFAULT_TEMPLATE = "blank"
 
-CACHE_DIR.mkdir(exist_ok=True)
+DEFAULT_TEMPLATE = "pitchdeck-toolkit"
 
 
-# ── Config loaders ─────────────────────────────────────────────────────────────
+# ── Config loaders ─────────────────────────────────────────────────────────
 
 def load_brand() -> dict:
     with open(BRAND_FILE) as f:
@@ -49,334 +49,62 @@ def load_brand() -> dict:
 
 
 def load_template_map() -> dict:
-    if TMAP_FILE.exists():
-        with open(TMAP_FILE) as f:
-            return yaml.safe_load(f) or {}
-    return {}
+    if not TMAP_FILE.exists():
+        return {"templates": {}}
+    with open(TMAP_FILE) as f:
+        return yaml.safe_load(f) or {"templates": {}}
 
 
-def resolve_template(name: str) -> Path:
-    """Resolve a template name to a .pptx path, with fallback to blank."""
+def load_narrative(name: str = "pitchdeck") -> dict:
+    path = NARRATIVE_DIR / f"{name}.yaml"
+    if not path.exists():
+        return {}
+    with open(path) as f:
+        return yaml.safe_load(f) or {}
+
+
+def resolve_template_path(name: str) -> Path:
     p = Path(name)
-    if p.suffix == ".pptx" and p.is_absolute():
-        if p.exists():
-            return p
-        raise FileNotFoundError(f"Template not found: {p}")
+    if p.suffix == ".pptx" and p.is_absolute() and p.exists():
+        return p
     stem = p.stem if p.suffix == ".pptx" else name
     candidate = TEMPLATES_DIR / f"{stem}.pptx"
     if candidate.exists():
         return candidate
-    fallback = TEMPLATES_DIR / f"{DEFAULT_TEMPLATE}.pptx"
-    if fallback.exists():
-        print(f"  [template] '{name}' not found — falling back to {DEFAULT_TEMPLATE}.pptx")
-        return fallback
-    raise FileNotFoundError(f"No template found for '{name}' and no fallback at {fallback}")
-
-
-def hex_to_rgb(hex_color: str) -> tuple:
-    h = hex_color.lstrip("#")
-    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-
-
-# ── Shape detection ────────────────────────────────────────────────────────────
-
-def is_meaningful_shape(shape, W: int, H: int) -> bool:
-    """
-    Filter out decorative / background shapes that shouldn't receive text.
-    Removes: tiny shapes, full-slide overlays, heavily off-slide elements.
-    """
-    w_pct = shape.width  / W
-    h_pct = shape.height / H
-
-    # Too narrow or too short to be a content shape
-    if w_pct < 0.05 or h_pct < 0.02:
-        return False
-
-    # Full-slide background overlays (tall AND wide)
-    if h_pct > 0.75 and w_pct > 0.30:
-        return False
-
-    # Significantly off-slide to the left (decorative bleed elements)
-    if shape.left / W < -0.10:
-        return False
-
-    return True
-
-
-def get_meaningful_text_shapes(slide, W: int, H: int) -> list:
-    return [
-        s for s in slide.shapes
-        if s.has_text_frame and is_meaningful_shape(s, W, H)
-    ]
-
-
-def find_shapes_for_layout(slide, layout: str, W: int, H: int) -> dict:
-    """
-    Return {role: shape} for the given layout using position heuristics.
-
-    Roles by layout:
-      cover     → title, subtitle
-      section   → title, body (body optional / cleared)
-      content   → title, body
-      two_column→ title, left, right  (falls back to body if no columns found)
-      chart     → title
-      quote     → title, body
-      closing   → cta, sub
-    """
-    shapes = get_meaningful_text_shapes(slide, W, H)
-
-    def filter_content(shapes):
-        """Remove obvious section-label slivers (top<5%, h<10%) and footers (top>88%)."""
-        return [
-            s for s in shapes
-            if s.top / H < 0.88
-            and not (s.top / H < 0.05 and s.height / H < 0.10)
-        ]
-
-    if layout == "cover":
-        # Title = largest-area text box not in bottom 10%
-        candidates = [s for s in shapes if s.top / H < 0.90]
-        if not candidates:
-            return {}
-        title = max(candidates, key=lambda s: s.width * s.height)
-        below = [s for s in candidates if s is not title and s.top > title.top]
-        subtitle = min(below, key=lambda s: s.top) if below else None
-        return {"title": title, "subtitle": subtitle}
-
-    elif layout in ("section", "content", "chart", "quote"):
-        candidates = filter_content(shapes)
-        if not candidates:
-            return {}
-        title = min(candidates, key=lambda s: s.top)
-        remaining = [s for s in candidates if s is not title]
-        body = min(remaining, key=lambda s: s.top) if remaining else None
-        return {"title": title, "body": body}
-
-    elif layout == "two_column":
-        candidates = filter_content(shapes)
-        if not candidates:
-            return {}
-        title = min(candidates, key=lambda s: s.top)
-        remaining = sorted(
-            [s for s in candidates if s is not title],
-            key=lambda s: s.left
-        )
-        result: dict = {"title": title}
-        if len(remaining) >= 2:
-            result["left"]  = remaining[0]
-            result["right"] = remaining[-1]
-        elif remaining:
-            result["body"] = remaining[0]
-        return result
-
-    elif layout == "closing":
-        candidates = [s for s in shapes if s.top / H < 0.85]
-        if not candidates:
-            return {}
-        cta = max(candidates, key=lambda s: s.width * s.height)
-        remaining = [s for s in candidates if s is not cta]
-        sub = max(remaining, key=lambda s: s.width * s.height) if remaining else None
-        return {"cta": cta, "sub": sub}
-
-    return {}
-
-
-# ── Text injection ─────────────────────────────────────────────────────────────
-
-def _save_run_format(shape) -> dict:
-    """
-    Read font properties from the first text run in a shape.
-    Returns a dict suitable for re-applying after tf.clear().
-    """
-    saved = {}
-    for para in shape.text_frame.paragraphs:
-        for run in para.runs:
-            if run.font.name:
-                saved["name"] = run.font.name
-            if run.font.size:
-                saved["size"] = run.font.size
-            if run.font.bold is not None:
-                saved["bold"] = run.font.bold
-            try:
-                if run.font.color.type:
-                    saved["color"] = run.font.color.rgb
-            except Exception:
-                pass
-            break
-        if saved:
-            break
-    return saved
-
-
-def _apply_run_format(run, saved: dict) -> None:
-    if not saved:
-        return
-    if "name"  in saved: run.font.name  = saved["name"]
-    if "size"  in saved: run.font.size  = saved["size"]
-    if "bold"  in saved: run.font.bold  = saved["bold"]
-    if "color" in saved:
-        try:
-            run.font.color.rgb = saved["color"]
-        except Exception:
-            pass
-
-
-def set_shape_text(shape, text: str) -> None:
-    """Replace shape text with a string (supports \\n for multiple paragraphs),
-    preserving font formatting."""
-    if text is None:
-        return
-    lines = str(text).split("\n")
-    fmt = _save_run_format(shape)
-    tf = shape.text_frame
-    tf.clear()
-    for i, line in enumerate(lines):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.text = line
-        if p.runs:
-            _apply_run_format(p.runs[0], fmt)
-
-
-def set_shape_bullets(shape, bullets: list) -> None:
-    """Replace shape text with a bullet list, preserving font formatting."""
-    if not bullets:
-        return
-    fmt = _save_run_format(shape)
-    tf = shape.text_frame
-    tf.clear()
-    for i, bullet in enumerate(bullets):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.text = f"• {bullet}"
-        if p.runs:
-            _apply_run_format(p.runs[0], fmt)
-
-
-def clear_shape_text(shape) -> None:
-    shape.text_frame.clear()
-
-
-def clear_example_text(slide, roles: dict, W: int, H: int) -> None:
-    """
-    Clear example/placeholder text from all shapes on a cloned slide that are NOT
-    part of the role dict (title/body/left/right/etc) and NOT page-number tokens.
-
-    This removes leftover template example content (mission statements, stats,
-    source footnotes, labels, etc.) from pitchdeck-toolkit slides.
-    Branding/logo footers are image shapes, so they are unaffected.
-    """
-    role_shapes = [s for s in roles.values() if s is not None]
-    for shape in get_meaningful_text_shapes(slide, W, H):
-        if any(shape is r for r in role_shapes):
-            continue
-        text = shape.text_frame.text.strip()
-        # Keep only page-number auto-field tokens — clear everything else
-        if "‹#›" in text or "‹#›" in text:
-            continue
-        clear_shape_text(shape)
-
-
-# ── Template map lookup ────────────────────────────────────────────────────────
-
-def get_layout_slide_index(tname: str, layout: str, tmap: dict) -> Optional[int]:
-    return (
-        tmap.get("templates", {})
-            .get(tname, {})
-            .get("layouts", {})
-            .get(layout, {})
-            .get("slide")
+    raise FileNotFoundError(
+        f"Template not found: {name!r} (looked at {candidate})"
     )
 
 
-# ── Slide cloner ───────────────────────────────────────────────────────────────
+# ── Layout cfg resolver ────────────────────────────────────────────────────
 
-def _duplicate_slide_within(prs: Presentation, slide_index: int):
-    """
-    Duplicate a slide WITHIN the same Presentation (same OPC package).
-
-    Because source and destination share the same package, image/media parts
-    referenced by r:embed / r:link are simply re-used — no cross-package
-    blob copying is needed.  This preserves backgrounds, brand images, and
-    every other visual element from the template slide.
-
-    The entire <p:cSld> element is deep-copied so both the background (<p:bg>)
-    and the shape tree (<p:spTree>) are transferred.
-
-    Returns the new slide (appended at the end of prs.slides).
-    """
-    import copy as _copy
-    from pptx.oxml.ns import qn
-
-    r_ns = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
-    src_slide    = prs.slides[slide_index]
-    blank_layout = prs.slide_layouts[6]
-    new_slide    = prs.slides.add_slide(blank_layout)
-
-    # ── Copy relationships (images, hyperlinks) ────────────────────────────
-    rId_map: dict = {}
-    for rId, rel in src_slide.part.rels.items():
-        rtype = rel.reltype
-        if "slideLayout" in rtype or "notesSlide" in rtype:
-            continue
-        if rel.is_external:
-            new_rId = new_slide.part.relate_to(rel.target_ref, rtype, is_external=True)
-        else:
-            new_rId = new_slide.part.relate_to(rel.target_part, rtype)
-        rId_map[rId] = new_rId
-
-    # ── Deep-copy the entire cSld element (background + shapes) ───────────
-    src_cSld = _copy.deepcopy(src_slide._element.find(qn("p:cSld")))
-
-    # Update all r:embed / r:link references to use the new rIds
-    for el in src_cSld.iter():
-        for attr_key in list(el.attrib.keys()):
-            if r_ns in attr_key:
-                old_rId = el.get(attr_key)
-                if old_rId in rId_map:
-                    el.set(attr_key, rId_map[old_rId])
-
-    # Replace new slide's cSld in-place (preserves parent element structure)
-    new_cSld = new_slide._element.find(qn("p:cSld"))
-    new_slide._element.replace(new_cSld, src_cSld)
-
-    return new_slide
+def _resolve_layout_cfg(tmap: dict, tname: str, alias: str) -> dict:
+    layouts = (
+        tmap.get("templates", {})
+            .get(tname, {})
+            .get("layouts", {})
+    )
+    cfg = layouts.get(alias)
+    if cfg is None:
+        raise KeyError(
+            f"Layout alias {alias!r} not defined for template {tname!r}. "
+            f"Edit template_map.yaml."
+        )
+    # follow alias chain (e.g. cover -> cover_split)
+    if "alias_of" in cfg:
+        return _resolve_layout_cfg(tmap, tname, cfg["alias_of"])
+    return cfg
 
 
-def _remove_slide(prs: Presentation, slide_index: int) -> None:
-    """Remove the slide at slide_index from the presentation."""
-    from pptx.oxml.ns import qn
+# ── Icon engine ────────────────────────────────────────────────────────────
 
-    slides    = list(prs.slides)
-    slide     = slides[slide_index]
-    xml_slides = prs.slides._sldIdLst
-
-    # Find the relationship id that points to this slide part
-    rId = None
-    for rel_id, rel in prs.part.rels.items():
-        if not rel.is_external and rel.target_part is slide.part:
-            rId = rel_id
-            break
-    if rId is None:
-        return
-
-    # Remove from the sldIdLst XML
-    for sldId in list(xml_slides):
-        if sldId.get(qn("r:id")) == rId:
-            xml_slides.remove(sldId)
-            break
-
-    # Drop the relationship (removes the slide part from the package)
-    prs.part.drop_rel(rId)
-
-
-# ── Icon engine ────────────────────────────────────────────────────────────────
-
-def _load_manifest() -> dict:
+def _load_icon_manifest() -> dict:
     with open(ICONS_DIR / "icon_manifest.json") as f:
         return json.load(f)
 
 
 def _resolve_icon_name(keyword: str, manifest: dict) -> str:
-    kw      = keyword.lower().strip()
+    kw = keyword.lower().strip()
     aliases = manifest.get("aliases", {})
     if kw in aliases:
         return aliases[kw]
@@ -394,286 +122,343 @@ def get_icon_png(keyword: str, size: int = 64, color: str = "#1A1A2E") -> Option
     except ImportError:
         print("  [icon] cairosvg not installed — skipping icons")
         return None
-
-    manifest  = _load_manifest()
-    icon_name = _resolve_icon_name(keyword, manifest)
-    svg_path  = SVG_DIR / f"{icon_name}.svg"
-
-    if not svg_path.exists():
-        print(f"  [icon] '{icon_name}' not found, skipping")
+    CACHE_DIR.mkdir(exist_ok=True)
+    manifest = _load_icon_manifest()
+    name = _resolve_icon_name(keyword, manifest)
+    svg = SVG_DIR / f"{name}.svg"
+    if not svg.exists():
         return None
-
-    cache_key  = f"{icon_name}_{size}_{color.lstrip('#')}"
-    cache_path = CACHE_DIR / f"{cache_key}.png"
-
-    if not cache_path.exists():
-        svg_text = svg_path.read_text()
-        svg_text = svg_text.replace('stroke="currentColor"', f'stroke="{color}"')
-        svg_text = svg_text.replace("stroke:currentColor",  f"stroke:{color}")
+    cache = CACHE_DIR / f"{name}_{size}_{color.lstrip('#')}.png"
+    if not cache.exists():
+        text = svg.read_text()
+        text = text.replace('stroke="currentColor"', f'stroke="{color}"')
+        text = text.replace("stroke:currentColor",  f"stroke:{color}")
         cairosvg.svg2png(
-            bytestring=svg_text.encode(),
-            write_to=str(cache_path),
+            bytestring=text.encode(),
+            write_to=str(cache),
             output_width=size,
             output_height=size,
         )
-        print(f"  [icon] rendered {icon_name} @ {size}px")
-
-    return cache_path
+    return cache
 
 
-# ── Chart engine ───────────────────────────────────────────────────────────────
+# ── Chart engine ───────────────────────────────────────────────────────────
 
 def render_chart(chart_type: str, data: dict, brand: dict, output_path: str) -> Optional[str]:
+    """Render a chart to PNG. Supported types:
+       bar, line, pie, donut, horizontal_bar, stacked_bar, waterfall, funnel.
+    """
     try:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+        import numpy as np
     except ImportError:
-        print("  [chart] matplotlib not installed — skipping chart")
         return None
 
-    labels    = data.get("labels", [])
-    values    = data.get("values", [])
-    primary   = "#" + "".join(f"{c:02X}" for c in hex_to_rgb(brand["colors"]["primary"]))
-    secondary = "#" + "".join(f"{c:02X}" for c in hex_to_rgb(brand["colors"]["secondary"]))
+    # Force Raleway font on matplotlib (falls back to sans-serif if absent)
+    body_font = brand.get("typography", {}).get("body_font", "Raleway")
+    plt.rcParams["font.family"] = [body_font, "Arial", "sans-serif"]
+    plt.rcParams["font.size"] = 11
 
-    fig, ax = plt.subplots(figsize=(10, 5))
+    labels  = data.get("labels", [])
+    values  = data.get("values", [])
+    series  = data.get("series", [])   # for stacked_bar
+    primary = brand["colors"]["primary"]
+    bcolors = brand["colors"]
+    palette = [
+        bcolors.get("primary",   "#E61B25"),
+        bcolors.get("blue",      "#0056A4"),
+        bcolors.get("green",     "#13A538"),
+        bcolors.get("red_light", "#E9787E"),
+        bcolors.get("gray_1",    "#969696"),
+        bcolors.get("black",     "#000000"),
+    ]
+
+    fig, ax = plt.subplots(figsize=(10, 5.5))
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("#F9FAFB")
+    ax.set_facecolor("#FAFAFA")
     ax.spines[["top", "right"]].set_visible(False)
     ax.spines[["left", "bottom"]].set_color("#E5E7EB")
     ax.tick_params(colors="#6B7280")
 
     if chart_type == "bar":
-        ax.bar(labels, values, color=secondary, zorder=3)
+        ax.bar(labels, values, color=primary, zorder=3)
         ax.yaxis.grid(True, color="#E5E7EB", zorder=0)
         if values:
             ax.set_ylim(0, max(values) * 1.2)
-    elif chart_type == "line":
-        ax.plot(labels, values, color=secondary, linewidth=2.5,
-                marker="o", markerfacecolor=primary, zorder=3)
+        for i, v in enumerate(values):
+            ax.text(i, v, f"{v}", ha="center", va="bottom",
+                    color=primary, fontsize=10, fontweight="bold")
+
+    elif chart_type == "horizontal_bar":
+        y_pos = np.arange(len(labels))
+        ax.barh(y_pos, values, color=primary, zorder=3)
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(labels)
+        ax.invert_yaxis()
+        ax.xaxis.grid(True, color="#E5E7EB", zorder=0)
+
+    elif chart_type == "stacked_bar":
+        # series is list of {label, values}
+        bottom = np.zeros(len(labels))
+        for i, s in enumerate(series):
+            ax.bar(labels, s["values"], bottom=bottom,
+                   label=s.get("label", f"Series {i+1}"),
+                   color=palette[i % len(palette)], zorder=3)
+            bottom += np.array(s["values"])
         ax.yaxis.grid(True, color="#E5E7EB", zorder=0)
+        ax.legend(loc="upper left", frameon=False)
+
+    elif chart_type == "line":
+        if series:
+            for i, s in enumerate(series):
+                ax.plot(labels, s["values"], linewidth=2.5,
+                        marker="o", color=palette[i % len(palette)],
+                        label=s.get("label", f"Series {i+1}"))
+            ax.legend(loc="upper left", frameon=False)
+        else:
+            ax.plot(labels, values, color=primary, linewidth=2.5,
+                    marker="o", markerfacecolor=primary, zorder=3)
+        ax.yaxis.grid(True, color="#E5E7EB", zorder=0)
+
     elif chart_type == "pie":
-        colours = [secondary, primary, "#10B981", "#F59E0B", "#6B7280"]
-        ax.pie(values, labels=labels, colors=colours[:len(values)],
-               autopct="%1.0f%%", startangle=90)
+        ax.pie(values, labels=labels, colors=palette[:len(values)],
+               autopct="%1.0f%%", startangle=90,
+               wedgeprops={"linewidth": 2, "edgecolor": "white"})
         ax.axis("equal")
+
+    elif chart_type == "donut":
+        wedges, _ = ax.pie(values, labels=labels, colors=palette[:len(values)],
+                           startangle=90,
+                           wedgeprops={"linewidth": 2, "edgecolor": "white",
+                                       "width": 0.35})
+        ax.axis("equal")
+        # Centre stat
+        total = sum(values)
+        ax.text(0, 0, f"{total}",
+                ha="center", va="center",
+                fontsize=28, fontweight="bold", color=primary)
+
+    elif chart_type == "waterfall":
+        # values can include negatives; first and last are "totals"
+        cum = 0
+        bottoms = []
+        bar_colors = []
+        for i, v in enumerate(values):
+            if i == 0 or i == len(values) - 1:
+                bottoms.append(0)
+                bar_colors.append(bcolors.get("gray_1", "#969696"))
+                cum = v if i == 0 else cum
+            else:
+                bottoms.append(cum)
+                bar_colors.append(
+                    bcolors.get("green", "#13A538") if v >= 0
+                    else bcolors.get("primary", "#E61B25")
+                )
+                cum += v
+        ax.bar(labels, [abs(v) for v in values], bottom=bottoms,
+               color=bar_colors, zorder=3)
+        ax.yaxis.grid(True, color="#E5E7EB", zorder=0)
+
+    elif chart_type == "funnel":
+        # Each value drawn as a horizontal bar, widest first
+        sorted_pairs = sorted(zip(labels, values), key=lambda x: -x[1])
+        ys = list(range(len(sorted_pairs)))
+        ys = ys[::-1]
+        for (lab, val), y in zip(sorted_pairs, ys):
+            ax.barh(y, val, color=palette[(len(ys) - y - 1) % len(palette)],
+                    zorder=3)
+            ax.text(val / 2, y, f"{lab}: {val}",
+                    ha="center", va="center", color="white",
+                    fontsize=11, fontweight="bold")
+        ax.set_yticks([])
+        ax.set_xticks([])
+        ax.spines[["left", "bottom"]].set_visible(False)
+
     else:
         ax.text(0.5, 0.5, f"Unsupported chart type: {chart_type!r}",
                 ha="center", va="center", transform=ax.transAxes)
 
     plt.tight_layout()
-    plt.savefig(output_path, dpi=150, bbox_inches="tight")
+    plt.savefig(output_path, dpi=150, bbox_inches="tight",
+                facecolor="white")
     plt.close()
     return output_path
 
 
-# ── Slide builder ──────────────────────────────────────────────────────────────
+# ── Main generation ───────────────────────────────────────────────────────
 
-def build_slide(prs, slide_spec: dict, brand: dict,
-                tname: str, tmap: dict, output_dir: Path,
-                n_original: int) -> None:
-    """
-    Duplicate the appropriate template slide within prs and inject content.
-
-    prs must be the already-opened template Presentation.
-    n_original is the count of original template slides (so we clone from
-    indices 0..n_original-1 only, not from slides we've already added).
-    """
-    layout = slide_spec.get("layout", "content")
-    W, H   = prs.slide_width, prs.slide_height
-
-    # Resolve which template slide to duplicate
-    slide_index = get_layout_slide_index(tname, layout, tmap)
-    if slide_index is None:
-        _fallbacks = {
-            "cover": 0, "section": 1, "content": 2,
-            "two_column": 3, "chart": 2, "quote": 2, "closing": -1,
-        }
-        slide_index = _fallbacks.get(layout, 0)
-
-    if slide_index < 0:
-        slide_index = max(0, n_original + slide_index)   # e.g. -1 → last
-    slide_index = min(slide_index, n_original - 1)
-
-    new_slide = _duplicate_slide_within(prs, slide_index)
-    roles     = find_shapes_for_layout(new_slide, layout, W, H)
-
-    # Clear leftover example text from non-role shapes (e.g. pitchdeck-toolkit
-    # slides carry mission statements, restaurant stats, contact details, etc.)
-    clear_example_text(new_slide, roles, W, H)
-
-    # ── Cover ──────────────────────────────────────────────────────────────────
-    if layout == "cover":
-        if roles.get("title"):
-            set_shape_text(roles["title"], slide_spec.get("title", ""))
-        if roles.get("subtitle"):
-            sub = slide_spec.get("subtitle") or (
-                f"{brand['identity']['company_name']}  ·  {date.today().strftime('%B %Y')}"
-            )
-            set_shape_text(roles["subtitle"], sub)
-
-    # ── Section ────────────────────────────────────────────────────────────────
-    elif layout == "section":
-        if roles.get("title"):
-            set_shape_text(roles["title"], slide_spec.get("title", ""))
-        if roles.get("body"):
-            if slide_spec.get("subtitle"):
-                set_shape_text(roles["body"], slide_spec["subtitle"])
-            else:
-                clear_shape_text(roles["body"])
-
-    # ── Content ────────────────────────────────────────────────────────────────
-    elif layout == "content":
-        if roles.get("title"):
-            set_shape_text(roles["title"], slide_spec.get("title", ""))
-        body = slide_spec.get("body", [])
-        if roles.get("body"):
-            if isinstance(body, list) and body:
-                set_shape_bullets(roles["body"], body)
-            elif isinstance(body, str) and body:
-                set_shape_text(roles["body"], body)
-            else:
-                clear_shape_text(roles["body"])
-
-    # ── Two-column ─────────────────────────────────────────────────────────────
-    elif layout == "two_column":
-        if roles.get("title"):
-            set_shape_text(roles["title"], slide_spec.get("title", ""))
-
-        left_spec  = slide_spec.get("left",  {})
-        right_spec = slide_spec.get("right", {})
-
-        def col_text(spec):
-            heading = spec.get("heading", "")
-            bullets = spec.get("bullets", [])
-            parts = []
-            if heading:
-                parts.append(heading)
-            parts.extend(f"• {b}" for b in bullets)
-            return "\n".join(parts)
-
-        if roles.get("left"):
-            txt = col_text(left_spec)
-            set_shape_text(roles["left"], txt) if txt else clear_shape_text(roles["left"])
-        if roles.get("right"):
-            txt = col_text(right_spec)
-            set_shape_text(roles["right"], txt) if txt else clear_shape_text(roles["right"])
-
-        # Fallback: no separate column shapes found — merge into body
-        if roles.get("body") and not roles.get("left"):
-            merged = col_text(left_spec) + "\n\n" + col_text(right_spec)
-            set_shape_text(roles["body"], merged.strip())
-
-    # ── Quote ──────────────────────────────────────────────────────────────────
-    elif layout == "quote":
-        quote_text  = slide_spec.get("quote", slide_spec.get("title", ""))
-        attribution = slide_spec.get("attribution", "")
-        if roles.get("title"):
-            set_shape_text(roles["title"], f'"{quote_text}"')
-        if roles.get("body"):
-            if attribution:
-                set_shape_text(roles["body"], f"— {attribution}")
-            else:
-                clear_shape_text(roles["body"])
-
-    # ── Chart ──────────────────────────────────────────────────────────────────
-    elif layout == "chart":
-        if roles.get("title"):
-            set_shape_text(roles["title"], slide_spec.get("title", ""))
-        if roles.get("body"):
-            clear_shape_text(roles["body"])
-
-    # ── Closing ────────────────────────────────────────────────────────────────
-    elif layout == "closing":
-        cta_headline = slide_spec.get("cta_headline", "Let's talk.")
-        cta_sub      = slide_spec.get("cta_sub", brand["identity"].get("website", ""))
-        if roles.get("cta"):
-            set_shape_text(roles["cta"], cta_headline)
-        if roles.get("sub"):
-            set_shape_text(roles["sub"], cta_sub)
-
-    # ── Icon (content slides) ──────────────────────────────────────────────────
-    if layout == "content" and slide_spec.get("icon"):
-        icon_color = brand["colors"]["primary"]
-        icon_size  = brand["icons"]["default_size"]
-        icon_path  = get_icon_png(slide_spec["icon"], size=icon_size, color=icon_color)
-        if icon_path and roles.get("title"):
-            title_shape = roles["title"]
-            icon_emu    = Emu(int(W * 0.055))
-            icon_left   = title_shape.left
-            icon_top    = max(0, title_shape.top - icon_emu - Emu(int(H * 0.005)))
-            new_slide.shapes.add_picture(str(icon_path), icon_left, icon_top, icon_emu, icon_emu)
-
-    # ── Chart image ────────────────────────────────────────────────────────────
-    if layout == "chart" and slide_spec.get("data"):
-        chart_path = str(output_dir / f"chart_{id(slide_spec)}.png")
-        rendered   = render_chart(
-            slide_spec.get("chart_type", "bar"),
-            slide_spec["data"],
-            brand,
-            chart_path,
-        )
-        if rendered:
-            if roles.get("title"):
-                t = roles["title"]
-                chart_top = t.top + t.height + Emu(int(H * 0.015))
-            else:
-                chart_top = Emu(int(H * 0.22))
-            new_slide.shapes.add_picture(
-                rendered,
-                Emu(int(W * 0.05)),
-                chart_top,
-                Emu(int(W * 0.90)),
-                Emu(int(H * 0.62)),
-            )
-
-    # ── Speaker notes ──────────────────────────────────────────────────────────
-    if slide_spec.get("notes"):
-        new_slide.notes_slide.notes_text_frame.text = slide_spec["notes"]
-
-
-# ── Main generation ────────────────────────────────────────────────────────────
-
-def generate(spec: dict, output_path: str, template_name: str = None) -> str:
-    brand      = load_brand()
-    tmap       = load_template_map()
-    tname      = template_name or spec.get("template") or DEFAULT_TEMPLATE
-    tpath      = resolve_template(tname)
+def generate(spec: dict, output_path: str, template_name: Optional[str] = None) -> str:
+    brand = load_brand()
+    tmap = load_template_map()
+    tname = template_name or spec.get("template") or DEFAULT_TEMPLATE
+    tpath = resolve_template_path(tname)
     output_dir = Path(output_path).parent
 
     print(f"  [template] {tpath.name}")
 
-    # Open the template as our working presentation.
-    # By staying within the same OPC package, all image/media relationships
-    # in the cloned slides remain valid — no cross-package copying needed.
-    prs        = Presentation(str(tpath))
+    # Push brand typography into the widget layer so every free text box
+    # gets the right font (Raleway), instead of falling back to Arial.
+    from layouts import widgets
+    typo = brand.get("typography", {})
+    widgets.set_default_fonts(
+        body=typo.get("body_font"),
+        emphasis=typo.get("emphasis_font") or typo.get("heading_font"),
+        light=typo.get("light_font"),
+        fallback=typo.get("fallback_font"),
+    )
+
+    # Open the template; we add fresh slides from its Slide Master layouts.
+    prs = Presentation(str(tpath))
     n_original = len(prs.slides)
 
-    for slide_spec in spec.get("slides", []):
-        layout = slide_spec.get("layout", "content")
-        label  = slide_spec.get("title") or slide_spec.get("quote") or slide_spec.get("cta_headline", "")
-        print(f"  building: {layout:<12} {label[:55]}")
-        build_slide(prs, slide_spec, brand, tname, tmap, output_dir, n_original)
+    # Narrative selection: blank.pptx → general (internal decks);
+    # pitchdeck-toolkit → pitchdeck (investor decks). A spec may override
+    # via `"narrative": "<name>"`.
+    narrative_name = spec.get("narrative") or _default_narrative_for(tname)
+    narrative = load_narrative(narrative_name)
 
-    # Remove the original template slides (back-to-front to keep indices stable)
-    for i in range(n_original - 1, -1, -1):
-        _remove_slide(prs, i)
+    def resolve_layout(alias: str) -> dict:
+        return _resolve_layout_cfg(tmap, tname, alias)
+
+    ctx = {
+        "get_icon_png":    get_icon_png,
+        "render_chart":    render_chart,
+        "output_dir":      output_dir,
+        "narrative":       narrative,
+        "resolve_layout":  resolve_layout,
+    }
+
+    from layouts import brand_chrome
+
+    slides_specs = spec.get("slides", [])
+    total = len(slides_specs)
+
+    for i, slide_spec in enumerate(slides_specs, start=1):
+        layout_alias = _layout_alias_for(slide_spec, narrative)
+        layout_cfg = resolve_layout(layout_alias)
+        builder: Callable = layouts_pkg.resolve(slide_spec)
+        label = (
+            slide_spec.get("title")
+            or slide_spec.get("section")
+            or slide_spec.get("layout", "")
+        )
+        print(f"  building: {layout_alias:<14} {label[:55]}")
+        slide = builder.build(prs, layout_cfg, slide_spec, brand, ctx)
+
+        # Clear placeholders the builder left empty so the master's prompt
+        # text ("Click to add text") doesn't render in the final deck.
+        _clear_empty_placeholders(slide)
+
+        # Apply brand chrome (red bar, logo, page numbers, section eyebrow)
+        # so output decks remain on-brand even though templates were stripped.
+        mode = brand_chrome.mode_for(slide_spec)
+        is_cover_or_section = mode.startswith("cover") or mode.startswith("section")
+        page_number = None if is_cover_or_section else i
+
+        # Derive a section label for the top-right eyebrow on content slides.
+        section_name = slide_spec.get("section")
+        section_label = None
+        if section_name and not is_cover_or_section:
+            section = (narrative.get("sections") or {}).get(section_name, {})
+            section_label = section.get("title_en") or section_name.replace("_", " ")
+
+        brand_chrome.apply(
+            slide, prs, brand,
+            mode=mode,
+            page_number=page_number,
+            total_pages=total,
+            section_label=section_label,
+        )
+
+    # Drop the original template slides we inherited from the .pptx
+    _purge_original_slides(prs, n_original)
 
     prs.save(output_path)
     print(f"\n  done → {output_path}  ({len(prs.slides)} slides)")
     return output_path
 
 
-# ── CLI ────────────────────────────────────────────────────────────────────────
+def _default_narrative_for(template_name: str) -> str:
+    """Map a template to its default narrative YAML."""
+    return {
+        "pitchdeck-toolkit": "pitchdeck",
+        "blank":             "general",
+    }.get(template_name, "pitchdeck")
+
+
+def _clear_empty_placeholders(slide) -> None:
+    """Set empty placeholders to a non-prompt state.
+
+    PowerPoint renders the master's prompt text ("Click to add text") on any
+    placeholder that's still empty. We can't delete the placeholder safely
+    (it lives in the layout), but we can mark the prompt as unwanted by
+    removing the placeholder element's <p:ph> hint so the renderer treats it
+    as a normal empty shape.
+    """
+    from pptx.oxml.ns import qn
+    for ph in list(slide.placeholders):
+        if not ph.has_text_frame:
+            continue
+        if ph.text_frame.text.strip():
+            continue
+        # Remove the inheritance hint so the master prompt doesn't render.
+        nvSpPr = ph._element.find(qn("p:nvSpPr"))
+        if nvSpPr is None:
+            continue
+        nvPr = nvSpPr.find(qn("p:nvPr"))
+        if nvPr is None:
+            continue
+        ph_hint = nvPr.find(qn("p:ph"))
+        if ph_hint is not None:
+            nvPr.remove(ph_hint)
+
+
+def _layout_alias_for(spec: dict, narrative: dict) -> str:
+    """Pick the alias that template_map.yaml should resolve for this spec."""
+    if "layout_override" in spec:
+        return spec["layout_override"]
+    if "section" in spec:
+        sec = narrative.get("sections", {}).get(spec["section"], {})
+        return sec.get("preferred_layout", "content")
+    return spec.get("layout", "content")
+
+
+def _purge_original_slides(prs, n_original: int) -> None:
+    """Remove the slides that were already in the template when we opened it.
+
+    Removes from the back so earlier indices stay stable.
+    """
+    from pptx.oxml.ns import qn
+    sld_id_lst = prs.slides._sldIdLst
+    slides = list(prs.slides)
+    for i in range(n_original - 1, -1, -1):
+        slide = slides[i]
+        rId = None
+        for rel_id, rel in prs.part.rels.items():
+            if not rel.is_external and rel.target_part is slide.part:
+                rId = rel_id
+                break
+        if rId is None:
+            continue
+        for sld_id in list(sld_id_lst):
+            if sld_id.get(qn("r:id")) == rId:
+                sld_id_lst.remove(sld_id)
+                break
+        prs.part.drop_rel(rId)
+
+
+# ── CLI ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate a branded presentation")
     parser.add_argument("--spec",     required=True, help="Path to spec JSON")
     parser.add_argument("--output",   required=True, help="Output .pptx path")
     parser.add_argument(
-        "--template", default=None,
-        help=f"Template name or path (overrides spec.template). Default: {DEFAULT_TEMPLATE}"
+        "--template",
+        default=None,
+        help=f"Template name. Default: {DEFAULT_TEMPLATE}",
     )
     args = parser.parse_args()
 

@@ -1,0 +1,340 @@
+# pitchdeck.yaml — Consultant narrative extracted from The Heart Pitchdeck Toolkit
+#
+# Each section maps to a pitchdeck slide. For every section we capture:
+#   question        — the main question the slide MUST answer (from toolkit)
+#   checklist       — concrete deliverables the slide must cover
+#   visual_tip      — graphic/layout recommendation from "Nice to have"
+#   preferred_layout— which master Slide Layout to use by default
+#   alt_layouts     — viable alternatives depending on content shape
+#
+# Layout aliases used here are defined in template_map.yaml and resolved to
+# python-pptx slide_layouts[idx] in generate.py.
+#
+# Translations of the original Polish "Główne pytanie" / "Checklista" /
+# "Nice to have" boxes are kept verbatim where they carry intent; English
+# rephrasings are added so the same skill works for English decks.
+
+version: "1.0.0"
+
+sections:
+
+  cover:
+    title_en: "Cover"
+    title_pl: "Slajd tytułowy"
+    question_pl: ""
+    question_en: ""
+    checklist:
+      - "One-sentence catchy description of the solution"
+      - "Project / company name prominent"
+      - "Optional: tagline that frames the problem space"
+    visual_tip: "Add a hero image or graphic tied to the problem to anchor the message."
+    preferred_layout: cover_centered
+    alt_layouts: [cover_split]
+
+  purpose:
+    title_en: "Company purpose"
+    title_pl: "Cel istnienia firmy"
+    question_pl: "Jaki konkretny problem rynkowy chcecie rozwiązać waszym produktem lub usługą?"
+    question_en: "What specific market problem are you solving?"
+    checklist:
+      - "State the mission / purpose / reason the company exists"
+      - "Tie the purpose to a concrete first beachhead (what you build first)"
+    visual_tip: "Background image or graphic raises visual appeal; place logo in top-right for professionalism."
+    preferred_layout: main_point
+    alt_layouts: [stat_pair, content]
+
+  problem:
+    title_en: "Problem"
+    title_pl: "Problem"
+    question_pl: "Jak dany problem jest obecnie rozwiązywany i dlaczego należy to zmienić?"
+    question_en: "How is this problem solved today and why must that change?"
+    checklist:
+      - "Describe how the problem is currently solved"
+      - "State who is affected and the scale (market size, # of customers)"
+      - "Provide context so the reader instantly grasps the domain"
+    visual_tip: "Three statistics in three columns hit harder than paragraphs; lead each with a number."
+    preferred_layout: three_column
+    alt_layouts: [stat_pair, content]
+
+  solution:
+    title_en: "Solution"
+    title_pl: "Rozwiązanie"
+    question_pl: "W jaki sposób Wasz produkt rozwiąże problem przedstawiony na poprzednim slajdzie?"
+    question_en: "How does your product solve the problem you just stated?"
+    checklist:
+      - "Value Proposition per customer segment"
+      - "How the product solves their problem or improves daily life"
+      - "2–3 concrete usage scenarios"
+    visual_tip: "Add customer logos, a short testimonial, or a user count to reinforce the value claim."
+    preferred_layout: stat_pair
+    alt_layouts: [content, two_column]
+
+  why_now:
+    title_en: "Why now"
+    title_pl: "Dlaczego teraz"
+    question_pl: "Dlaczego teraz jest właśnie dobry moment na rozwój Waszego rozwiązania?"
+    question_en: "Why is now the right moment for this solution?"
+    checklist:
+      - "Recent market trends backed by data"
+      - "Industry trajectory — what shows the market is ready"
+      - "Cite sources for every stat"
+    visual_tip: "A short trend headline + supporting context paragraph reads better than a list of bullets."
+    preferred_layout: stat_pair
+    alt_layouts: [content]
+
+  market_size:
+    title_en: "Market size"
+    title_pl: "Wielkość rynku"
+    question_pl: "Jak duży jest rynek, który wcześniej zdefiniowaliście? Jakie wolumeny osiąga? Jakie są kluczowe wartości liczbowe?"
+    question_en: "How big is the market you defined? What are the key numerical values?"
+    checklist:
+      - "TAM / SAM / SOM methodology with concrete numbers"
+      - "Key market stats (e.g. CAGR)"
+      - "Sources for every number"
+    visual_tip: "Split the slide: TAM/SAM/SOM funnel on the left, key stats on the right. Use shades of the brand palette."
+    preferred_layout: stat_pair
+    alt_layouts: [three_column, content]
+
+  competition:
+    title_en: "Competition"
+    title_pl: "Konkurencja"
+    question_pl: "Jak bardzo konkurencyjny jest rynek, na który chcecie wejść? Czy jest to rynek dojrzały czy dopiero rozwijający się?"
+    question_en: "How competitive is the market and how mature is it?"
+    checklist:
+      - "Identify direct competitors and alternative solutions"
+      - "Define meaningful comparison criteria"
+      - "Show your solution vs competitors on those criteria"
+    visual_tip: "Present competition as a clean comparison table — checkmarks beat prose."
+    preferred_layout: two_column
+    alt_layouts: [content]
+
+  product:
+    title_en: "Product / competitive edge"
+    title_pl: "Produkt / przewaga konkurencyjna"
+    question_pl: "Jakie są kluczowe cechy i funkcjonalności Waszego rozwiązania? Dlaczego jest ono lepsze od aktualnie dostępnych rozwiązań rynkowych?"
+    question_en: "What are the key features and why is your product better than existing solutions?"
+    checklist:
+      - "Describe the product / service in concrete terms"
+      - "List key features and concrete competitive advantages"
+      - "Visualise the concept (diagram, screen, photo)"
+    visual_tip: "Show a product screenshot, schema, or process diagram — the visual is the proof."
+    preferred_layout: content
+    alt_layouts: [stat_pair, two_column]
+
+  business_model:
+    title_en: "Business model"
+    title_pl: "Model biznesowy"
+    question_pl: "W jaki sposób będziecie zarabiać na Waszym rozwiązaniu?"
+    question_en: "How will you make money?"
+    checklist:
+      - "Revenue streams as defined in your Business Model Canvas"
+      - "Mark which stream is the primary one"
+      - "Pricing units where relevant (per seat, per transaction, %)"
+    visual_tip: "A money-flow diagram with percentages between parties beats a bulleted list."
+    preferred_layout: stat_pair
+    alt_layouts: [three_column, content]
+
+  financials:
+    title_en: "Financials"
+    title_pl: "Finanse"
+    question_pl: "Jak prezentuje się Wasz model finansowy? Przedstawcie najważniejsze wartości i założenia."
+    question_en: "What does your financial model look like? Show the key values and assumptions."
+    checklist:
+      - "P&L over 3–5 years (Revenue / OPEX / EBITDA)"
+      - "Key drivers next to P&L (e.g. number of customers, ARPC, margin)"
+      - "When the business becomes profitable"
+    visual_tip: "A year × KPI table with 3 headline numbers for Y5 communicates faster than a chart alone."
+    preferred_layout: table_grid
+    alt_layouts: [stat_pair, chart]
+
+  team:
+    title_en: "Team"
+    title_pl: "Zespół"
+    question_pl: "Czy uwzględniliście Wasz cały zespół? Może warto wspomnieć o jakiś wyjątkowych wyróżnikach np. wsparcie eksperckie?"
+    question_en: "Have you covered the whole team and any standout advisors / expert support?"
+    checklist:
+      - "Every team member with their role"
+      - "1–2 sentence credibility line per person (prior companies, domain depth)"
+      - "Photos where possible"
+      - "Mention advisors / angels separately if material"
+    visual_tip: "Grid layout: photo + name + role + 1-sentence bio. Keep bios uniform in length."
+    preferred_layout: table_grid
+    alt_layouts: [stat_pair]
+
+  investment:
+    title_en: "Investment opportunity"
+    title_pl: "Możliwość inwestycyjna"
+    question_pl: "Ile pieniędzy zbieracie i co oferujecie w zamian? W jaki sposób zebrane przez Was fundusze zostaną wykorzystane?"
+    question_en: "How much are you raising, what do investors get, and how will the funds be used?"
+    checklist:
+      - "Round size and instrument (SAFE / convertible / equity)"
+      - "What investors get in return (% equity, terms)"
+      - "Concrete allocation of the funds with %s"
+      - "Milestones the raise will unlock"
+    visual_tip: "Pie chart or stacked bar for funding allocation, headline number top-left."
+    preferred_layout: stat_pair
+    alt_layouts: [chart]
+
+  contact:
+    title_en: "Contact details"
+    title_pl: "Kontakt"
+    question_pl: "W jaki sposób można się z Wami skontaktować? Czy jest w Waszym zespole osoba odpowiedzialna za komunikację?"
+    question_en: "How to get in touch and who owns the conversation?"
+    checklist:
+      - "Name and role of the contact person(s)"
+      - "Email"
+      - "Phone (optional but recommended for senior asks)"
+    visual_tip: "1–2 contacts side-by-side; keep the visual clean."
+    preferred_layout: closing
+    alt_layouts: [two_column]
+
+  # ── Rich pitch-specific sections ─────────────────────────────────────────
+  traction:
+    title_en: "Traction"
+    title_pl: "Wzrost / Wyniki"
+    question_en: "How fast are we growing and on what dimensions?"
+    question_pl: "Jak szybko rośniemy i w jakich wymiarach?"
+    checklist:
+      - "3–4 headline KPIs (MAU, revenue, retention, NPS)"
+      - "Show period-over-period trend with arrow + delta"
+      - "One sentence context line on top"
+    visual_tip: "KPI tiles in a row; trend arrows in green/red."
+    preferred_layout: traction
+    alt_layouts: [stat_pair]
+
+  roadmap:
+    title_en: "Roadmap"
+    title_pl: "Roadmapa"
+    question_en: "What's the path from here to the next major milestone?"
+    question_pl: "Jaką drogę przebędziemy do następnego ważnego punktu?"
+    checklist:
+      - "4–6 milestones with concrete dates"
+      - "Status per milestone (done / in_progress / planned)"
+      - "Critical-path items called out"
+    visual_tip: "Horizontal timeline; events distributed evenly."
+    preferred_layout: roadmap
+    alt_layouts: [gantt]
+
+  comparison_matrix:
+    title_en: "Competitive matrix"
+    title_pl: "Macierz konkurencyjna"
+    question_en: "How do we stack up feature-by-feature?"
+    question_pl: "Jak wypadamy w bezpośrednim porównaniu?"
+    checklist:
+      - "5–8 meaningful comparison rows"
+      - "Our column highlighted (red header)"
+      - "Check marks for boolean; numbers/text for non-boolean"
+    visual_tip: "Table with our brand colour as first column accent."
+    preferred_layout: comparison_matrix
+
+  value_prop:
+    title_en: "Value proposition"
+    title_pl: "Propozycja wartości"
+    question_en: "What pain do we relieve and what gain do we create — per segment?"
+    question_pl: "Jakie problemy rozwiązujemy i jakie korzyści tworzymy — per segment?"
+    checklist:
+      - "1–3 customer segments"
+      - "Each segment: pain (current state) and gain (after using us)"
+      - "Concrete, not aspirational"
+    visual_tip: "Column per segment; pain in gray, gain in green."
+    preferred_layout: value_prop
+
+  customer_journey:
+    title_en: "Customer journey"
+    title_pl: "Ścieżka klienta"
+    question_en: "How does the customer experience the product step by step?"
+    question_pl: "Jak klient doświadcza produktu krok po kroku?"
+    checklist:
+      - "4–5 stages, each one verb-led"
+      - "One sentence per stage describing the moment"
+    visual_tip: "Numbered circles connected by a horizontal line."
+    preferred_layout: customer_journey
+
+  founder_story:
+    title_en: "Founder story"
+    title_pl: "O założycielu"
+    question_en: "Why is this founder the right person to win this market?"
+    question_pl: "Czemu właśnie ten założyciel wygra ten rynek?"
+    checklist:
+      - "Name + role"
+      - "2–3 lines of domain credibility (prior companies, exits, expertise)"
+      - "One signature quote that captures the thesis"
+    visual_tip: "Bio left, big quote with red accent on right."
+    preferred_layout: founder_story
+    alt_layouts: [testimonial]
+
+  partnership_model:
+    title_en: "Partnership / money model"
+    title_pl: "Model partnerstwa"
+    question_en: "How do parties interact and where does money flow?"
+    question_pl: "Jak strony współpracują i gdzie płynie pieniądz?"
+    checklist:
+      - "Each party: name, role, % of value flow"
+      - "Direction of flow visualised between parties"
+    visual_tip: "Boxes for parties; line connector; % badges."
+    preferred_layout: partnership_model
+
+  gtm_strategy:
+    title_en: "Go-to-market"
+    title_pl: "Strategia GTM"
+    question_en: "How do we get from here to scale in concrete phases?"
+    question_pl: "Jak dojdziemy do skali w konkretnych fazach?"
+    checklist:
+      - "3 phases with timeframes"
+      - "Per phase: 2–3 measurable targets"
+      - "Each phase has clear exit criteria"
+    visual_tip: "Phase cards in a row; timeframe badge top, targets below."
+    preferred_layout: gtm_strategy
+
+  testimonial:
+    title_en: "Testimonial / proof"
+    title_pl: "Rekomendacja klienta"
+    question_en: "Who already uses us and what do they say?"
+    question_pl: "Kto już z nas korzysta i co o nas mówi?"
+    checklist:
+      - "One verifiable quote (not paraphrased)"
+      - "Name + role + company"
+      - "Quote ties to a measurable outcome"
+    visual_tip: "Big quote with attribution below a red accent line."
+    preferred_layout: testimonial
+
+
+# Recommended narrative orders for common pitchdeck types.
+# These are suggestions, not constraints — the model can drop or reorder
+# sections when the brief justifies it.
+narratives:
+
+  investor_pitch:
+    - cover
+    - purpose
+    - problem
+    - solution
+    - why_now
+    - market_size
+    - competition
+    - product
+    - business_model
+    - financials
+    - team
+    - investment
+    - contact
+
+  short_pitch:           # cold-meeting / first call, 8 slides
+    - cover
+    - problem
+    - solution
+    - market_size
+    - competition
+    - business_model
+    - team
+    - investment
+
+  product_overview:
+    - cover
+    - problem
+    - solution
+    - product
+    - business_model
+    - financials
+    - team
+    - contact

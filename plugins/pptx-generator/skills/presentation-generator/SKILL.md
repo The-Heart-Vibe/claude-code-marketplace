@@ -1,329 +1,307 @@
 ---
 name: "presentation-generator"
-description: "Generate branded presentations from a topic or brief. Produces a spec JSON and calls generate.py to build a .pptx file using the company template. Use when user asks to create, generate, or build a presentation, deck, or slides."
+description: "Generate branded presentations from a brief or topic. Produces a .pptx file using The Heart templates. Use when the user asks to create, generate, build, or write a presentation, pitch deck, investor deck, internal update, status report, product overview, or slides."
 ---
 
 # Presentation Generator
 
-Generate professional, on-brand presentations. You are the creative director and copywriter, not just a script runner.
+You are the creative director and copywriter. The user describes what they
+need; you decide template, narrative, sections, layouts, and copy — then
+generate the file. The spec JSON is an implementation detail you build
+silently; the user never sees layout names, master indices, or aliases.
 
 ---
 
-## Token efficiency
+## The user-facing flow
 
-Do the minimum necessary to produce a good output. Every extra step costs time and context.
+1. **Read the brief.** Decide what kind of deck it is.
+2. **Brainstorm only if critically blocked** (max 3 questions, all at once).
+3. **Show the outline** — chapter titles only, no body copy, no layout terms.
+4. **On approval, generate** — write spec JSON to /tmp, call generate.py.
+5. **Present the file**, offer one round of revisions.
 
-**Assumptions — make them, don't ask:**
-
-| If user says | Assume |
-|---|---|
-| "pitch for a bank" | Formal, 8–10 slides, C-level audience, English |
-| "internal update" | Casual, 5–7 slides, team audience |
-| "product overview" | Semi-formal, 8–12 slides, mixed audience |
-| No slide count given | Use narrative minimum — stop when the story is complete |
-| No language given | Match the language the user wrote in |
-
-**Ask only one question at a time**, only if the answer genuinely changes the deck structure. Never ask about things you can infer.
-
-**Never:**
-- Narrate your planning process ("First I'll figure out the structure...")
-- Show the spec JSON to the user before generating — go straight to the file
-- Ask for approval of the spec — generate, then offer revisions
-- Re-explain what each slide does after generating — the user can open the file
-- Add slides "just in case" — every slide must earn its place
-
-**On revisions:** one round is normal. If the user asks for changes, apply them and regenerate. Don't discuss — do.
+What the user sees: a clean numbered outline and a finished .pptx.
+What stays internal: section names, layout choices, spec structure, narrative YAMLs.
 
 ---
 
-## Available templates
+## How to decide template and narrative (internal)
 
-Templates live in `bundled/templates/`. Each `.pptx` file is a separate branded template with its own slide layouts. More can be added over time — the plugin picks up any file placed in that directory.
+| User intent                              | Template          | Narrative          |
+|------------------------------------------|-------------------|--------------------|
+| pitch, investor deck, fundraising        | pitchdeck-toolkit | investor_pitch     |
+| cold meeting / 8-slide first pitch       | pitchdeck-toolkit | short_pitch        |
+| product overview (external)              | pitchdeck-toolkit | product_overview   |
+| internal update, status, weekly review   | blank             | internal_update    |
+| quarterly report, board update           | blank             | status_report      |
+| 5-slide kickoff, stand-up                | blank             | short_update       |
+| guideline / process documentation        | blank             | guideline_doc      |
+| ambiguous                                | ask once          | —                  |
 
-| Template file | Use for |
-|---|---|
-| `blank.pptx` | Simple internal decks, one-pagers, quick updates |
-| `pitchdeck-toolkit.pptx` | External pitches, client proposals, investor materials |
-
-**Default:** if the user doesn't specify, infer from context:
-- Formal pitch / client / investor → `pitchdeck-toolkit.pptx`
-- Internal update / team / status → `blank.pptx`
-
-**Assumption:** state which template you're using in the outline approval step. The user can override before generation.
+If you can infer the language from the brief, use it. If not, use Polish for
+internal decks, English for external pitches.
 
 ---
 
-## Workflow
+## How to decide a section (internal)
 
-1. **Assess context** — enough to write a good deck, or critically missing?
-2. **If critically missing: brainstorm** — run a short structured session (see below)
-3. **Select template** — infer from context or ask if genuinely ambiguous
-4. **Plan the narrative** — slide order and layout types before any copy
-5. **Show the outline for approval** — template + title + layout for each slide, no body copy yet
-6. **Wait for go-ahead**, then write the full spec and run generate.py
-7. **Present the file** — share and offer one round of revisions
+Each narrative YAML defines a list of sections. Pick the sections that
+actually serve the brief — never pad to a target slide count. A short
+pitch with five strong sections beats a thirteen-section deck with filler.
 
-### When to brainstorm vs when to assume
+Pitchdeck sections (from `narrative/pitchdeck.yaml`):
+`cover, purpose, problem, solution, why_now, market_size, competition,
+product, business_model, financials, team, investment, contact`
 
-**Assume and proceed** when you have: topic, audience, rough goal.
-Example: "pitch for a bank about our rewards product" — enough. Start.
+Internal-deck sections (from `narrative/general.yaml`):
+`cover, agenda, section_divider, context, guideline, status_update,
+decision_needed, metrics, process, team_intro, summary, next_steps, closing`
 
-**Brainstorm first** when the brief is so open that the wrong structure would waste the whole generation:
-- No clear audience ("make a presentation about AI")
-- Conflicting goals ("pitch + internal update in one deck")
-- Unknown product/context with no prior conversation
-- User explicitly unsure: "I don't know where to start"
+Each section in the narrative YAML carries:
+- a **main question** the slide must answer
+- a **checklist** of items the slide must cover
+- a **visual tip** that informs your layout choice
 
-### Brainstorm session format
+Before generating a slide, you must mentally answer that question and
+cover that checklist. Slides that miss either are slop.
 
-Ask max 3 questions, all at once, not one by one:
+---
+
+## How to choose layouts (internal)
+
+You don't write `"layout": "stat_pair"` because the user thinks "show me 3
+metrics". You write the spec from the **content shape** the brief
+implies. The dispatcher in `generate.py` reads the narrative YAML's
+`preferred_layout` for each section and maps it to a template-specific
+master layout. You only need to decide the shape.
+
+Decision tree — match the content shape, write the spec, the renderer picks
+the master layout, brand chrome, and template-specific geometry.
+
+### Core shapes (primitives)
+- **One bold statement, no data** → `layout: main_point` + `title`
+- **One statement + 2–3 stats** → `layout: stat_pair` + `title`, `main_statement`, `supporting: [{label,body}]`
+- **Three parallel items** → `layout: three_column` + `columns: [{heading,body}]`
+- **A/B comparison** → `layout: two_column` + `left/right: {heading, bullets}`
+- **Title + bullets** → `layout: content` + `body: [...]`
+- **Grid of 4–10 cells** → `layout: table_grid` + `cells: [...]`
+- **One huge number** → `layout: big_number` + `number`, `caption`
+- **Agenda** → `layout: agenda` + `items: [{label, time?}]`
+
+### Pitch deck shapes
+- **Traction / KPIs going up** → `layout: traction` + `kpis: [{value, label, trend}]`
+- **Roadmap / milestones over time** → `layout: roadmap` + `milestones: [{date, label, status}]`
+- **Comparison vs competitors** → `layout: comparison_matrix` + `columns`, `rows: [{label, values}]`
+- **Per-segment value proposition** → `layout: value_prop` + `segments: [{name, pain, gain}]`
+- **Customer / user flow** → `layout: customer_journey` + `steps: [{label, body}]`
+- **Founder spotlight + quote** → `layout: founder_story` + `name`, `role`, `bio`, `quote`
+- **Money flow between parties** → `layout: partnership_model` + `parties: [{name, role, value}]`
+- **Go-to-market phases** → `layout: gtm_strategy` + `phases: [{label, timeframe, targets}]`
+
+### Internal-deck shapes
+- **OKR scorecard** → `layout: okr` + `objective`, `key_results: [{label, current, target, status}]`
+- **Risk matrix** → `layout: risk_matrix` + `risks: [{label, probability, impact}]`
+- **SWOT analysis** → `layout: swot` + `strengths/weaknesses/opportunities/threats`
+- **RAG status by workstream** → `layout: weekly_status` + `streams: [{name, status, summary}]`
+- **Retrospective** → `layout: retro` + `start/stop/continue: [...]`
+- **Decision log** → `layout: decision_log` + `decisions: [{date, decision, owner, status}]`
+- **Gantt timeline** → `layout: gantt` + `periods`, `tasks: [{label, start, end, status}]`
+
+### Storytelling shapes
+- **Standalone quote on full screen** → `layout: big_quote` + `quote`, `attribution`
+- **Customer testimonial** → `layout: testimonial` + `quote`, `name`, `role`, `company`
+- **Before / after contrast** → `layout: before_after` + `before/after: {heading, bullets}`
+- **FAQ list** → `layout: faq` + `items: [{q, a}]`
+- **2×2 image gallery** → `layout: image_grid` + `tiles: [{image, caption}]`
+
+### Status values for layouts that show health
+For `okr`, `weekly_status`, `decision_log`, `roadmap`, `gantt`, `risk_matrix`:
+`done | in_progress | at_risk | blocked | planned | on_track | off_track`.
+The renderer colours pills, dots, bars accordingly.
+
+### Charts (use a chart layout)
+`{ layout: "chart", title: "...", chart_type: "<type>", data: {...} }`
+
+Supported `chart_type`:
+- `bar`, `horizontal_bar`, `stacked_bar` — categorical comparisons
+- `line` — trends over time (use `series: [{label, values}]` for multi-line)
+- `pie`, `donut` — proportions
+- `waterfall` — additive/subtractive flow (totals at ends)
+- `funnel` — conversion stages
+
+Layouts and master indices are picked automatically by template. You don't
+touch them.
+
+---
+
+## Outline format (what the user sees)
+
+Show only chapter titles. No section names. No layout terms. No spec.
 
 ```
-Before I plan the deck, three quick things:
+Deck: ScanPay investor pitch (12 slides)
+
+ 1. ScanPay — Dining kiosk in your mobile
+ 2. Mission: redefining the end-to-end gastronomy experience
+ 3. Labor shortages push restaurants to digitise
+ 4. Solution: QR ordering and payment, live in 4 weeks
+ 5. The food-service market hits its digital tipping point
+ 6. €4B European market, €7.3M serviceable
+ 7. Existing players cover parts of the flow, not the whole
+ 8. One platform, three modular layers
+ 9. Subscription plus transaction fee from Y2
+10. €38.5M revenue, €10.2M EBITDA by Y5
+11. Four founders, joint 30+ years HoReCa and venture building
+12. Raising €400k seed via convertible loan
+13. Let's talk
+```
+
+If the user approves ("looks good / go / ok") — generate immediately.
+No further questions, no spec preview, no recap.
+
+---
+
+## When to brainstorm
+
+Only when the brief is so open the wrong structure would waste the
+generation: no clear audience, conflicting goals, unknown product, or the
+user explicitly says "I don't know where to start". Ask max 3 questions,
+all at once:
+
+```
+Before I plan the deck:
 1. Who's in the room? (role, company type, what they care about)
 2. What decision do you want them to make after seeing this?
 3. What's the one thing they must walk away believing?
 ```
 
-Use answers to fix structure, not just fill content.
-
-### Outline approval format
-
-Show template + numbered list: layout type and title only. No bullets, no body.
-
-```
-Template: pitchdeck-toolkit.pptx
-
-1. cover      — "Transaction Rewards Hub: Pilot Proposal for Bank ABC"
-2. content    — "Banks spend 14 months building what we ship in 4 weeks"
-3. content    — "One API call. Rewards live on day one."
-4. two_column — "Option A: Event Triggers vs Option B: Transaction Data"
-5. content    — "Four success metrics for the pilot"
-6. closing    — (standard)
-```
-
-If the user approves or says "looks good / go / ok" — generate immediately. No further questions.
+For routine briefs ("pitch for a bank about X", "Q4 update for the team"),
+skip the brainstorm and go straight to outline.
 
 ---
 
-## Layout Selection
+## Copy rules
 
-Choose the layout that fits the *content shape*, not the slide title.
+You write the copy. The renderer just places it.
 
-| Layout | Use when |
+### Slide titles state the point
+
+Max 8 words. No gerunds. No "our/we/you". Title is the argument.
+
+| Slop | Sharp |
 |---|---|
-| `cover` | First slide only. Never reuse. |
-| `section` | Transitioning between major narrative blocks (Problem → Solution). Use sparingly — max 2 per deck. |
-| `content` | Default. One idea, max 5 bullets, optional icon. |
-| `two_column` | Comparison, options A/B, before/after, pros/cons. |
-| `chart` | Data that earns a visual — growth over time, distribution, funnel. Don't use for a single number. |
-| `quote` | A strong customer quote, a stat that deserves full focus, a bold claim. |
-| `closing` | Last slide only. Always include. |
+| Overview | Banks spend 14 months building what we ship in 4 weeks |
+| The Problem | Loyalty kills margins before the first cardholder earns a point |
+| Our Solution | One API call. Rewards live in 4 weeks. |
+| Key Benefits | Three things banks get on day one |
+| Market Opportunity | €4.2B uncaptured loyalty revenue in CEE alone |
+| Next Steps | Two decisions needed before we can start |
+| Conclusion | The pilot costs 4 weeks. Doing nothing costs more. |
 
-**Narrative order for a pitch:**
-`cover → problem → solution → how_it_works → proof/metrics → next_steps → closing`
+### Bullets are complete thoughts
 
-**Narrative order for an internal update:**
-`cover → context → what_changed → impact → decisions_needed → closing`
-
-**Narrative order for a product overview:**
-`cover → problem → solution → key_features (content ×2–3) → pricing/packaging → next_steps → closing`
-
----
-
-## Icon Selection
-
-Map the *theme* of the slide, not the title words.
-
-| Slide theme | Icon |
+| Slop | Sharp |
 |---|---|
-| Security, compliance, privacy | `shield` or `lock` |
-| Growth, uplift, improvement | `trending-up` |
-| People, team, audience | `users` |
-| Money, revenue, payment | `banknote` or `credit-card` |
-| Time, timeline, deadline | `clock` |
-| Goal, OKR, KPI | `target` |
-| Technical, API, code | `code` |
-| Data, analytics, metrics | `bar-chart-2` or `database` |
-| Bank, company, institution | `building-2` |
-| Launch, new product, MVP | `rocket` |
-| Achievement, recognition | `award` |
-| Warning, risk, blocker | `alert-triangle` |
-| Confirmation, success, done | `check-circle` |
-| Integration, layers, stack | `layers` |
+| Scalability | 10M transactions/day, zero infrastructure changes |
+| Fast integration | 2–4 weeks from first call to live rewards |
+| Secure | Zero PII leaves the bank — pseudonymised data only |
 
-One icon per slide. Skip the icon if the slide has a chart or image.
+Rules: start with a number, verb, or concrete noun — never an adjective.
+Max 12 words. 3–5 per slide. Merge any two bullets that repeat each other.
 
----
+### Banned everywhere
 
-## Copy Rules
+**In titles:** "Overview", "Introduction", "Key [anything]", "Unlocking",
+"Leveraging", "Driving", "Empowering", "World-class", "Best-in-class",
+"Industry-leading", "Innovative solution", "In today's [landscape]",
+"The future of [X]".
 
-### Slide titles
+**In bullets:** opening adjectives ("Fast", "Secure", "Scalable"), "And
+more...", "Proven track record", "Seamless experience", "End-to-end
+solution", "Best practices", "Robust [anything]", "Cutting-edge",
+"State-of-the-art", -ly adverbs.
 
-Titles must state the *point*, not name the category.
+**Punctuation:** em-dash (—) banned. En-dash (–) only in numeric ranges
+(2–4 weeks). Ellipsis (…) banned.
 
-| ❌ Slop | ✓ Sharp |
-|---|---|
-| "Overview" | "Banks spend 14 months building what we ship in 4 weeks" |
-| "The Problem" | "Loyalty kills margins before the first cardholder earns a point" |
-| "Our Solution" | "One API call. Rewards live in 4 weeks." |
-| "Key Benefits" | "Three things banks get on day one" |
-| "Next Steps" | "Two decisions needed before we can start" |
-| "Conclusion" | "The pilot costs 4 weeks. Doing nothing costs more." |
-| "Market Opportunity" | "€4.2B in uncaptured loyalty revenue in CEE alone" |
-
-Rules:
-- Max 8 words
-- No gerunds ("Driving growth", "Unlocking value", "Leveraging data")
-- No "our", "we", "you" in title — state the fact
-- A good title makes the slide's argument on its own
-
-### Bullet points
-
-Each bullet is a complete thought — not a label.
-
-| ❌ Slop | ✓ Sharp |
-|---|---|
-| "Scalability" | "Handles 10M transactions/day — no infrastructure changes needed" |
-| "Fast integration" | "2–4 weeks from first call to live rewards" |
-| "Secure" | "Zero PII leaves the bank — pseudonymised data only" |
-| "Easy to use" | "One API endpoint. One webhook. Bank dev time: ~3 days." |
-| "Cost effective" | "No CapEx. Revenue share from month one." |
-
-Rules:
-- Start with a number, a verb, or a concrete noun — never an adjective
-- Max 12 words per bullet
-- 3–5 bullets per slide — never more
-- No bullet should repeat another bullet's idea in different words
-- If two bullets could be merged, merge them
-
-### Banned phrases for slides
-
-**Titles:**
-- "Overview", "Introduction", "Background"
-- "Key [Anything]" — ("Key Benefits", "Key Features", "Key Takeaways")
-- "Unlocking", "Leveraging", "Driving", "Enabling", "Empowering"
-- "World-class", "Best-in-class", "Industry-leading", "Next-generation"
-- "Innovative solution", "Unique approach", "Powerful platform"
-- "In today's [landscape/world/environment]"
-- "The future of [X]"
-
-**Bullets:**
-- Bullets that start with an adjective ("Fast", "Secure", "Scalable", "Flexible")
-- "And more..." as a final bullet
-- "Proven track record"
-- "Seamless experience"
-- "End-to-end solution"
-- "Best practices"
-- "Robust [anything]"
-- "Cutting-edge", "State-of-the-art"
-- Any -ly adverb ("quickly", "easily", "seamlessly", "significantly")
-
-**Punctuation:**
-- Em-dash (—): banned everywhere. Use a period or comma.
-- En-dash (–): banned as a clause separator ("Fast – and secure" → "Fast and secure"). Allowed only in numeric ranges (2–4 weeks, 10–12 months).
-- Ellipsis (…): banned. Finish the sentence or cut it.
-
-**Structural patterns to kill:**
-- Tricolon for drama: "Fast. Simple. Reliable." → write one sentence
-- Rhetorical questions on slides: "What if you could...?" → state the answer
-- Negative listing: "Not X. Not Y. Z." → state Z
-- Agenda slide for decks under 12 slides — skip it entirely
-- "Thank you" as a closing slide title — use a call to action instead
-
----
-
-## Slide count rules
-
-| Presentation type | Slide count |
-|---|---|
-| Cold pitch / first meeting | 8–10 |
-| Deep-dive / proposal | 12–16 |
-| Internal update | 5–8 |
-| Product demo intro | 6–10 |
-
-Never pad to hit a number. 8 strong slides beat 14 with filler.
-
-Section dividers count against the total — they add no information.
+**Structural slop:** tricolons ("Fast. Simple. Reliable."), rhetorical
+questions, "Not X. Not Y. Z.", agenda slides under 12 slides, "Thank you"
+closing slides.
 
 ---
 
 ## Numbers and data
 
-- If you have a number, use it. "Significant time savings" → "9–14 months saved"
-- Round consistently — don't mix "€4.2M" and "3 million euros" in the same deck
-- Sources: if a stat is from external research, add a footnote reference in speaker notes
-- Single-number stats belong on a `quote` layout, not buried in a bullet
+- If you have a number, use it. "Significant savings" → "9–14 months saved"
+- Round consistently — don't mix "€4.2M" and "3 million euros"
+- Cite sources for external stats in `aux` or notes
+- Single-number stats → big-number layout, not buried in a bullet
 
 ---
 
-## Tone calibration
+## Tone by deck type
 
-| Context | Tone adjustments |
+| Context | Tone |
 |---|---|
-| Bank / enterprise pitch | Remove contractions. No exclamation marks. Lead with numbers. |
-| Internal team update | Casual, direct. First person fine. Focus on decisions and blockers. |
-| Investor / startup pitch | Short sentences. Vision first, proof second. |
-| Product demo | Present tense. "You click X, the system does Y." |
+| Bank / enterprise pitch | No contractions, no exclamation marks, lead with numbers |
+| Internal team update | Casual, direct, first person fine, focus on decisions/blockers |
+| Investor pitch | Short sentences, vision first, proof second |
+| Status report | Past tense for done, present for blocked, future for next |
+| Product overview | Present tense, "you click X, the system does Y" |
+| Guideline doc | Imperative, prescriptive, one rule per slide |
 
 ---
 
-## Quick checks before generating
-
-Run these before calling generate.py:
+## Pre-flight checklist (run before generate.py)
 
 - [ ] Every title states a point, not a category
 - [ ] No bullet starts with an adjective
-- [ ] No banned phrases anywhere in the deck
-- [ ] Slide count matches the context (no padding)
-- [ ] Icons match slide *theme*, not title words
+- [ ] No banned phrases
+- [ ] For each section, you covered its checklist and answered its main question
 - [ ] Numbers are specific and consistent
+- [ ] External stats cite sources
 - [ ] Closing slide has a call to action, not "Thank you"
-- [ ] No slide repeats the argument of another slide
+- [ ] No slide repeats another's argument
 
 ---
 
-## Calling generate.py
+## How to actually call the generator
 
 ```bash
-python3 bundled/generate.py --spec /tmp/spec.json --output /tmp/output.pptx
+python3 bundled/generate.py --spec /tmp/spec.json --output /tmp/deck.pptx
 ```
 
-`--template` is optional. If omitted, generate.py reads `"template"` from the spec. If neither is set, it falls back to `bundled/templates/blank.pptx`.
+`--template` defaults to whatever you put in `spec["template"]`
+(`"pitchdeck-toolkit"` or `"blank"`).
 
-Spec format:
+### Spec structure
+
+Top-level:
 ```json
-{
-  "template": "pitchdeck-toolkit",
-  "slides": [
-    {
-      "layout": "cover",
-      "title": "...",
-      "subtitle": "..."
-    },
-    {
-      "layout": "content",
-      "title": "...",
-      "icon": "shield",
-      "body": ["Bullet one", "Bullet two", "Bullet three"]
-    },
-    {
-      "layout": "two_column",
-      "title": "...",
-      "left":  { "heading": "Option A", "bullets": ["..."] },
-      "right": { "heading": "Option B", "bullets": ["..."] }
-    },
-    {
-      "layout": "chart",
-      "title": "...",
-      "chart_type": "bar",
-      "data": { "labels": ["Q1","Q2","Q3"], "values": [20, 35, 48] }
-    },
-    {
-      "layout": "closing"
-    }
-  ]
-}
+{ "template": "pitchdeck-toolkit" | "blank",
+  "slides": [ {…}, {…}, … ] }
 ```
 
-After generating: present the file with `mcp__cowork__present_files` and offer one round of revisions.
+Each slide is one of:
+- `{ "section": "<name>", "title": "...", ...content fields }`  (pitch / internal sections)
+- `{ "layout": "<shape>", "title": "...", ...content fields }`  (rare; only when no section fits)
+
+Content fields per shape (covered in the decision tree above):
+`title, subtitle, body, main_statement, supporting, columns, left, right,
+cells, number, caption, aux, quote, attribution, notes`
+
+You may also include speaker notes per slide: `"notes": "..."`.
+
+### Templates (internal note)
+
+- `pitchdeck-toolkit` — full pitch toolkit with rich native layouts; use
+  for anything investor or external-facing.
+- `blank` — internal-deck template. Has limited native multi-column layouts
+  — the renderer falls back to free text boxes on a blank canvas for
+  `two_column`, `three_column`, `stat_pair`, `table_grid`, `big_number`
+  so geometry stays predictable.
+
+### After generating
+
+Present the file with `mcp__cowork__present_files`. Offer one round of
+revisions. Don't recap what each slide does — the user can open the file.

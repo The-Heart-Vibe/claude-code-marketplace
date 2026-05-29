@@ -1,0 +1,411 @@
+# general.yaml — Consultant narrative for non-pitch presentations.
+#
+# Sourced from the official "New Core TH Template [10.2025]" (blank.pptx),
+# which doubles as an internal toolkit on how to use the brand template.
+# Three thematic chapters in blank.pptx map to three narrative archetypes:
+#
+#   Chapter 1 (slides 2–7):  "Tworzenie i kopiowanie prezentacji"
+#   Chapter 2 (slides 8–11): "Layout, typografia i toolkit"
+#   Chapter 3 (slides 22–39): Section dividers — pure visual transitions
+#
+# blank.pptx itself doesn't use the "question + checklist + nice-to-have"
+# legend that the Pitchdeck Toolkit codifies — its guidance is style-oriented.
+# We surface that style guidance here as the `style` constraints layer,
+# and define a small set of high-utility section archetypes for the kind of
+# internal decks the template is actually used for.
+
+version: "1.0.0"
+
+# ── Universal style constraints (apply to every section) ──────────────────
+# Lifted from blank.pptx slides 9–11 and slides 3, 6, 7 (Wytyczne boxes).
+style:
+  language_default: "pl"          # internal decks default to Polish
+
+  typography:
+    primary_font:    "Raleway"
+    emphasis_weight: "SemiBold"
+    min_font_pt:     10          # "Czcionka 10 jako najmniejsza"
+    title_pt:        28          # standard slide title
+    section_pt:      12          # tytuł sekcji
+    body_pt:         14
+    size_step:       2           # min difference between hierarchy levels
+    rule: |
+      "Różnica pomiędzy wielkością czcionek min. 2 dla klarownego odcięcia
+      — najlepiej parzyste. Wyróżnienia z użyciem semi bold."
+
+  colour_use:
+    main:     ["#E61B25", "#000000", "#13A538"]   # used freely
+    accents:  ["#E9787E", "#0056A4"]               # use sparingly
+    greys:    ["#969696", "#E6E6E6", "#F0F0F0"]   # for backgrounds / borders
+    rule: |
+      "Main colours" used freely; "Accents if needed" sparingly. Don't reach
+      for accents when a main colour will do.
+
+  consistency_rules:
+    - "Nie zaczynamy nowych prezentacji od kopiowania starych"
+    - "Jeśli przeklejasz slajd z innej prezentacji, dostosuj styl do template'u (this presentation)"
+    - "Trójkąty (top-left/bottom-right decorations) zmieniaj w Slide Master / Theme Builder, nie per slajd"
+    - "Mniejsze czcionki (poniżej 14) jedynie w ostateczności — slajdy raportowe"
+
+  symbols_allowed: ["✔", "✘", "⬤", "→", "•"]
+
+# ── Section archetypes ────────────────────────────────────────────────────
+sections:
+
+  cover:
+    title_en: "Cover"
+    title_pl: "Slajd tytułowy"
+    question_pl: ""
+    question_en: ""
+    checklist:
+      - "Tytuł prezentacji w 1–2 linijkach"
+      - "Podtytuł: kontekst + data"
+      - "Opcjonalnie: zdjęcie tła (BLANK_1-style section divider)"
+    visual_tip: "Use BLANK cover with background photo for external-facing decks; CUSTOM_2 cover for internal."
+    preferred_layout: cover_centered
+    alt_layouts: [cover_split, section_divider]
+
+  agenda:
+    title_en: "Agenda"
+    title_pl: "Agenda"
+    question_pl: "Co odbiorca zobaczy w prezentacji?"
+    question_en: "What's in this deck?"
+    checklist:
+      - "Numerowana lista 3–7 punktów"
+      - "Każdy punkt = nazwa rozdziału, nie pełne zdanie"
+      - "Kolejność matches the actual flow of slides"
+    visual_tip: "Czysta lista, bez ikon. Punkty po lewej, opcjonalny opis po prawej."
+    preferred_layout: content
+    alt_layouts: [two_column]
+
+  section_divider:
+    title_en: "Section divider"
+    title_pl: "Przekładka rozdziału"
+    question_pl: ""
+    question_en: ""
+    checklist:
+      - "Krótki tytuł rozdziału (1–3 słowa)"
+      - "Opcjonalnie: 1 zdanie tezy rozdziału w podtytule"
+    visual_tip: "BLANK_1 master layout — duże miejsce na tytuł, minimum dekoracji."
+    preferred_layout: section
+    alt_layouts: [main_point]
+
+  context:
+    title_en: "Context"
+    title_pl: "Kontekst"
+    question_pl: "Co odbiorca musi wiedzieć żeby zrozumieć resztę?"
+    question_en: "What does the reader need to know to understand the rest?"
+    checklist:
+      - "Stan obecny w 2–4 zdaniach"
+      - "Co zmieniło się od ostatniej rozmowy / raportu"
+      - "Skąd wynika potrzeba przedstawienia tematu"
+    visual_tip: "Pojedynczy paragraf + 1–2 supporting stats po prawej."
+    preferred_layout: stat_pair
+    alt_layouts: [content, one_column_text]
+
+  guideline:
+    title_en: "Guideline / instruction"
+    title_pl: "Wytyczna"
+    question_pl: "Jaką zasadę / proces opisujemy i dlaczego?"
+    question_en: "Which rule / process are we documenting and why?"
+    checklist:
+      - "Nazwa wytycznej w tytule (imperatywnie, konkretnie)"
+      - "Główna teza w podtytule lub pierwszej linijce"
+      - "2–4 kroki / podpunkty"
+      - "Opcjonalnie: zrzut ekranu / wizualny dowód"
+    visual_tip: "Use CUSTOM_1_1_1_1_3 (4-placeholder layout) for step-by-step guidelines. Mark Wytyczne in subtitle."
+    preferred_layout: guideline   # mapped to CUSTOM_1_1_1_1_3 in template_map
+    alt_layouts: [content, two_column]
+
+  status_update:
+    title_en: "Status update"
+    title_pl: "Status"
+    question_pl: "Gdzie jesteśmy, co się zmieniło, co dalej?"
+    question_en: "Where are we, what changed, what's next?"
+    checklist:
+      - "Co zostało zrobione od ostatniego update'u"
+      - "Co jest blokerem / wymaga decyzji"
+      - "Co planujemy do następnego punktu kontrolnego"
+      - "Daty kluczowych deliverable'ów"
+    visual_tip: "Three-column or stat_pair: Done | Blocked | Next."
+    preferred_layout: three_column
+    alt_layouts: [stat_pair, two_column]
+
+  decision_needed:
+    title_en: "Decision needed"
+    title_pl: "Wymagane decyzje"
+    question_pl: "Co musimy zdecydować i kiedy?"
+    question_en: "What needs to be decided, and by when?"
+    checklist:
+      - "Konkretne pytanie wymagające decyzji (1 zdanie)"
+      - "Opcje (zwykle 2–3)"
+      - "Rekomendacja + uzasadnienie"
+      - "Termin decyzji"
+    visual_tip: "Two-column with options A/B; recommended option visually marked."
+    preferred_layout: two_column
+    alt_layouts: [three_column]
+
+  metrics:
+    title_en: "Metrics / KPIs"
+    title_pl: "Metryki"
+    question_pl: "Co mierzymy i jak idzie?"
+    question_en: "What do we measure and how are we doing?"
+    checklist:
+      - "3–5 kluczowych metryk z wartościami"
+      - "Trend (vs poprzedni okres)"
+      - "Cel / threshold gdzie istotne"
+      - "Źródło danych jeśli zewnętrzne"
+    visual_tip: "Big numbers; cell-grid layout. Use ⬤ markers in red/green for trend direction."
+    preferred_layout: table_grid
+    alt_layouts: [three_column, stat_pair]
+
+  process:
+    title_en: "Process / how it works"
+    title_pl: "Proces"
+    question_pl: "Jak ten proces przebiega krok po kroku?"
+    question_en: "How does this process work step by step?"
+    checklist:
+      - "3–5 ponumerowanych kroków"
+      - "Każdy krok: 1 zdanie co się dzieje"
+      - "Opcjonalnie: kto jest odpowiedzialny per krok"
+    visual_tip: "Horizontal step flow with arrows (→). Numbered circles in red."
+    preferred_layout: stat_pair
+    alt_layouts: [three_column, content]
+
+  team_intro:
+    title_en: "Team"
+    title_pl: "Zespół"
+    question_pl: "Kto pracuje nad tematem i jakie są role?"
+    question_en: "Who is on this and what do they do?"
+    checklist:
+      - "Każda osoba: imię + nazwisko + rola"
+      - "1 zdanie credibility per osoba (poprzednie role / domain)"
+      - "Opcjonalnie: zdjęcia"
+    visual_tip: "Grid 3–5 osób; uniform bio length."
+    preferred_layout: table_grid
+    alt_layouts: [stat_pair]
+
+  summary:
+    title_en: "Summary / key takeaways"
+    title_pl: "Podsumowanie"
+    question_pl: "Co jest do zapamiętania?"
+    question_en: "What should the reader walk away with?"
+    checklist:
+      - "Max 3 punkty"
+      - "Każdy punkt to konkretna myśl, nie kategoria"
+      - "Mapuje się 1:1 na cel prezentacji"
+    visual_tip: "Three-column or big numbered list. No bullets — use numbers 1/2/3."
+    preferred_layout: three_column
+    alt_layouts: [content]
+
+  next_steps:
+    title_en: "Next steps"
+    title_pl: "Kolejne kroki"
+    question_pl: "Co dalej, kto, kiedy?"
+    question_en: "What happens next, who owns it, by when?"
+    checklist:
+      - "Lista akcji (każda: czasownik + obiekt)"
+      - "Owner per akcja"
+      - "Termin per akcja"
+    visual_tip: "Tabelka akcja | owner | termin. Sortuj po terminie."
+    preferred_layout: table_grid
+    alt_layouts: [content, two_column]
+
+  closing:
+    title_en: "Closing / Q&A"
+    title_pl: "Zakończenie"
+    question_pl: ""
+    question_en: ""
+    checklist:
+      - "Wezwanie do działania lub punkt kontaktu"
+      - "Brak slajdu 'Thank you' — zastąp konkretem"
+    visual_tip: "BLANK closing with company logo + contact info."
+    preferred_layout: closing
+    alt_layouts: [section]
+
+  # ── Rich internal sections ──────────────────────────────────────────────
+  okr_review:
+    title_en: "OKR scorecard"
+    title_pl: "Przegląd OKR"
+    question_en: "Are we on track to hit the objective?"
+    question_pl: "Czy idziemy do celu zgodnie z planem?"
+    checklist:
+      - "One objective stated as outcome, not output"
+      - "3 measurable key results"
+      - "Current vs target per KR"
+      - "RAG status per KR (on_track / at_risk / done / blocked)"
+    visual_tip: "OKR card per KR with big current/target numbers and status pill."
+    preferred_layout: okr
+    alt_layouts: [weekly_status]
+
+  risk_assessment:
+    title_en: "Risk matrix"
+    title_pl: "Macierz ryzyka"
+    question_en: "Which risks deserve attention now?"
+    question_pl: "Które ryzyka wymagają teraz uwagi?"
+    checklist:
+      - "Each risk: short label, probability (low/medium/high), impact (low/medium/high)"
+      - "Group risks visually by quadrant"
+      - "Numbered legend on the side"
+    visual_tip: "2D matrix; place dots; legend right side."
+    preferred_layout: risk_matrix
+
+  swot_analysis:
+    title_en: "SWOT"
+    title_pl: "Analiza SWOT"
+    question_en: "Where do we win and where are we exposed?"
+    question_pl: "Gdzie wygrywamy i gdzie jesteśmy słabi?"
+    checklist:
+      - "Strengths and Weaknesses are internal"
+      - "Opportunities and Threats are external"
+      - "Max 4 items per quadrant"
+    visual_tip: "Coloured 4-quadrant grid: green/red/blue/red headers."
+    preferred_layout: swot
+
+  workstream_health:
+    title_en: "Workstream RAG"
+    title_pl: "Status workstreamów"
+    question_en: "How is each workstream doing this week?"
+    question_pl: "Jaki status ma każdy workstream?"
+    checklist:
+      - "3–6 workstreams, no more"
+      - "RAG status per stream (on_track / at_risk / blocked / done)"
+      - "One sentence summary per stream — focus on movement"
+    visual_tip: "Streams as rows; status pill in middle; summary right."
+    preferred_layout: weekly_status
+
+  retrospective:
+    title_en: "Retrospective"
+    title_pl: "Retro"
+    question_en: "What should we start, stop, and continue?"
+    question_pl: "Co zaczynamy, kończymy, kontynuujemy?"
+    checklist:
+      - "Each column has 2–4 concrete items"
+      - "Items are observable behaviours, not feelings"
+    visual_tip: "Three columns: green Start, red Stop, blue Continue."
+    preferred_layout: retro
+
+  decisions_log:
+    title_en: "Decisions log"
+    title_pl: "Log decyzji"
+    question_en: "Which decisions have we taken and where do they stand?"
+    question_pl: "Jakie decyzje zapadły i jaki mają status?"
+    checklist:
+      - "Date | Decision | Owner | Status (done/blocked/in_progress)"
+      - "Keep entries short — link to docs in notes if needed"
+    visual_tip: "Table layout; status pill in the rightmost column."
+    preferred_layout: decision_log
+
+  timeline:
+    title_en: "Project timeline"
+    title_pl: "Harmonogram"
+    question_en: "What happens when, and what's on the critical path?"
+    question_pl: "Co kiedy się dzieje i co jest na critical path?"
+    checklist:
+      - "Timeline divided into periods (Q1–Q4, weeks, months)"
+      - "Each task: start, end, status"
+      - "Status colours: done/in_progress/at_risk/planned"
+    visual_tip: "Horizontal bars across period columns."
+    preferred_layout: gantt
+    alt_layouts: [roadmap]
+
+
+# ── Pre-built narratives for common deck types ────────────────────────────
+narratives:
+
+  internal_update:        # status report for a stream / project
+    - cover
+    - agenda
+    - context
+    - status_update
+    - decision_needed
+    - next_steps
+    - closing
+
+  status_report:          # quarterly / monthly report
+    - cover
+    - agenda
+    - context
+    - metrics
+    - status_update
+    - next_steps
+    - closing
+
+  product_overview:       # internal product walkthrough
+    - cover
+    - agenda
+    - context
+    - process
+    - metrics
+    - team_intro
+    - next_steps
+    - closing
+
+  short_update:           # 5-slide kickoff / stand-up
+    - cover
+    - status_update
+    - decision_needed
+    - next_steps
+    - closing
+
+  guideline_doc:          # workflow / process documentation
+    - cover
+    - agenda
+    - section_divider
+    - guideline
+    - guideline
+    - guideline
+    - summary
+    - closing
+
+  board_update:           # board / steering committee deck
+    - cover
+    - agenda
+    - context
+    - workstream_health
+    - okr_review
+    - risk_assessment
+    - decisions_log
+    - next_steps
+    - closing
+
+  retro_review:           # sprint or quarter retrospective
+    - cover
+    - context
+    - metrics
+    - retrospective
+    - swot_analysis
+    - next_steps
+    - closing
+
+  project_kickoff:        # new initiative starting
+    - cover
+    - context
+    - okr_review
+    - workstream_health
+    - timeline
+    - risk_assessment
+    - team_intro
+    - decisions_log
+    - closing
+
+  quarterly_planning:     # OKR planning offsite
+    - cover
+    - agenda
+    - context
+    - swot_analysis
+    - okr_review
+    - timeline
+    - risk_assessment
+    - next_steps
+    - closing
+
+  workshop_deck:          # discussion / facilitation
+    - cover
+    - agenda
+    - section_divider
+    - guideline
+    - context
+    - retrospective
+    - next_steps
+    - closing

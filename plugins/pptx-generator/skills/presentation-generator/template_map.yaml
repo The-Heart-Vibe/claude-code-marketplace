@@ -1,42 +1,337 @@
-# template_map.yaml
-# Maps each template name to layout → slide index.
-# slide: the 0-based index of the slide to clone from the template .pptx.
-# Add new templates here as the library grows.
+# template_map.yaml — Maps semantic layout names → Slide Master layout indices.
+#
+# Switched from slide-cloning to native python-pptx placeholder API in v2.
+# Each template's Slide Master ships with named layouts; this file maps the
+# generic layout aliases used in specs to those layouts (by zero-based index).
+#
+# To inspect a template's Slide Master layouts:
+#   from pptx import Presentation
+#   p = Presentation("templates/pitchdeck-toolkit.pptx")
+#   for i, l in enumerate(p.slide_layouts): print(i, l.name)
+#
+# Each layout entry also declares the placeholder idx → role mapping. The
+# layout modules in layouts/ read this mapping to address shapes by intent
+# (title, body, supporting_1, ...) instead of by position.
 
 templates:
 
-  blank:
-    # "New Core TH Template [10.2025].pptx" — 11 slides
-    layouts:
-      cover:
-        slide: 0          # CUSTOM_2 — right-side title, left image
-      section:
-        slide: 3          # CUSTOM_1_1 — full-width centered title, no background
-      content:
-        slide: 4          # CUSTOM_1_1_1_1 — title + body text area
-      two_column:
-        slide: 4          # No native text two-col in blank; fall back to content
-      chart:
-        slide: 4          # Reuse content slide; chart image injected below title
-      quote:
-        slide: 4          # Reuse content slide; quote text goes into body area
-      closing:
-        slide: 10         # Układ niestandardowy 1 1_2 — logos only, no text injected
-
   pitchdeck-toolkit:
-    # "Copy of [template] Pitchdeck Toolkit.pptx" — 47 slides
+    # The Heart Pitchdeck Toolkit — 16 master layouts
     layouts:
-      cover:
-        slide: 6          # CUSTOM_1_1_1_1_2_1_1_3 — split: left text, right image
+
+      cover_centered:
+        master_idx: 0      # TITLE — center_title + subtitle
+        placeholders:
+          title: 0
+          subtitle: 1
+
+      cover_split:
+        master_idx: 11     # CUSTOM_1_1_1_1_2_1_1_3 — split: left text, right image
+        placeholders: {}   # no native placeholders; layout uses free shapes
+        free_shapes:
+          title: 0         # by document order
+          tagline: 1
+
       section:
-        slide: 10         # CUSTOM_1_1_1_1_2_1 — clean content, body cleared for section
+        master_idx: 1      # SECTION_HEADER
+        placeholders:
+          title: 0
+
       content:
-        slide: 10         # CUSTOM_1_1_1_1_2_1 — title top-left, body below
+        master_idx: 2      # TITLE_AND_BODY
+        placeholders:
+          title: 0
+          body: 1
+
       two_column:
-        slide: 13         # CUSTOM_1_1_1_1_2_2 — three columns; uses leftmost + rightmost
-      chart:
-        slide: 10         # Reuse content slide; chart image injected below title
-      quote:
-        slide: 10         # Reuse content slide; quote text in body area
-      closing:
-        slide: 44         # CUSTOM_1_1_1_1_2_1 — contact/final slide
+        master_idx: 3      # TITLE_AND_TWO_COLUMNS
+        placeholders:
+          title: 0
+          left: 1
+          right: 2
+
+      title_only:
+        master_idx: 4      # TITLE_ONLY
+        placeholders:
+          title: 0
+
+      one_column_text:
+        master_idx: 5      # ONE_COLUMN_TEXT
+        placeholders:
+          title: 0
+          body: 1
+
+      main_point:
+        master_idx: 6      # MAIN_POINT — large centered statement
+        placeholders:
+          title: 0
+
+      section_with_description:
+        master_idx: 7      # SECTION_TITLE_AND_DESCRIPTION
+        placeholders:
+          title: 0
+          subtitle: 1
+          body: 2
+
+      caption_only:
+        master_idx: 8      # CAPTION_ONLY
+        placeholders:
+          caption: 1
+
+      big_number:
+        master_idx: 9      # BIG_NUMBER
+        placeholders:
+          number: 0
+          caption: 1
+
+      blank:
+        master_idx: 10     # BLANK
+
+      three_column:
+        master_idx: 12     # CUSTOM_1_1_1_1_2_2 — title + 7 body cells (3-stat layout)
+        placeholders:
+          title: 0
+          subtitle: 1
+          col1_heading: 2
+          col2_heading: 3
+          col3_heading: 4
+          col1_body: 5
+          col2_body: 6
+          col3_body: 7
+
+      instruction:
+        master_idx: 13     # CUSTOM_1_1_1_1 — toolkit's own instruction-slide layout
+        placeholders:
+          title: 0
+          main_question: 1
+          checklist: 2
+
+      stat_pair:
+        master_idx: 14     # CUSTOM_1_1_1_1_2_1 — title + main_statement + 3 supporting cells
+        placeholders:
+          title: 0
+          main_statement: 1
+          supporting_label: 2
+          supporting_body: 3
+          aux: 4
+
+      table_grid:
+        master_idx: 15     # CUSTOM_1_1_1_1_2_1_1_1_2 — title + 10 body cells (team/financials)
+        placeholders:
+          title: 0
+          cell_1: 1
+          cell_2: 2
+          cell_3: 3
+          cell_4: 4
+          cell_5: 5
+          cell_6: 6
+          cell_7: 7
+          cell_8: 8
+          cell_9: 9
+          cell_10: 13
+
+      # ── Semantic aliases used in specs ────────────────────────────────────
+      # These point at the same master layouts as above; the layout modules
+      # in layouts/pitch/ may pick different formatting per section.
+      # NOTE: cover_split (master_idx=11) has no native placeholders in the
+      # Slide Master — the toolkit fills it with free shapes per slide. Until
+      # we add a free-shape fallback path for it, cover defaults to
+      # cover_centered (TITLE) which has proper title + subtitle placeholders.
+      cover:      { alias_of: cover_centered }
+      chart:      { alias_of: content }
+      quote:      { alias_of: main_point }
+      closing:    { alias_of: two_column }
+
+      # ── Rich/composite layouts ────────────────────────────────────────────
+      # These render entirely as free shapes regardless of template; they
+      # only need a blank canvas underneath. master_idx=10 is BLANK in
+      # pitchdeck-toolkit.
+      _free_canvas_anchor: &pt_free_canvas
+        master_idx: 10
+        placeholders: {}
+        free_canvas: true
+
+      traction:           *pt_free_canvas
+      roadmap:            *pt_free_canvas
+      comparison_matrix:  *pt_free_canvas
+      value_prop:         *pt_free_canvas
+      customer_journey:   *pt_free_canvas
+      founder_story:      *pt_free_canvas
+      partnership_model:  *pt_free_canvas
+      gtm_strategy:       *pt_free_canvas
+      okr:                *pt_free_canvas
+      risk_matrix:        *pt_free_canvas
+      swot:               *pt_free_canvas
+      weekly_status:      *pt_free_canvas
+      retro:              *pt_free_canvas
+      decision_log:       *pt_free_canvas
+      gantt:              *pt_free_canvas
+      big_quote:          *pt_free_canvas
+      testimonial:        *pt_free_canvas
+      before_after:       *pt_free_canvas
+      agenda:             *pt_free_canvas
+      faq:                *pt_free_canvas
+      image_grid:         *pt_free_canvas
+
+  # ── The Heart New Core Template (blank.pptx) ────────────────────────────
+  # 19 master layouts; the workhorse is CUSTOM_1_1_1_1_3 (used 20× in the
+  # toolkit itself). Naming convention from the master is opaque — we map
+  # each unique layout to a semantic alias the spec can target.
+  blank:
+    layouts:
+
+      cover_centered:
+        master_idx: 0      # CUSTOM_2 — TITLE + SUBTITLE + PICTURE
+        placeholders:
+          title: 0
+          subtitle: 1
+          picture: 2
+
+      section:
+        master_idx: 1      # CUSTOM_1 — chapter divider with PICTURE
+        placeholders:
+          title: 0
+          picture: 2
+
+      section_alt:
+        master_idx: 2      # CUSTOM_1_1 — alternate chapter divider
+        placeholders:
+          title: 0
+          picture: 2
+
+      guideline:
+        # The toolkit's most-used content layout. 4 placeholders:
+        # TITLE + BODY + SUBTITLE (used as "Wytyczne" label) + BODY (visual tip)
+        master_idx: 3      # CUSTOM_1_1_1_1
+        placeholders:
+          title: 0
+          body: 1
+          label: 2         # "Wytyczne" / chapter label
+          visual_tip: 3
+
+      content:
+        # Same layout family as guideline — use when label isn't needed.
+        master_idx: 4      # CUSTOM_1_1_1_1_3 — TITLE + BODY + SUBTITLE + BODY
+        placeholders:
+          title: 0
+          body: 1
+          subtitle: 2
+          aux: 3
+
+      content_alt:
+        master_idx: 5      # CUSTOM_1_1_1_1_3_2
+        placeholders:
+          title: 0
+          body: 1
+          subtitle: 2
+          aux: 3
+
+      section_with_description:
+        master_idx: 6      # CUSTOM_1_1_1_1_3_1 — TITLE + SUBTITLE + BODY
+        placeholders:
+          title: 0
+          subtitle: 1
+          body: 2
+
+      title_body_subtitle:
+        master_idx: 7      # CUSTOM_1_1_1_1_2
+        placeholders:
+          title: 0
+          body: 1
+          subtitle: 2
+
+      two_column:
+        # blank.pptx has no native two-column master with usable geometry —
+        # the closest layout (CUSTOM_1_1_1_1_2_1) has 4%-height body slivers.
+        # Render via free text boxes on top of BLANK_1 instead.
+        master_idx: 12     # BLANK_1
+        placeholders: {}
+        free_canvas: true
+
+      blank:
+        master_idx: 9      # BLANK — single BODY placeholder
+        placeholders:
+          body: 1
+
+      section_divider:
+        # The big "Miejsce na tytuł przekładki" chapter divider — 15× used.
+        master_idx: 12     # BLANK_1 — no placeholders, free text on the slide.
+        placeholders: {}
+        free_shapes:
+          title: 0
+
+      title_body:
+        master_idx: 11     # CUSTOM_1_1_1_1_2_1_2 — TITLE + BODY
+        placeholders:
+          title: 0
+          body: 1
+
+      three_column:
+        # No native three-column layout in blank.pptx (the CUSTOM_*_3_3
+        # master is title+single-body+footer, not 3 equal columns).
+        # Render as free text boxes for predictable geometry.
+        master_idx: 12     # BLANK_1
+        placeholders: {}
+        free_canvas: true
+
+      stat_pair:
+        # Same story — the native _2_1_3 master has unbalanced placeholder
+        # geometry. Use free canvas so columns stay equal and aligned.
+        master_idx: 12     # BLANK_1
+        placeholders: {}
+        free_canvas: true
+
+      table_grid:
+        # NxM cell grid drawn dynamically; works for 2 to 12 cells.
+        master_idx: 12     # BLANK_1
+        placeholders: {}
+        free_canvas: true
+
+      main_point:
+        # blank.pptx has no MAIN_POINT layout — reuse the simple title-only
+        # section style which renders a single large statement nicely.
+        master_idx: 1      # CUSTOM_1
+        placeholders:
+          title: 0
+
+      big_number:
+        # Render number + caption centred on BLANK via free text boxes.
+        master_idx: 12     # BLANK_1
+        placeholders: {}
+        free_canvas: true
+
+      # Semantic aliases the spec can use without knowing the master layout.
+      cover:      { alias_of: cover_centered }
+      chart:      { alias_of: content }
+      quote:      { alias_of: main_point }
+      closing:    { alias_of: two_column }
+
+      # ── Rich/composite layouts ────────────────────────────────────────────
+      # Render fully as free shapes on BLANK_1 — work identically across
+      # both templates.
+      _free_canvas_anchor: &b_free_canvas
+        master_idx: 12
+        placeholders: {}
+        free_canvas: true
+
+      traction:           *b_free_canvas
+      roadmap:            *b_free_canvas
+      comparison_matrix:  *b_free_canvas
+      value_prop:         *b_free_canvas
+      customer_journey:   *b_free_canvas
+      founder_story:      *b_free_canvas
+      partnership_model:  *b_free_canvas
+      gtm_strategy:       *b_free_canvas
+      okr:                *b_free_canvas
+      risk_matrix:        *b_free_canvas
+      swot:               *b_free_canvas
+      weekly_status:      *b_free_canvas
+      retro:              *b_free_canvas
+      decision_log:       *b_free_canvas
+      gantt:              *b_free_canvas
+      big_quote:          *b_free_canvas
+      testimonial:        *b_free_canvas
+      before_after:       *b_free_canvas
+      agenda:             *b_free_canvas
+      faq:                *b_free_canvas
+      image_grid:         *b_free_canvas
