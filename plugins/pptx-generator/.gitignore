@@ -1,0 +1,3 @@
+# Template PPTX files — too large and contain proprietary brand assets.
+# Download manually from Google Slides (see skills/presentation-generator/templates/README.md)
+skills/presentation-generator/templates/*.pptx
