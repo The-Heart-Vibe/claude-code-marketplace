@@ -51,7 +51,17 @@ def export_design_system(
     # 6. Brand logos (3 variants × 3 themes) → src/logos/
     logos.write_logos(plugin_root, out / "src" / "logos")
 
-    # 7. Optional git init so the directory is immediately importable
+    # 7. Companion Claude skill — copy from the plugin so anyone who clones
+    #    the design system also gets the on-brand-frontend instructions for
+    #    Claude Code / Claude Design.
+    skill_src = plugin_root / "skills" / "theheart-frontend" / "SKILL.md"
+    if skill_src.exists():
+        (out / ".claude" / "skills" / "theheart-frontend").mkdir(parents=True, exist_ok=True)
+        (out / ".claude" / "skills" / "theheart-frontend" / "SKILL.md").write_text(
+            skill_src.read_text(),
+        )
+
+    # 8. Optional git init so the directory is immediately importable
     if init_git and not (out / ".git").exists():
         try:
             subprocess.run(["git", "init", "-q", "-b", "main", str(out)], check=True)
