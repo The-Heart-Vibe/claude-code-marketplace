@@ -14,7 +14,7 @@ from typing import Optional
 
 import yaml
 
-from . import tokens, components, patterns, scaffold, icons
+from . import tokens, components, patterns, scaffold, icons, logos
 
 
 def export_design_system(
@@ -48,7 +48,10 @@ def export_design_system(
     plugin_root = Path(brand_path).resolve().parent
     icons.write_icons(plugin_root, out / "src" / "icons")
 
-    # 5. Optional git init so the directory is immediately importable
+    # 6. Brand logos (3 variants × 3 themes) → src/logos/
+    logos.write_logos(plugin_root, out / "src" / "logos")
+
+    # 7. Optional git init so the directory is immediately importable
     if init_git and not (out / ".git").exists():
         try:
             subprocess.run(["git", "init", "-q", "-b", "main", str(out)], check=True)

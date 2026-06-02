@@ -152,6 +152,7 @@ def _showcase_tsx() -> str:
           BulletList, Arrow, Symbol, BrandFooter, DecorativeCorner, SectionLabel,
         } from "../components";
         import { Icon } from "../icons";
+        import { Logo } from "../logos";
 
         export function Showcase() {
           return (
@@ -270,6 +271,70 @@ def _showcase_tsx() -> str:
                     <div className="text-th-primary">← Main colors →</div>
                     <div className="text-th-gray-1">← Accents if needed →</div>
                   </div>
+                </div>
+              </section>
+
+              {/* ── Logo lock-ups — 3 variants × 3 themes ─────────────────── */}
+              <section className="max-w-5xl mx-auto bg-white rounded-md p-8">
+                <SectionLabel>Brand assets</SectionLabel>
+                <h2 className="mt-2 text-th-h1 font-heading font-bold text-th-black">Logotypes</h2>
+                <p className="mt-1 text-th-supporting text-th-gray-1">
+                  Three lock-ups — pick the one that fits the surface. Aspect ratios are real,
+                  derived from the source PNGs, so the logo is never stretched.
+                </p>
+
+                {/* Color (default) — light surface */}
+                <div className="mt-8 grid grid-cols-3 gap-6 items-center">
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md border border-th-gray-2 bg-white">
+                    <Logo variant="horizontal" height={48} />
+                    <div className="text-th-caption text-th-gray-1">horizontal · 2.86 : 1</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md border border-th-gray-2 bg-white">
+                    <Logo variant="vertical" height={96} />
+                    <div className="text-th-caption text-th-gray-1">vertical · 1.24 : 1</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md border border-th-gray-2 bg-white">
+                    <Logo variant="icon" height={64} />
+                    <div className="text-th-caption text-th-gray-1">icon · 0.66 : 1</div>
+                  </div>
+                </div>
+
+                {/* White — dark surface */}
+                <div className="mt-4 grid grid-cols-3 gap-6 items-center">
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-black">
+                    <Logo variant="horizontal" theme="white" height={48} />
+                    <div className="text-th-caption text-white opacity-70">theme="white"</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-black">
+                    <Logo variant="vertical" theme="white" height={96} />
+                    <div className="text-th-caption text-white opacity-70">theme="white"</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-black">
+                    <Logo variant="icon" theme="white" height={64} />
+                    <div className="text-th-caption text-white opacity-70">theme="white"</div>
+                  </div>
+                </div>
+
+                {/* Black — monochrome for photo overlays */}
+                <div className="mt-4 grid grid-cols-3 gap-6 items-center">
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-gray-3 border border-th-gray-2">
+                    <Logo variant="horizontal" theme="black" height={48} />
+                    <div className="text-th-caption text-th-gray-1">theme="black"</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-gray-3 border border-th-gray-2">
+                    <Logo variant="vertical" theme="black" height={96} />
+                    <div className="text-th-caption text-th-gray-1">theme="black"</div>
+                  </div>
+                  <div className="flex flex-col items-center gap-3 p-6 rounded-md bg-th-gray-3 border border-th-gray-2">
+                    <Logo variant="icon" theme="black" height={64} />
+                    <div className="text-th-caption text-th-gray-1">theme="black"</div>
+                  </div>
+                </div>
+
+                <div className="mt-6 text-th-caption text-th-gray-1">
+                  Usage: <code>{`<Logo variant="horizontal" height={32} />`}</code> — pass <em>one</em>
+                  of <code>width</code> / <code>height</code>; the other is computed from the
+                  real aspect ratio. <code>theme</code> defaults to <code>"color"</code>.
                 </div>
               </section>
 
