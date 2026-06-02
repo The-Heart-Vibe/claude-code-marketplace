@@ -22,9 +22,12 @@ Two repos, two roles:
 | **theheart-design-system** — https://github.com/wojtekczuba/theheart-design-system | The canonical React + Tailwind design system. `tokens.json`, `tailwind.preset.cjs`, `src/tokens/tokens.css`, `src/components/`, `src/patterns/`, `src/icons/`, `src/logos/`. Pull from here. |
 | **The-Heart-Vibe/claude-code-marketplace** (`plugins/pptx-generator`) | Source plugin that *generates* the design system. Edit `brand.yaml` and widgets here, then re-export. |
 
-The instructional `.pptx` brand toolkit (Pitch Deck Toolkit, slide 11
-in particular) is the human-readable spec. If code is ambiguous, defer
-to the toolkit's intent.
+The instructional brand toolkit (Pitch Deck Toolkit) is the
+human-readable spec. It is distributed as a **PDF** (the original
+`.pptx` exceeds Claude Design's 20 MB upload limit, so it is flattened
+to PDF — same content, same page order, page N in the PDF = slide N
+in the deck). Page 11 carries the canonical guideline (Wytyczne).
+If code is ambiguous, defer to the PDF's intent.
 
 ---
 
@@ -66,7 +69,9 @@ If the consumer can't add a dependency, copy:
 
 Point the design tool at the design-system repo URL. Paste the
 "Other notes" prompt from `prompts/claude-design-other-notes.md` in
-the design-system repo, and attach the brand `.pptx` toolkit if asked.
+the design-system repo, and attach the brand toolkit PDF in the
+project's assets (the original `.pptx` is too large to upload — use
+the PDF export, page numbering matches the deck 1:1).
 
 ---
 

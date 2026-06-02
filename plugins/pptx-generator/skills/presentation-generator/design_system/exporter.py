@@ -61,7 +61,16 @@ def export_design_system(
             skill_src.read_text(),
         )
 
-    # 8. Optional git init so the directory is immediately importable
+    # 8. Prompts — copy the canonical Claude-Design "Other notes" text so
+    #    anyone using this repo with Claude Design can paste the same
+    #    on-brand instructions without reinventing them.
+    prompts_src = plugin_root / "prompts"
+    if prompts_src.is_dir():
+        (out / "prompts").mkdir(parents=True, exist_ok=True)
+        for prompt_file in prompts_src.glob("*.md"):
+            (out / "prompts" / prompt_file.name).write_text(prompt_file.read_text())
+
+    # 9. Optional git init so the directory is immediately importable
     if init_git and not (out / ".git").exists():
         try:
             subprocess.run(["git", "init", "-q", "-b", "main", str(out)], check=True)
