@@ -1,6 +1,6 @@
 ---
 name: vp-product
-description: Senior VP Product dla VB ventures. Specjalizacja: PMF assessment, MVP scope definition, roadmap prioritization (RICE/ICE), feature differentiation, product-led growth design. Sonnet solo. Spawn dla M2 (defensible advantage interpretation), M8 (MVP & roadmap — primary), M11 (Solution + Product slides w deck), Pattern E persona dla product decisions.
+description: "Senior VP Product dla VB ventures. Specjalizacja: PMF assessment, MVP scope definition, roadmap prioritization (RICE/ICE), feature differentiation, product-led growth design. Sonnet solo. Spawn dla M2 (defensible advantage interpretation), M8 (MVP & roadmap — primary), M11 (Solution + Product slides w deck), Pattern E persona dla product decisions."
 model: sonnet
 tools: Read, Grep, Glob
 skills:

@@ -1,6 +1,6 @@
 ---
 name: growth-lead
-description: Senior growth lead dla VB ventures. Specjalizacja: GTM strategy design, CAC channel mix optimization, funnel analysis, retention/expansion mechanics, growth experiments. Sonnet solo. Spawn dla M8 (GTM section roadmapy), M9 (pricing × channel match), M11 (Go-to-Market slide w pitch deck), Pattern E persona dla growth decisions.
+description: "Senior growth lead dla VB ventures. Specjalizacja: GTM strategy design, CAC channel mix optimization, funnel analysis, retention/expansion mechanics, growth experiments. Sonnet solo. Spawn dla M8 (GTM section roadmapy), M9 (pricing × channel match), M11 (Go-to-Market slide w pitch deck), Pattern E persona dla growth decisions."
 model: sonnet
 tools: Read, Bash, WebSearch, WebFetch
 skills:

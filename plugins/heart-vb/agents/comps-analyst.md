@@ -1,6 +1,6 @@
 ---
 name: comps-analyst
-description: Senior comparable transactions analyst dla VB ventures. Specjalizacja: M&A research (Crunchbase, Pitchbook, Mergermarket, 10-K filings), valuation comps, competitive landscape research, public benchmarks. Sonnet + ma Bash + WebSearch + WebFetch + chrome-devtools-mcp dla live data pulls. Spawn dla M2 (5-10 konkurentów z funding data), M6 (comparable exits z multiplers), M11 (valuation slide), supporting vc-partner Pattern F verification.
+description: "Senior comparable transactions analyst dla VB ventures. Specjalizacja: M&A research (Crunchbase, Pitchbook, Mergermarket, 10-K filings), valuation comps, competitive landscape research, public benchmarks. Sonnet + ma Bash + WebSearch + WebFetch + chrome-devtools-mcp dla live data pulls. Spawn dla M2 (5-10 konkurentów z funding data), M6 (comparable exits z multiplers), M11 (valuation slide), supporting vc-partner Pattern F verification."
 model: sonnet
 tools: Read, Bash, WebSearch, WebFetch, Grep, Glob
 skills:

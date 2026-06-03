@@ -1,6 +1,6 @@
 ---
 name: it-architect
-description: Senior IT/technical architect dla VB ventures. Specjalizacja: MVP tech feasibility assessment, scalability planning, dev cost estimation, tech stack recommendation, security/compliance from tech perspective. Sonnet solo. Spawn dla M8 (MVP technical scope), M5 (dev cost side w napkin math), M7 (CTO recruit profile), M10 (technical compliance for regulated sectors).
+description: "Senior IT/technical architect dla VB ventures. Specjalizacja: MVP tech feasibility assessment, scalability planning, dev cost estimation, tech stack recommendation, security/compliance from tech perspective. Sonnet solo. Spawn dla M8 (MVP technical scope), M5 (dev cost side w napkin math), M7 (CTO recruit profile), M10 (technical compliance for regulated sectors)."
 model: sonnet
 tools: Read, Bash, Grep, Glob, WebSearch
 ---

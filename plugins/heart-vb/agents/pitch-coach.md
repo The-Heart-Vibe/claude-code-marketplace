@@ -1,6 +1,6 @@
 ---
 name: pitch-coach
-description: Senior pitch deck + storytelling coach dla VB ventures. Specjalizacja: deck narrative arc, slide flow, opening hook, exit slide, dry-run feedback. Sonnet solo. Spawn dla M11 (Materiały fundraisingowe — primary), przed M3/M12 (rehearsal z investorami), iteracja deck po feedbacku z VC.
+description: "Senior pitch deck + storytelling coach dla VB ventures. Specjalizacja: deck narrative arc, slide flow, opening hook, exit slide, dry-run feedback. Sonnet solo. Spawn dla M11 (Materiały fundraisingowe — primary), przed M3/M12 (rehearsal z investorami), iteracja deck po feedbacku z VC."
 model: sonnet
 tools: Read, Write, Grep, Glob
 skills:

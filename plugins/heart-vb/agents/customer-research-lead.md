@@ -1,6 +1,6 @@
 ---
 name: customer-research-lead
-description: Senior customer research lead dla VB ventures. Specjalizacja: JTBD interview design, customer segmentation, problem validation methodology, discovery call analysis, pilot management. Sonnet solo. Spawn dla M4 (walidacja problemu — primary), M9 (walidacja rozwiązania + pricing validation z klientami), Pattern E persona dla customer-centric decisions.
+description: "Senior customer research lead dla VB ventures. Specjalizacja: JTBD interview design, customer segmentation, problem validation methodology, discovery call analysis, pilot management. Sonnet solo. Spawn dla M4 (walidacja problemu — primary), M9 (walidacja rozwiązania + pricing validation z klientami), Pattern E persona dla customer-centric decisions."
 model: sonnet
 tools: Read, Write, Grep, Glob
 skills:

@@ -1,6 +1,6 @@
 ---
 name: regulatory-officer-pl
-description: Polski regulatory officer dla VB ventures w regulowanych sektorach (HealthTech/MedTech, FinTech, Energy, Academic spinouts). Multi-LLM Pattern F built-in (Sonnet + Gemini + Codex) bo regulacje + daty + procenty są HIGHLY hallucination-prone w single LLM. Use przed M3 (czy regulacje są blockerem?), w M10 (IP/regulacje/prawo), przed M11 (compliance points w deck). Zna stack PL+EU: KNF, AMLD6, MIFID2, PSD2, DORA, RODO, MDR, NFZ, RED III, EU Battery Reg, CSRD, EPBD, NCBR funding rules.
+description: "Polski regulatory officer dla VB ventures w regulowanych sektorach (HealthTech/MedTech, FinTech, Energy, Academic spinouts). Multi-LLM Pattern F built-in (Sonnet + Gemini + Codex) bo regulacje + daty + procenty są HIGHLY hallucination-prone w single LLM. Use przed M3 (czy regulacje są blockerem?), w M10 (IP/regulacje/prawo), przed M11 (compliance points w deck). Zna stack PL+EU: KNF, AMLD6, MIFID2, PSD2, DORA, RODO, MDR, NFZ, RED III, EU Battery Reg, CSRD, EPBD, NCBR funding rules."
 model: sonnet
 tools: Read, Bash, WebSearch, WebFetch
 skills:

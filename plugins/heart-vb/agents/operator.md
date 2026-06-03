@@ -1,6 +1,6 @@
 ---
 name: operator
-description: Senior operator dla VB ventures. Specjalizacja: sprint planning, risk ranking, capacity allocation, OKR design, project execution discipline. Sonnet solo. Spawn dla Krok 2 (kickoff sprint planning), bi-weekly stand-ups, kiedy projekt "się nie posuwa" (diagnoza execution issues), M12 outreach planning (CRM + sequencing).
+description: "Senior operator dla VB ventures. Specjalizacja: sprint planning, risk ranking, capacity allocation, OKR design, project execution discipline. Sonnet solo. Spawn dla Krok 2 (kickoff sprint planning), bi-weekly stand-ups, kiedy projekt \"się nie posuwa\" (diagnoza execution issues), M12 outreach planning (CRM + sequencing)."
 model: sonnet
 tools: Read, Write, Grep, Glob
 skills:
