@@ -124,3 +124,9 @@ Memory Health:
 - Full review is most valuable when MEMORY.md is getting crowded
 - Act on promotion candidates promptly — they're proven patterns
 - Don't hesitate to delete stale entries — auto-memory will re-learn if needed
+
+---
+
+## ⚠️ Heart-vb plugin note: Cowork
+
+W Claude Desktop Cowork memory jest **per-session sandbox** — review widzi tylko aktualną sesję. W CLI/IDE — cross-session OK. Pełne wyjaśnienie w `si:remember` SKILL.md.

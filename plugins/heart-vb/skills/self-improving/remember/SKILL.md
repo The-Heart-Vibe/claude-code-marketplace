@@ -96,3 +96,21 @@ If the knowledge sounds like a rule (imperative, always/never, convention):
   - ✅ "Build with `pnpm build`, tests with `pnpm test:e2e`"
   - ❌ "The project uses pnpm for building and testing"
 - If you're remembering the same thing twice, promote it to CLAUDE.md
+
+---
+
+## ⚠️ Heart-vb plugin note: Cowork limitation
+
+W **Claude Code CLI/IDE** ten skill działa cross-session — memory ląduje w `$HOME/.claude/projects/<encoded-cwd>/memory/` które persistuje między sesjami dla tej samej cwd.
+
+W **Claude Desktop Cowork tab** każda sesja ma sandboxed `$(pwd)` w `~/Library/Application Support/Claude/local-agent-mode-sessions/<sandbox-id>/`. Memory zapisuje się do `$HOME/.claude/projects/<encoded-sandbox-path>/memory/` które jest **unique per Cowork session sandbox**.
+
+**Implikacje:**
+- ✅ W ramach jednej sesji Cowork — działa normalnie (zapisz, później użyj `/si:review` w tej samej sesji)
+- ⚠️ Cross-session w Cowork — **nie persistuje** (session A's memory nie widoczne w session B)
+- ✅ Cross-session w CLI — działa OK (pod warunkiem że uruchamiasz z tej samej cwd)
+
+**Workaround dla Cowork** (jeśli chcesz cross-session learning):
+1. Use Claude Code CLI dla learnings które mają persistować długoterminowo
+2. Manual copy: po sesji Cowork skopiuj `<sandbox>/.claude/projects/<encoded>/memory/MEMORY.md` do stable location
+3. Lub czekaj na proactive prompt z heart-vb `PreCompact` hook (od v0.7.3) — przed kompresją sesja zapyta czy chcesz coś zapisać; możesz wtedy świadomie przekleić do persistent docs

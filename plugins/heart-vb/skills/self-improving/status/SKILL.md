@@ -101,3 +101,9 @@ Output: `📊 Memory: {{n}}/200 lines | {{count}} rules | {{status_emoji}} {{sta
 - If capacity is yellow+, run `/si:review` to identify promotion candidates
 - Stale entries waste space — delete references to files that no longer exist
 - Topic files are fine — Claude creates them to keep MEMORY.md under 200 lines
+
+---
+
+## ⚠️ Heart-vb plugin note: Cowork
+
+W Claude Desktop Cowork memory jest **per-session sandbox** (sandboxed cwd → unique path per session). W CLI/IDE — cross-session OK. Pełne wyjaśnienie w `si:remember` SKILL.md. Plugin od v0.7.3 dodaje proactive prompt (PreCompact hook) zanim sesja Cowork zostanie skompresowana — szansa na zachowanie key learnings.
