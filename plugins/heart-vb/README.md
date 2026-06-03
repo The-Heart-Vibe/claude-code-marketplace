@@ -356,9 +356,35 @@ Agent({subagent_type: 'founder-skeptic', prompt: '...'})  // sonnet
 
 Korzyść: stable personas (nie drift między spawn'ami), tool restriction per role, lepsza context economy.
 
-### Faza 2 (planowana — v0.8.0 final)
+### Faza 2 — Extended team (v0.8.0-rc2) ✅
 
-Dodatkowi agenci: `growth-lead`, `vp-product`, `comps-analyst`, `customer-research-lead`, `pitch-coach`, `operator`, `it-architect`, plus meta `ic-memo-writer` i `red-flag-detector`.
+**Role agents (7 nowych):**
+
+| Agent | Specjalizacja | Multi-LLM | Use case |
+|---|---|---|---|
+| `growth-lead` | GTM strategy, CAC channel mix, funnel design | — | M8 GTM section, M11 Go-to-Market slide |
+| `vp-product` | PMF assessment, MVP scope, roadmap (RICE) | — | M2 defensible advantage, M8 MVP, M11 Solution slide |
+| `comps-analyst` | M&A research, comparable transactions, valuation comps | — (ma Bash + WebSearch + chrome-devtools dla data pulls) | M2 5-10 konkurentów, M6 exit comparables, M11 valuation |
+| `customer-research-lead` | JTBD interviews, segmentation, pilot management | — | M4 walidacja problemu (primary), M9 pricing validation |
+| `pitch-coach` | Deck narrative, slide flow, dry-run feedback | — | M11 outline + iteration + rehearsal |
+| `operator` | Sprint planning, risk ranking, capacity allocation | — | Krok 2 kickoff, bi-weekly, M12 outreach planning |
+| `it-architect` | MVP tech feasibility, dev cost, scalability | — | M8 tech scope, M5 cost side, M7 CTO profile, M10 compliance tech |
+
+**Meta agents (2 nowych):**
+
+| Agent | Rola |
+|---|---|
+| `ic-memo-writer` | Synthesis — czyta outputs z 5-8 role agentów, pisze IC memo (2-3 strony max) dla zarządu / VC |
+| `red-flag-detector` | Cross-cuts agent outputs — math errors, contradictions, over-optimism, missing evidence. Last gate przed strategicznym spotkaniem |
+
+**Total VB Team:** 15 agents (1 master + 12 role + 2 meta).
+
+### Faza 3 (planowana — v0.8.0 final)
+
+- Update `heart-orchestrate` Pattern E SKILL.md — spawn dedicated agents zamiast inline personas (backward compatible)
+- Update `vb-orchestrator` Mode B mapping — wykorzystaj wszystkie 12 role agentów per milestone
+- Demo prompts aligned z full agent team (collections/demo-prompts.md)
+- Bump 0.8.0 final
 
 ## Self-improving agent (si:*)
 
