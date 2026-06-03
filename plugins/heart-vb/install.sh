@@ -89,124 +89,61 @@ echo ""
 "$WRAPPER" doctor || true
 echo ""
 
-# ── 7. Hooks (opt-in) ────────────────────────────────────────────────────────
-HOOK_VB_SRC="$(dirname "$0")/hooks/vb-suggest.sh"
-HOOK_DEVTOOLS_SRC="$(dirname "$0")/hooks/devtools-suggest.sh"
-HOOK_COWORK_SRC="$(dirname "$0")/hooks/cowork-suggest.sh"
-HOOK_ROUTE_SRC="$(dirname "$0")/hooks/model-route.sh"
-HOOK_VB_DST="$HOME/.claude/hooks/council-vb-suggest.sh"
-HOOK_DEVTOOLS_DST="$HOME/.claude/hooks/heart-devtools-suggest.sh"
-HOOK_COWORK_DST="$HOME/.claude/hooks/heart-cowork-suggest.sh"
-HOOK_ROUTE_DST="$HOME/.claude/hooks/heart-model-route.sh"
+# ── 7. Hooks — auto-loaded przez Claude Code v2.1+ ────────────────────────────
+# Plugin zawiera hooks/hooks.json — Claude Code (CLI + Cowork w Desktop) auto-loaduje
+# hooki z tego pliku przy każdej sesji. NIE wpisujemy ręcznie do ~/.claude/settings.json
+# bo to powoduje "duplicate hooks" error (PLUGIN_SCHEMA_NOTES.md) i NIE działa w Cowork
+# (sandboxed per-session, nie czyta globalnego settings.json).
+say "Hooki auto-loaded przez Claude Code z hooks/hooks.json (działa w CLI i Cowork)"
+ok "vb-suggest, devtools-suggest, cowork-suggest, model-route — aktywne po restarcie sesji"
+
+# ── 7b. Legacy cleanup — usuń stare wpisy w ~/.claude/settings.json ──────────
+# Wcześniejsze wersje pluginu (do v0.6.9) instalowały hooki ręcznie. Trzeba je usunąć
+# żeby uniknąć duplikatu (raz przez plugin auto-load + raz przez settings.json).
 SETTINGS="$HOME/.claude/settings.json"
-
-if [ -f "$HOOK_VB_SRC" ] || [ -f "$HOOK_DEVTOOLS_SRC" ] || [ -f "$HOOK_COWORK_SRC" ] || [ -f "$HOOK_ROUTE_SRC" ]; then
-  echo ""
-  say "Opcjonalne hooki (rekomendowane: wszystkie 4)"
-  cat <<EOF
-
-   1. Venture Builder Suggest (vb-suggest.sh):
-      Wykrywa zadania VB (decision/research/modeling/writing/validation/screening)
-      i sugeruje właściwy skill (council, deep-research, financial-analyst, board-prep, ...).
-
-   2. Research Tool Router (devtools-suggest.sh):
-      Wykrywa URL-e + complex page signals → kieruje na chrome-devtools-mcp
-      zamiast WebFetch (token-saving).
-
-   3. Cowork Spawn Router (cowork-suggest.sh):
-      Wykrywa multi-entity work (5 konkurentów, 3 scenariusze, sekcje IC memo)
-      → sugeruje spawn N parallel cowork agents zamiast sequential w main.
-
-   4. Model Router (model-route.sh):
-      Klasyfikuje complexity tier → suggest model (Haiku trivial / Opus strategic /
-      Sonnet routine default). Reminder że workers cowork = sonnet, orchestrator = opus.
-
-   Opt-out per-prompt:
-     "BEZ COUNCIL: ..."   — skip vb-suggest
-     "BEZ DEVTOOLS: ..."  — skip devtools-suggest
-     "BEZ COWORK: ..."    — skip cowork-suggest
-     "BEZ ROUTE: ..."     — skip model-route
-
-   Disable globalnie: usuń wpisy z $SETTINGS hooks.UserPromptSubmit
-EOF
-
-  if [ "${COUNCIL_INSTALL_HOOK:-ask}" = "yes" ]; then
-    REPLY="y"
-  elif [ "${COUNCIL_INSTALL_HOOK:-ask}" = "no" ]; then
-    REPLY="n"
-  else
-    printf "\nZainstalować wszystkie 4 hooki? [y/N]: "
-    read -r REPLY < /dev/tty || REPLY="n"
-  fi
-
-  case "$REPLY" in
-    [Yy]*)
-      mkdir -p "$(dirname "$HOOK_VB_DST")"
-      [ -f "$HOOK_VB_SRC" ] && cp "$HOOK_VB_SRC" "$HOOK_VB_DST" && chmod +x "$HOOK_VB_DST"
-      [ -f "$HOOK_DEVTOOLS_SRC" ] && cp "$HOOK_DEVTOOLS_SRC" "$HOOK_DEVTOOLS_DST" && chmod +x "$HOOK_DEVTOOLS_DST"
-      [ -f "$HOOK_COWORK_SRC" ] && cp "$HOOK_COWORK_SRC" "$HOOK_COWORK_DST" && chmod +x "$HOOK_COWORK_DST"
-      [ -f "$HOOK_ROUTE_SRC" ] && cp "$HOOK_ROUTE_SRC" "$HOOK_ROUTE_DST" && chmod +x "$HOOK_ROUTE_DST"
-
-      # Backup settings.json
-      if [ -f "$SETTINGS" ]; then
-        cp "$SETTINGS" "${SETTINGS}.bak.$(date +%Y%m%d-%H%M%S)"
-      fi
-
-      python3 <<PYEOF
-import json, os
+if [ -f "$SETTINGS" ]; then
+  python3 <<'PYEOF' 2>/dev/null || true
+import json, os, sys
 settings_path = os.path.expanduser("~/.claude/settings.json")
-hooks_to_install = [
-    ("$HOOK_VB_DST", "council-vb-suggest.sh"),
-    ("$HOOK_DEVTOOLS_DST", "heart-devtools-suggest.sh"),
-    ("$HOOK_COWORK_DST", "heart-cowork-suggest.sh"),
-    ("$HOOK_ROUTE_DST", "heart-model-route.sh"),
+legacy_markers = [
+    "council-vb-suggest.sh",
+    "heart-devtools-suggest.sh",
+    "heart-cowork-suggest.sh",
+    "heart-model-route.sh",
 ]
-
 try:
     with open(settings_path) as f:
         cfg = json.load(f)
 except (FileNotFoundError, json.JSONDecodeError):
-    cfg = {}
+    sys.exit(0)
 
-cfg.setdefault("hooks", {})
-cfg["hooks"].setdefault("UserPromptSubmit", [])
+hooks_section = cfg.get("hooks", {}).get("UserPromptSubmit", [])
+if not hooks_section:
+    sys.exit(0)
 
-installed_count = 0
-for hook_path, marker in hooks_to_install:
-    if not os.path.exists(hook_path):
-        continue
-    # Idempotent — sprawdź czy już jest
-    already = any(
-        any(h.get("command", "").endswith(marker) for h in entry.get("hooks", []))
-        for entry in cfg["hooks"]["UserPromptSubmit"]
+# Filter out entries pointing to legacy heart-vb hooks
+removed = 0
+kept = []
+for entry in hooks_section:
+    is_legacy = any(
+        any(marker in h.get("command", "") for marker in legacy_markers)
+        for h in entry.get("hooks", [])
     )
-    if not already:
-        cfg["hooks"]["UserPromptSubmit"].append({
-            "matcher": ".*",
-            "hooks": [{
-                "type": "command",
-                "command": hook_path,
-                "timeout": 5
-            }]
-        })
-        installed_count += 1
+    if is_legacy:
+        removed += 1
+    else:
+        kept.append(entry)
 
-os.makedirs(os.path.dirname(settings_path), exist_ok=True)
-with open(settings_path, "w") as f:
-    json.dump(cfg, f, indent=2)
-
-if installed_count == 0:
-    print("✓ Hooks juz byly w settings.json")
-else:
-    print(f"✓ Zarejestrowano {installed_count} hook(s) w settings.json")
+if removed > 0:
+    cfg["hooks"]["UserPromptSubmit"] = kept
+    # Backup before write
+    backup = f"{settings_path}.bak.cleanup.{os.popen('date +%Y%m%d-%H%M%S').read().strip()}"
+    os.system(f"cp {settings_path} {backup}")
+    with open(settings_path, "w") as f:
+        json.dump(cfg, f, indent=2)
+    print(f"  Usunięto {removed} legacy hook entries z ~/.claude/settings.json (backup: {backup})")
+    print(f"  Stare pliki ~/.claude/hooks/heart-*.sh / council-vb-suggest.sh można teraz usunąć ręcznie")
 PYEOF
-      ok "Hooks aktywne"
-      ;;
-    *)
-      say "Hook pominięty. Aktywujesz później przez:"
-      say "  bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/heart-vb/install.sh) z COUNCIL_INSTALL_HOOK=yes"
-      ;;
-  esac
 fi
 
 # ── 8. Codex CLI hint (opcjonalny, dla full Pattern F) ──────────────────────

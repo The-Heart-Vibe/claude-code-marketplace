@@ -24,9 +24,20 @@ I masz wszystko. Bez dodawania innych marketplaces.
 
 **Total: 37 skilli.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
+## Gdzie plugin działa
+
+| Środowisko | Skille | Hooki (UserPromptSubmit) | Heart-orchestrate Pattern E/F | Council CLI |
+|---|---|---|---|---|
+| **Claude Code (CLI/IDE)** | ✅ przez `/plugin install` | ✅ auto-load z `hooks/hooks.json` | ✅ Agent tool spawn | ✅ terminal-only |
+| **Claude Desktop → Cowork tab** | ✅ przez `/plugin install` (w Cowork session) | ✅ auto-load z `hooks/hooks.json` (od v0.6.10) | ✅ Agent tool spawn | ❌ Cowork nie ma terminal — Pattern F to workaround |
+| **claude.ai (web)** | ❌ brak plugin support | ❌ | ❌ brak Agent tool | ❌ |
+| **Claude Desktop (standardowy chat)** | ⚠️ via MCP/Extensions | ❌ | ❌ | ❌ |
+
+> **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/claude-code-marketplace` → `/plugin install heart-vb@the-heart-vibe`. Hooki auto-load przy starcie sesji.
+
 ## Co robi install.sh
 
-Skille SKILL.md są auto-loaded przez Claude Code po `/plugin install`. Ale council CLI wymaga setup'u systemowego — install.sh tym się zajmuje:
+Plugin sam się instaluje przez `/plugin install` (skille + hooki). Install.sh dorabia **wyłącznie dependencies systemowe** dla council CLI, gemini-cli i chrome-devtools-mcp — rzeczy poza scope pluginu:
 
 1. Sprawdza/instaluje `uv` (Python package manager)
 2. Sprawdza Node.js (wymagany dla Gemini CLI)
@@ -35,20 +46,15 @@ Skille SKILL.md są auto-loaded przez Claude Code po `/plugin install`. Ale coun
 5. Instaluje `the-llm-council[gemini]>=0.7.16`
 6. Tworzy wrapper w `~/.local/bin/council`
 7. Kopiuje config template do `~/.config/llm-council/config.yaml`
-8. **Pyta czy zainstalować Venture Builder hook** (rekomendowane: y)
-9. Odpala `council doctor` i pokazuje status providerów
+8. Odpala `council doctor` i pokazuje status providerów
+9. **Cleanup legacy:** usuwa stare wpisy hooków z `~/.claude/settings.json` (z wersji do v0.6.9) — od v0.6.10 hooki są auto-loaded przez plugin
+10. Sprawdza/instaluje chrome-devtools-mcp przez `claude mcp add`
+11. (Opcjonalnie) detect codex CLI dla pełnego Pattern F multi-LLM
 
 ### Ręczne uruchomienie installer
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/heart-vb/install.sh)
-```
-
-### Non-interactive install
-
-```bash
-COUNCIL_INSTALL_HOOK=yes bash install.sh   # auto-yes na hook
-COUNCIL_INSTALL_HOOK=no bash install.sh    # auto-no
 ```
 
 ### Override paths
@@ -175,11 +181,13 @@ BEZ ROUTE: ...          # skip model-route (no tier suggestion)
 
 ### Disable globalnie
 
-Usuń wpisy z `~/.claude/settings.json` hooks.UserPromptSubmit, lub usuń pliki:
-- `~/.claude/hooks/council-vb-suggest.sh` (vb-suggest)
-- `~/.claude/hooks/heart-devtools-suggest.sh` (devtools-suggest)
-- `~/.claude/hooks/heart-cowork-suggest.sh` (cowork-suggest)
-- `~/.claude/hooks/heart-model-route.sh` (model-route)
+Hooki są auto-loaded z `hooks/hooks.json` wewnątrz pluginu (od v0.6.10). Żeby je wyłączyć:
+
+- **Wyłącz cały plugin:** `/plugin uninstall heart-vb` (znikają hooki + skille)
+- **Wyłącz konkretny hook:** edytuj `${CLAUDE_PLUGIN_ROOT}/hooks/hooks.json` (zlokalizuj przez `find ~/.claude/plugins ~/Library/Application\ Support/Claude -name "hooks.json" -path "*heart-vb*"`) i usuń wybrane wpisy
+- **Per-prompt opt-out:** użyj prefiksu (np. `BEZ COUNCIL:`) — patrz tabela wyżej
+
+Legacy hooki z wersji ≤0.6.9 (w `~/.claude/settings.json` + `~/.claude/hooks/heart-*.sh`) są automatycznie wyczyszczone przez install.sh przy upgrade.
 
 ## Self-improving agent (si:*)
 
