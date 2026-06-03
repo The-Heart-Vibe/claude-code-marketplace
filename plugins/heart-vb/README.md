@@ -9,20 +9,54 @@
 
 I masz wszystko. Bez dodawania innych marketplaces.
 
+## DD by Heart — 12 milestones framework
+
+Plugin aligned z firmowym procesem Venture Building. **12 non-negotiable milestones w 4 fazach.** Każdy projekt przechodzi przez te same milestones — od kickoffu do fundraisingu.
+
+```
+Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
+```
+
+| # | Faza | Milestone | Primary skill |
+|---|---|---|---|
+| 1 | D | Analiza rynku | `vb-research/market-research` |
+| 2 | D | Analiza konkurencji | `vb-product/competitive-teardown` |
+| 3 | D | Walidacja z inwestorami (early signal) | `vb-process/investor-early-signal` ⭐ |
+| 4 | D | Walidacja problemu z klientami | `vb-product/product-discovery` |
+| 5 | D | **Napkin math** (czy się spina) | `vb-process/napkin-math` ⭐ |
+| 6 | C | **Exit strategy & acquirers** | `vb-process/exit-strategy` ⭐ |
+| 7 | C | Zespół & cap table | `vb-process/cap-table-helper` ⭐ |
+| 8 | C | MVP / produkt & roadmapa | `vb-product/product-strategist` |
+| 9 | V | Walidacja rozwiązania & pricing | `vb-commercial/pricing-strategist` |
+| 10 | V | IP, regulacje & prawo | `heart-dd-checklist` + sector context |
+| 11 | F | Materiały fundraisingowe | `heart-pitch-deck` + `board-prep` + `financial-analyst` |
+| 12 | F | Lista inwestorów & outreach | `vb-comms/investor-outreach` |
+
+⭐ = nowe skille w v0.7.0 (vb-process category)
+
+**Master orchestrator:** `/heart-vb-process` — wykrywa milestone z konwersacji i deleguje do sub-skill, lub prowadzi przez cały proces ("przepuść projekt przez framework").
+
+**Workflow skille (Krok 1-4 z dokumentu firmy):**
+- `vb-process/assessment` — Krok 1: 12-row checker stanu projektu
+- `vb-process/kickoff` — Krok 2: risk ranking + sprint planning
+- `vb-process/bi-weekly-summary` — Krok 3: side product co 2 tyg.
+- `vb-process/fundraising-readiness` — Krok 4: go/no-go gate
+
 ## Co dostajesz
 
 | Kategoria | Skille | Source |
 |-----------|--------|--------|
 | **council** ⭐ | Multi-LLM debate z routingiem domain × tier (Claude Code + Codex + Gemini CLI) | The Heart Vibe |
 | **self-improving** | si:* commands (`remember`, `review`, `extract`, `promote`, `status`) — agent auto-uczy się z MEMORY.md | alirezarezvani (MIT) |
-| **vb-research** | deep-research, market-research, exa-search | affaan-m (MIT) |
-| **vb-product** | product-discovery, competitive-teardown, experiment-designer, ux-researcher-designer, product-strategist | alirezarezvani (MIT) |
-| **vb-finance** | financial-analyst, saas-metrics-coach (unit economics, P&L, KPIs) | alirezarezvani (MIT) |
-| **vb-commercial** | pricing-strategist, deal-desk, commercial-forecaster, channel-economics | alirezarezvani (MIT) |
-| **vb-comms** | board-prep (IC memo), stress-test, hard-call, investor-materials, investor-outreach | mixed (MIT) |
-| **heart-custom** | **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża: generation/T&D/storage/e-mobility/H2/heat/services), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck, heart-stakeholder-update, heart-comps-analysis, heart-dd-checklist, heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork pattern). **Utility:** brainstorming (generic thinking partner dla non-VB tasków) | The Heart Vibe + obra (MIT) |
+| **vb-research** | deep-research, market-research (M1), exa-search | affaan-m (MIT) |
+| **vb-product** | product-discovery (M4), competitive-teardown (M2), experiment-designer, ux-researcher-designer, product-strategist (M8) | alirezarezvani (MIT) |
+| **vb-finance** | financial-analyst (M11), saas-metrics-coach (unit economics, P&L, KPIs) | alirezarezvani (MIT) |
+| **vb-commercial** | pricing-strategist (M9), deal-desk, commercial-forecaster, channel-economics | alirezarezvani (MIT) |
+| **vb-comms** | board-prep (M11 IC memo), stress-test, hard-call, investor-materials (M11), investor-outreach (M12) | mixed (MIT) |
+| **vb-process** ⭐ NEW v0.7 | assessment (Krok 1), kickoff (Krok 2), bi-weekly-summary (Krok 3), fundraising-readiness (Krok 4), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3) | The Heart Vibe |
+| **heart-custom** | **Master:** heart-vb-process (12-milestone orchestrator). **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża energetyczna), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck (M11), heart-stakeholder-update, heart-comps-analysis (M6 inputs), heart-dd-checklist (M10), heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork Pattern E/F). **Utility:** brainstorming (generic thinking partner), status (/heart-vb:status self-diagnostic) | The Heart Vibe + obra (MIT) |
 
-**Total: 37 skilli.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
+**Total: 47 skilli w 9 kategoriach.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
 ## Gdzie plugin działa
 
