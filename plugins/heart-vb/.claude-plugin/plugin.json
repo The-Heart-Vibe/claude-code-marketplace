@@ -1,6 +1,6 @@
 {
   "name": "heart-vb",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "description": "Heart Venture Builder toolkit — 38 skilli w 8 kategoriach + 4 auto-hooki (działają w Claude Code CLI/IDE i Claude Desktop Cowork). Core: council multi-LLM debate (terminal-only), heart-orchestrate z dwoma patternami (Pattern E persona-driven + Pattern F multi-LLM debate przez agent isolation — działa z CC/Cowork bypass council CLI nested block), self-improving agent (si:*), product discovery/teardown/experiment, financial modeling (saas-metrics, 3-statement, DCF), deal screening (deal-desk + heart-dd-checklist + heart-dd-prep), pitch/IC/investor comms (board-prep + heart-pitch-deck + heart-stakeholder-update + investor-materials), heart-comps-analysis, 4 sector contexts (HealthTech/Academic/Energy/FinTech), brainstorming (generic thinking partner), status (self-diagnostic /heart-vb:status). Hooki auto-suggesta skill/cowork/model/research-tool — analityk pisze normalnie, system orchestruje. Bundle z attribution (MIT).",
   "author": {
     "name": "The Heart Vibe"

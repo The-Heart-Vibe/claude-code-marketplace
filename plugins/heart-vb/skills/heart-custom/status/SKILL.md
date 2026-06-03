@@ -141,6 +141,20 @@ Po zebraniu danych powyżej, **oceń tier gotowości**:
 | **Tier 2 (Standard)** | + gemini-cli OK | Pattern E z prawdziwym multi-LLM divergence (3 personas × Gemini) |
 | **Tier 3 (Full)** | + codex zalogowany | Pattern F 3-voice (Sonnet + Gemini + Codex) — najlepsza hallucination detection |
 
+## Krok 7 — Action items (CRITICAL — concrete fix commands)
+
+Po zebraniu danych ZAWSZE generuj sekcję **Action items** jeśli wykryjesz problemy. Każdy item musi mieć konkretną komendę do skopiowania, nie ogólnik.
+
+| Wykryty problem | Action item (paste-able command) |
+|---|---|
+| `Plugin: NIE WYKRYTY` | `/plugin marketplace add The-Heart-Vibe/claude-code-marketplace` → `/plugin install heart-vb@the-heart-vibe` → restart sesji |
+| `Hooks: 0/4` mimo plugin OK | Restart Claude Code / Cowork tab — hooks/hooks.json loaduje się przy starcie |
+| `Legacy hooks (settings.json): >0` | `bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/heart-vb/install.sh)` — usuwa legacy z backupem. **WAŻNE: bez tego hooki strzelają 2× per prompt (dual-fire)** |
+| `gemini-cli: ❌` | `npm install -g @google/gemini-cli` (wymaga Node.js) → `gemini` (OAuth w przeglądarce) |
+| `codex: ⚠️` (Pattern F będzie 2-voice) | Opcjonalne — Codex CLI install + `codex login` (wymaga ChatGPT Plus). Bez Codex pełny Pattern F nadal działa jako 2-voice fallback. |
+| `chrome-devtools-mcp: ⚠️` | `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest` → restart sesji |
+| `council CLI: ⚠️` | Opcjonalne — działa TYLKO z terminala. W CC/Cowork użyj Pattern F (heart-orchestrate skill) jako workaround |
+
 ## Output format (przedstaw user'owi)
 
 ```
@@ -149,7 +163,7 @@ Po zebraniu danych powyżej, **oceń tier gotowości**:
 Environment: <CLI/Cowork/Unknown>
 Plugin: heart-vb v<X.Y.Z> (<N> skilli)
 Hooks: <N>/4 auto-loaded ✅ | ❌ <issue>
-Legacy hooks: <N> w settings.json (jeśli >0 → fix recommendation)
+Legacy hooks: <N> w settings.json — ⚠️ DUAL-FIRE RISK jeśli >0
 
 Dependencies:
   gemini-cli      ✅/❌ <version/issue>

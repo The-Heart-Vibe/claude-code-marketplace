@@ -250,7 +250,28 @@ council config --show
 
 > Uwaga: `council doctor` failuje z poziomu CC/Cowork session — uruchom **bezpośrednio w terminalu**.
 
-## Reinstalacja
+## Update z poprzedniej wersji
+
+```
+# 1. Pull latest marketplace manifests
+/plugin marketplace update
+
+# 2. Upgrade heart-vb
+/plugin update heart-vb
+
+# 3. Restart Claude Code lub Cowork tab — hooks/hooks.json loaduje się przy starcie
+
+# 4. (Tylko jeśli przechodzisz z ≤v0.6.9) — cleanup legacy hooks
+bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/claude-code-marketplace/main/plugins/heart-vb/install.sh)
+
+# 5. Verify
+/heart-vb:status
+# Spodziewaj się: 4/4 hooks auto-loaded, 0 legacy hooks, gemini ✅
+```
+
+> **Dlaczego krok 4 jest konieczny tylko z ≤v0.6.9:** wersje do v0.6.9 instalowały hooki ręcznie do `~/.claude/settings.json`. Od v0.6.10 są auto-loaded z `hooks/hooks.json` w pluginie. Bez kroku 4 oba mechanizmy są aktywne → każdy hook strzela 2× per prompt (dual-fire). Install.sh v0.6.10+ usuwa legacy entries z settings.json (z backupem).
+
+## Reinstalacja (od zera)
 
 ```bash
 which uv || curl -LsSf https://astral.sh/uv/install.sh | sh
