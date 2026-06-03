@@ -1,13 +1,13 @@
 {
   "name": "heart-vb",
-  "version": "0.7.4",
+  "version": "0.8.0-rc1",
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
       "args": ["chrome-devtools-mcp@latest"]
     }
   },
-  "description": "Heart Venture Builder toolkit aligned z firmowym procesem VB (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli w 9 kategoriach + 4 UserPromptSubmit hooki + 1 PreCompact learning-prompt hook (proactive 'czy chcesz coś zapisać przed compaction'). Wszystkie hooki auto-loaded w Claude Code CLI/IDE i Claude Desktop Cowork. Core: heart-vb-process master orchestrator (routing po milestone vocabulary lub full process pipeline). Pełny vb-process: assessment (Krok 1 — 12-row checker), kickoff (Krok 2 — risk ranking + sprints), bi-weekly-summary (Krok 3 — co 2 tyg. learnings + red flags), fundraising-readiness (Krok 4 — go/no-go gate), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3 reality check). Plus: heart-orchestrate Pattern E/F, self-improving (si:* — per-session w Cowork, cross-session w CLI), product discovery/teardown/experiment, financial modeling, deal screening, pitch/IC/investor comms, 4 sector contexts (HealthTech/Academic/Energy/FinTech), brainstorming, status (/heart-vb:status). Hooki auto-suggesta skill/cowork/model/research-tool. Bundle z attribution (MIT).",
+  "description": "Heart Venture Builder toolkit aligned z firmowym procesem VB (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli w 9 kategoriach + 4 UserPromptSubmit hooki + 1 PreCompact learning-prompt hook + 5 dedicated VB Team agents (od v0.8.0). Wszystkie components auto-loaded w Claude Code CLI/IDE i Claude Desktop Cowork. Core: heart-vb-process master orchestrator (routing po milestone vocabulary lub full process pipeline). VB Team agents (Faza 1): vb-orchestrator (opus master delegator), vc-partner (multi-LLM Pattern F built-in — exit narrative + comparable transactions hallucination-prone), pricing-analyst (revenue model + WTP), cfo (unit econ + 3Y financial model), regulatory-officer-pl (multi-LLM Pattern F built-in — MDR/KNF/MIFID/RED III), founder-skeptic (devil's advocate execution risks). Pełny vb-process: assessment (Krok 1), kickoff (Krok 2), bi-weekly-summary (Krok 3), fundraising-readiness (Krok 4), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3). Plus: heart-orchestrate Pattern E/F, self-improving (si:* — per-session w Cowork, cross-session w CLI), 4 sector contexts (HealthTech/Academic/Energy/FinTech), brainstorming, status (/heart-vb:status), chrome-devtools-mcp auto-installed. Bundle z attribution (MIT).",
   "author": {
     "name": "The Heart Vibe"
   },

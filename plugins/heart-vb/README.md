@@ -318,6 +318,48 @@ Hooki są auto-loaded z `hooks/hooks.json` wewnątrz pluginu (od v0.6.10). Żeby
 
 Legacy hooki z wersji ≤0.6.9 (w `~/.claude/settings.json` + `~/.claude/hooks/heart-*.sh`) są automatycznie wyczyszczone przez install.sh przy upgrade.
 
+## VB Team agents (od v0.8.0)
+
+Plugin zawiera **dedicated subagentów reprezentujących role w zespole Venture Building**. Każdy ma stable persona, własny system prompt, ograniczone tools, własny izolowany context. Spawnowane przez `Agent({subagent_type: '<name>'})` z main session lub przez `vb-orchestrator` master agent.
+
+### Faza 1 — Core 5 (v0.8.0-rc1)
+
+| Agent | Model | Multi-LLM | Use case |
+|---|---|---|---|
+| **`vb-orchestrator`** ⭐ | opus | — (delegate'uje) | Master delegator. Mode A (single milestone) / Mode B (full process pipeline) / Mode C (cross-milestone consistency) |
+| **`vc-partner`** | sonnet | **Pattern F built-in** | Skeptical VC GP — 5 main pytania (TAM/Competition/Exit/Team/Unit econ). Pattern F dla comparable exits (hallucination-prone) |
+| **`pricing-analyst`** | sonnet | — | Revenue model + WTP + tier structure. M5 napkin (revenue side), M9 pricing validation, M11 deck pricing slide |
+| **`cfo`** | sonnet | — | Cost structure + 3Y P&L + unit econ + runway. Komplementarny do pricing-analyst (cost ↔ revenue) |
+| **`regulatory-officer-pl`** | sonnet | **Pattern F built-in** | PL+EU stack (MDR/KNF/MIFID/RED III/CSRD/etc.). Pattern F bo regulacje + daty + procenty hallucination-prone |
+| **`founder-skeptic`** | sonnet | — | Devil's advocate execution risks. Komplementarny do vc-partner (insider vs outsider lens) |
+
+### Skill vs Agent — kiedy co
+
+| Mode | Use case | Przykład |
+|---|---|---|
+| **Skill** (workflow w dialogu) | User chce iteracji na żywo, widzieć process, formować output razem | `/vb-process:napkin-math` — user odpowiada na pytania one-at-a-time, model buduje 1-page doc |
+| **Agent** (autonomous task) | User chce delegated background research/analysis, dostać raport | `Agent({subagent_type: 'pricing-analyst', prompt: 'pricing dla HealthTech B2B venture X'})` — agent robi research w izolacji, zwraca syntezę 250 słów |
+
+**Reguła kciuka:** jeśli zadanie wymaga >3 wymian z user'em → skill. Jeśli zadanie to "research + analyze + report" → agent.
+
+### Pattern E (heart-orchestrate) z agentami
+
+Wcześniej Pattern E spawnował 3 personas inline w prompcie. Od v0.8.0 można spawnować **3 dedicated agentów**:
+
+```js
+// Decision intent — Pattern E z agentami
+Agent({subagent_type: 'vc-partner', prompt: '...'})       // sonnet
+Agent({subagent_type: 'pricing-analyst', prompt: '...'})  // sonnet
+Agent({subagent_type: 'founder-skeptic', prompt: '...'})  // sonnet
+// Main (Opus) syntheses 3 outputs
+```
+
+Korzyść: stable personas (nie drift między spawn'ami), tool restriction per role, lepsza context economy.
+
+### Faza 2 (planowana — v0.8.0 final)
+
+Dodatkowi agenci: `growth-lead`, `vp-product`, `comps-analyst`, `customer-research-lead`, `pitch-coach`, `operator`, `it-architect`, plus meta `ic-memo-writer` i `red-flag-detector`.
+
 ## Self-improving agent (si:*)
 
 Po install masz dostęp do `/si:` commands które pozwalają agentowi uczyć się z każdej sesji:
