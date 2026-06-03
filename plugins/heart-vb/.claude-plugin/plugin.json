@@ -1,7 +1,8 @@
 {
   "name": "heart-vb",
-  "version": "0.8.2",
-  "description": "Heart Venture Builder toolkit aligned z firmowym procesem VB (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli w 9 kategoriach + 4 UserPromptSubmit hooki + 1 PreCompact learning-prompt hook + 15 dedicated VB Team agents (od v0.8.0). Wszystkie components auto-loaded w Claude Code CLI/IDE i Claude Desktop Cowork. Core: heart-vb-process master orchestrator + vb-orchestrator agent (opus). VB Team agents: vc-partner (Pattern F), pricing-analyst, cfo, regulatory-officer-pl (Pattern F), founder-skeptic, growth-lead, vp-product, comps-analyst, customer-research-lead, pitch-coach, operator, it-architect; meta agents: ic-memo-writer (synthesis), red-flag-detector (cross-cut consistency check). Pełny vb-process: assessment (Krok 1), kickoff (Krok 2), bi-weekly-summary (Krok 3), fundraising-readiness (Krok 4), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3). Plus: heart-orchestrate Pattern E/F, self-improving (si:* — per-session w Cowork, cross-session w CLI), 4 sector contexts (HealthTech/Academic/Energy/FinTech), brainstorming, status (/heart-vb:status). Chrome-devtools-mcp install osobno przez `claude mcp add` (patrz install.sh). Bundle z attribution (MIT).",
+  "version": "0.8.3",
+  "status": "stable",
+  "description": "Heart Venture Builder toolkit — kompletny VB stack aligned z firmowym procesem DD by Heart (12 milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli + 15 dedicated agents + 5 auto-loaded hooków. Master orchestrator /heart-vb-process pokrywa cały proces od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork.",
   "author": {
     "name": "The Heart Vibe"
   },
