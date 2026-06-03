@@ -1,6 +1,6 @@
 ---
 name: status
-description: Self-diagnostic dla heart-vb — wykrywa środowisko (Claude Code CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, chrome-devtools-mcp, council CLI), auth providers, gotowość Pattern E/F. Use gdy plugin nie działa lub przed demo/onboardingiem żeby zweryfikować że wszystko jest na miejscu. Trigger przez `/heart-vb:status` lub fraza "sprawdź czy plugin działa".
+description: Self-diagnostic dla heart-vb — wykrywa środowisko (Claude Code CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, chrome-devtools-mcp, council CLI, Notion MCP), auth providers, gotowość Pattern E/F. Od v0.7.1 z opcjonalnym **milestone progress detection** — jeśli Notion MCP connector aktywny i user poda link do Project Card, skill czyta X/12 progress z linked database Streams/Milestones (Warstwa 2 DD by Heart). Use gdy plugin nie działa, przed demo/onboardingiem, lub gdy chcesz sprawdzić "gdzie stoimy z projektem". Trigger przez `/heart-vb:status` lub fraza "sprawdź czy plugin działa", "milestone progress", "ile zostało do fundraisingu".
 ---
 
 # Heart-vb Status — Self-Diagnostic
@@ -141,6 +141,90 @@ Po zebraniu danych powyżej, **oceń tier gotowości**:
 | **Tier 2 (Standard)** | + gemini-cli OK | Pattern E z prawdziwym multi-LLM divergence (3 personas × Gemini) |
 | **Tier 3 (Full)** | + codex zalogowany | Pattern F 3-voice (Sonnet + Gemini + Codex) — najlepsza hallucination detection |
 
+### Krok 6b — Notion connector + milestone progress (DD by Heart)
+
+Plugin nie ma własnego dostępu do Notion ale **wykrywa czy Notion MCP connector jest aktywny** w sesji. Jeśli tak — może czytać Project Card i raportować milestone progress (X/12).
+
+```bash
+echo "--- Notion connector (DD by Heart milestone tracking) ---"
+NOTION_AVAILABLE="no"
+# Method A: claude mcp list
+if claude mcp list 2>/dev/null | grep -qi notion; then
+  NOTION_AVAILABLE="yes"
+  NOTION_SOURCE="claude mcp list"
+fi
+# Method B: grep w configach MCP
+if [ "$NOTION_AVAILABLE" = "no" ]; then
+  for cfg in ~/.claude.json ~/.claude/mcp.json ~/.config/claude/mcp.json \
+             ~/Library/Application\ Support/Claude/*.json; do
+    if [ -f "$cfg" ] && grep -qi '"notion"' "$cfg" 2>/dev/null; then
+      NOTION_AVAILABLE="yes"
+      NOTION_SOURCE="$cfg"
+      break
+    fi
+  done
+fi
+
+if [ "$NOTION_AVAILABLE" = "yes" ]; then
+  echo "Notion MCP: ✅ available (source: $NOTION_SOURCE)"
+  echo "→ Możesz podać link do Project Card w Notion żebym sprawdził milestone progress (X/12)."
+else
+  echo "Notion MCP: ⚠️ brak — milestone progress nie do auto-pull"
+  echo "→ Install: w Cowork UI: Settings → Connectors → Notion (OAuth)"
+  echo "→ Lub CLI: claude mcp add notion <npm package z https://github.com/makenotion/notion-mcp-server>"
+  echo "→ Bez Notion: opowiedz mi ręcznie który milestone jest w jakim stanie i wykonam assessment z Twoich danych"
+fi
+```
+
+#### Milestone progress detection flow (jeśli Notion available)
+
+Po wykryciu Notion connector, **NIE pobieraj automatycznie**. Spytaj user'a:
+
+> *"Wykryłem Notion MCP. Mogę sprawdzić milestone progress (X/12) dla konkretnego projektu — daj link do Project Card lub nazwę projektu. Albo zostań przy diagnostyce środowiskowej."*
+
+Jeśli user dał link / nazwę projektu, **przez Notion MCP tools** (`notion-search`, `notion-fetch`):
+
+1. Search Project Card po nazwie projektu lub fetch po URL
+2. Read property `Faza` (Discovery / Creation / Validation / Fundraising)
+3. Iteruj przez linked database Streams/Milestones (Warstwa 2 z dokumentu firmy):
+   - 12 streamów, każdy ze statusem (Backlog / In Progress / Done)
+   - Per stream: Objective, Key Results, Deliverable link
+4. Count: X done, Y in progress, Z backlog → progress X/12
+5. Identyfikuj **next milestone** (najbliższy in-progress lub backlog w aktualnej fazie)
+6. Wykryj **anomalie**:
+   - >3 streamy in progress jednocześnie (dokument firmy: max 2-3)
+   - Milestone w fazie późniejszej done, gdy wcześniejsza missing (np. M11 done ale M6 brak)
+   - Streamy bez Deliverable linka (placeholder, nie real progress)
+
+#### Output rozszerzenie dla milestone progress
+
+Gdy Notion data dostępne, dodaj sekcję do raportu:
+
+```
+DD by Heart milestone progress:
+  Project: <nazwa>
+  Faza: <Discovery/Creation/Validation/Fundraising>
+  Progress: X/12 ✓ · Y/12 ◐ (in progress) · Z/12 ☐ (backlog)
+  
+  Per faza:
+    Discovery (M1-M5):  X/5 ✓
+    Creation (M6-M8):   X/3 ✓
+    Validation (M9-M10): X/2 ✓
+    Fundraising (M11-M12): X/2 ✓
+  
+  Next critical milestone: M<N> <name> (status: ◐, ETA: <data>)
+  
+  Anomalie wykryte:
+    - <konkret, np. "5 streamów in progress — przekroczone 2-3 z dokumentu firmy">
+    - <konkret>
+  
+  Fundraising readiness (heurystyka):
+    Pre-seed: <gotowi/wymaga X/Y> (must-haves M5, M7, M11, M12)
+    Seed: <gotowi/wymaga X/Y> (must-haves wszystkie z above + M4, M8, M9, M6)
+  
+  → Pełen check: /heart-vb-process fundraising-readiness skill
+```
+
 ## Krok 7 — Action items (CRITICAL — concrete fix commands)
 
 Po zebraniu danych ZAWSZE generuj sekcję **Action items** jeśli wykryjesz problemy. Każdy item musi mieć konkretną komendę do skopiowania, nie ogólnik.
@@ -154,6 +238,7 @@ Po zebraniu danych ZAWSZE generuj sekcję **Action items** jeśli wykryjesz prob
 | `codex: ⚠️` (Pattern F będzie 2-voice) | Opcjonalne — Codex CLI install + `codex login` (wymaga ChatGPT Plus). Bez Codex pełny Pattern F nadal działa jako 2-voice fallback. |
 | `chrome-devtools-mcp: ⚠️` | `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest` → restart sesji |
 | `council CLI: ⚠️` | Opcjonalne — działa TYLKO z terminala. W CC/Cowork użyj Pattern F (heart-orchestrate skill) jako workaround |
+| `Notion MCP: ⚠️` | Opcjonalne ale **silnie rekomendowane dla milestone tracking** — bez Notion connector plugin nie ma jak czytać X/12 progress. Setup: w Cowork → Settings → Connectors → Notion (OAuth). Lub CLI: `claude mcp add notion <package>`. Po dodaniu — restart sesji i podaj plugin link do Project Card |
 
 ## Output format (przedstaw user'owi)
 
@@ -170,13 +255,20 @@ Dependencies:
   codex           ✅/⚠️ <version/optional>
   chrome-devtools ✅/⚠️ <registered/install command>
   council CLI     ✅/⚠️ <terminal-only note>
+  Notion MCP      ✅/⚠️ <connector dla milestone tracking>
 
 Pattern readiness:
   Tier 1 (Min)      ✅ <always>
   Tier 2 (Standard) ✅/❌ <reason>
   Tier 3 (Full)     ✅/⚠️ <reason>
 
-Verdict: <one sentence — ready to use / fix X first>
+DD by Heart milestone tracking:
+  Notion connector  ✅/⚠️
+  [Jeśli Notion ✅ + user dał project link, wstaw sekcję milestone progress
+   z Kroku 6b: X/12 ✓, per-faza breakdown, next critical, anomalie]
+  [Jeśli ⚠️ lub brak link: "Podaj Notion link lub opowiedz ręcznie który milestone w jakim stanie"]
+
+Verdict: <one sentence — ready to use / fix X first / requires Notion for milestone tracking>
 
 [Action items jeśli są — jak dokończyć setup]
 ```
