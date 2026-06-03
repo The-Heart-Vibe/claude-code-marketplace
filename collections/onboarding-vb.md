@@ -43,7 +43,7 @@ W Claude Code:
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 ```
 
 Installer (run automatically) wykona w terminalu:

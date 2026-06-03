@@ -3,7 +3,7 @@
 **Cel:** progressive demo z managerem/analitykiem żeby zobaczyć plugin w akcji. 10 promptów w 5 fazach, ~60-90 min.
 
 **Pre-demo checklist:**
-- [ ] User ma zainstalowane: `/plugin install heart-vb@the-heart-vibe`
+- [ ] User ma zainstalowane: `/plugin install heart-vb@the-heart-marketplace`
 - [ ] `~/.local/bin/council doctor` → minimum `gemini-cli OK`
 - [ ] `cat ~/.claude/settings.json | grep heart-` → powinno być 4 hooki
 - [ ] `claude mcp list | grep chrome-devtools` → MCP zainstalowany przez install.sh (wymagane dla Prompt 10). Jeśli FAIL: re-run install.sh — auto-instaluje przez `claude mcp add`

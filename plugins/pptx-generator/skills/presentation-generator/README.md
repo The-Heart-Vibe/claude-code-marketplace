@@ -8,7 +8,7 @@ Generates branded `.pptx` presentations from a topic or brief using The Heart / 
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install pptx-generator@the-heart-vibe
+/plugin install pptx-generator@the-heart-marketplace
 ```
 
 ## What it does

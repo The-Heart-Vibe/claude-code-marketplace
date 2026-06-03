@@ -17,7 +17,7 @@
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 ```
 
 Po tym masz wszystkie 36 skilli z tej kolekcji. Bez dodawania innych marketplaces. Pełne onboarding step-by-step → [onboarding-vb.md](onboarding-vb.md).

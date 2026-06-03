@@ -228,7 +228,7 @@ Auth dla providerów (sprawdź wyżej w doctor):
   gemini-cli →  Jeśli FAIL: \`gemini\` (OAuth przez Google Workspace)
 
 Następnie w Claude Code:
-  /plugin install heart-vb@the-heart-vibe   # jeśli nie zrobiłeś jeszcze
+  /plugin install heart-vb@the-heart-marketplace   # jeśli nie zrobiłeś jeszcze
   /council <twoje pytanie>
 
 Lub bezpośrednio z terminala:

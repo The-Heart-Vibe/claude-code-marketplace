@@ -8,7 +8,7 @@ Wewnętrzny marketplace pluginów Claude Code dla zespołu The Heart Vibe.
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 ```
 
 I masz całą Venture Builder toolkit — 36 skilli w 8 kategoriach.
@@ -54,7 +54,7 @@ Nie auto-syncujemy z upstream — update wymaga ręcznego re-copy + diff review 
 2. Dodaj wpis do `skills` array w `plugins/heart-vb/.claude-plugin/plugin.json`
 3. Jeśli z upstream — dodaj wiersz do `ATTRIBUTION.md`
 4. PR z opisem use case
-5. Teammate'y robią `/plugin update heart-vb@the-heart-vibe`
+5. Teammate'y robią `/plugin update heart-vb@the-heart-marketplace`
 
 ## Konwencje
 

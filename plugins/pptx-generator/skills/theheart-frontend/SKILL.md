@@ -45,7 +45,7 @@ Then in `tailwind.config.cjs`:
 
 ```js
 module.exports = {
-  presets: [require("@the-heart-vibe/design-system/tailwind.preset.cjs")],
+  presets: [require("@the-heart-marketplace/design-system/tailwind.preset.cjs")],
   content: ["./src/**/*.{ts,tsx}"],
 };
 ```
@@ -53,7 +53,7 @@ module.exports = {
 In `src/main.tsx`:
 
 ```ts
-import "@the-heart-vibe/design-system/src/tokens/tokens.css";
+import "@the-heart-marketplace/design-system/src/tokens/tokens.css";
 ```
 
 ### B) Copy-paste tokens + a single component

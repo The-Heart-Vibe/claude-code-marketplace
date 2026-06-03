@@ -4,7 +4,7 @@
 
 ```
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 ```
 
 I masz wszystko. Bez dodawania innych marketplaces.
@@ -82,7 +82,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 
 Czyli: **gemini-cli i codex CLI działają w Cowork** (przez Pattern F workers), tylko `council` binary nie. Pattern F to pełna funkcjonalna alternatywa.
 
-> **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/claude-code-marketplace` → `/plugin install heart-vb@the-heart-vibe`. Hooki auto-load przy starcie sesji. Sprawdź stan przez `/heart-vb:status`.
+> **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/claude-code-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. Hooki auto-load przy starcie sesji. Sprawdź stan przez `/heart-vb:status`.
 
 ## Co plugin install załatwia automatycznie
 
@@ -114,7 +114,7 @@ Dla pełnej funkcjonalności (Pattern E/F multi-LLM, milestone tracking) potrzeb
 ```
 # W Claude Desktop → Cowork tab:
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 
 # Restart Cowork tab (zamknij + otwórz)
 # Plugin + hooki + chrome-devtools-mcp są aktywne
@@ -140,7 +140,7 @@ claude --version
 claude
 # W interactive prompt:
 /plugin marketplace add The-Heart-Vibe/claude-code-marketplace
-/plugin install heart-vb@the-heart-vibe
+/plugin install heart-vb@the-heart-marketplace
 /exit
 
 # 4. Odpal install.sh dla pełnego setup'u (gemini-cli + council CLI + verify chrome-devtools)

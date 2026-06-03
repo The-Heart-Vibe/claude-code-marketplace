@@ -1,10 +1,10 @@
 {
-  "name": "the-heart-vibe",
+  "name": "the-heart-marketplace",
   "owner": {
     "name": "The Heart Vibe",
     "url": "https://github.com/The-Heart-Vibe"
   },
-  "description": "Wewnętrzny marketplace pluginów Claude Code (CLI/IDE + Claude Desktop Cowork) dla The Heart Vibe. Aligned z firmowym procesem Venture Building (DD by Heart — 12 non-negotiable milestones w 4 fazach). Aktualnie 2 pluginy: heart-vb (47 skilli, kompletny VB toolkit) i pptx-generator (branded .pptx decks + design system export).",
+  "description": "The Heart Marketplace — wewnętrzny marketplace pluginów Claude Code (CLI/IDE + Claude Desktop Cowork) dla zespołu The Heart Vibe. Aligned z firmowym procesem Venture Building (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). Aktualnie 2 pluginy: heart-vb (47 skilli + 15 agentów, kompletny VB toolkit) i pptx-generator (branded .pptx decks + design system export).",
   "plugins": [
     {
       "name": "heart-vb",
