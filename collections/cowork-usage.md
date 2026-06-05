@@ -133,20 +133,27 @@ Model spawnuje 3 dedicated agents równolegle i syntetyzuje. To samo co stary au
 
 ---
 
-## Jak zaktualizować heart-vb w Cowork (ważne)
+## Jak zaktualizować heart-vb w Cowork
 
-Cowork cache'uje marketplace **server-side per konto** z rate-limitem na sync. Zwykły "update" często **nie pobiera** nowej wersji (pokazuje `already_connected, skipping poll` + cooldown 42s). Dlatego:
+**Update DZIAŁA — potrzebuje tylko czasu.** Cowork nie pobiera zmian w czasie rzeczywistym: po push do repo serwer Anthropic musi re-zindeksować marketplace (server-side, per konto). To zajmuje **~12-16 sekund** na sync + **cooldown 42s** między sync'ami.
 
-**Niezawodna aktualizacja w Cowork:**
+**Normalna aktualizacja (zalecana):**
 ```
-1. Directory → Plugins → Personal → tab "the-heart-marketplace" → ··· → Remove
-2. Dodaj ponownie: + → The-Heart-Vibe/the-heart-marketplace
-3. Zainstaluj heart-vb na nowo
+1. Directory → Plugins → tab "the-heart-marketplace" → Update
+2. POCZEKAJ ~15-30 sekund (server re-scan repo)
+3. Jeśli pokazuje "Already up to date" mimo nowej wersji → cooldown aktywny,
+   odczekaj ~minutę i kliknij Update ponownie
 ```
 
-**Dlaczego nie zwykły "Update":** Cowork server-side sync ma cooldown (42s między sync'ami) i pomija odświeżenie gdy marketplace `already_connected`. Remove+re-add wymusza czysty re-scan z GitHub HEAD.
+**Forcing (gdy się spieszysz / Update uparcie pokazuje stare):**
+```
+tab "the-heart-marketplace" → ··· → Remove → dodaj ponownie → reinstall
+```
+Remove+re-add wymusza świeży re-scan, ale też podlega cooldownowi.
 
-> **Dla zespołu w praktyce:** instalujesz **raz**, działa. Aktualizacje pluginu są rzadkie — gdy wyjdzie nowa wersja, zrób remove+re-add (30 sekund). W CLI aktualizacja jest prostsza: `/plugin marketplace update` + `/plugin update heart-vb`.
+> **Ważne — dlaczego czasem "Already up to date" mimo że jest nowa wersja:** Cowork triggeruje sync server-side który (a) trwa kilkanaście sekund, (b) ma cooldown 42s, (c) pomija re-poll gdy panel otwierasz przy `already_connected`. To NIE jest zepsute — po prostu daj sekundy/minutę. Świeży push do repo nie jest widoczny natychmiast.
+
+> **Dla zespołu w praktyce:** instalujesz **raz**, działa. Aktualizacje pluginu są rzadkie — gdy wyjdzie nowa wersja, kliknij Update i poczekaj chwilę. W CLI: `/plugin marketplace update` + `/plugin update heart-vb` (też ma latencję, ale mniejszą).
 
 ---
 
