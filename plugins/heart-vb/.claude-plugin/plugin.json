@@ -1,8 +1,8 @@
 {
   "name": "heart-vb",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "status": "stable",
-  "description": "Heart Venture Builder toolkit — kompletny VB stack aligned z firmowym procesem DD by Heart (12 milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli + 15 dedicated agents + 5 auto-loaded hooków. Master orchestrator /heart-vb-process pokrywa cały proces od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork.",
+  "description": "Heart Venture Builder toolkit — kompletny VB stack aligned z firmowym procesem DD by Heart (12 milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli + 15 dedicated agents. Master orchestrator /heart-vb-process pokrywa cały proces od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork.",
   "author": {
     "name": "The Heart Vibe"
   },
