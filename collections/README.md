@@ -11,6 +11,7 @@ Cel kolekcji: pomóc zespołowi znaleźć właściwy skill dla konkretnej fazy p
 | [Venture Builder](venture-builder.md) | Analitycy + konsultanci w obszarze venture building (The Heart edition) | 7 |
 | [Onboarding VB](onboarding-vb.md) | Nowy w zespole — 20-min przewodnik krok po kroku | — |
 | [Demo Prompts](demo-prompts.md) | Live demo z managerem/teammate — 10 progressive promptów, ~60-90 min | 5 |
+| [Cowork Usage](cowork-usage.md) | Jak używać heart-vb w Claude Desktop Cowork (bez auto-hooków) — 3 wzorce użycia | — |
 
 ## Jak dodać nową kolekcję
 
