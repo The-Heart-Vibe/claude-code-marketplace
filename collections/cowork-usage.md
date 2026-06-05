@@ -133,6 +133,23 @@ Model spawnuje 3 dedicated agents równolegle i syntetyzuje. To samo co stary au
 
 ---
 
+## Jak zaktualizować heart-vb w Cowork (ważne)
+
+Cowork cache'uje marketplace **server-side per konto** z rate-limitem na sync. Zwykły "update" często **nie pobiera** nowej wersji (pokazuje `already_connected, skipping poll` + cooldown 42s). Dlatego:
+
+**Niezawodna aktualizacja w Cowork:**
+```
+1. Directory → Plugins → Personal → tab "the-heart-marketplace" → ··· → Remove
+2. Dodaj ponownie: + → The-Heart-Vibe/the-heart-marketplace
+3. Zainstaluj heart-vb na nowo
+```
+
+**Dlaczego nie zwykły "Update":** Cowork server-side sync ma cooldown (42s między sync'ami) i pomija odświeżenie gdy marketplace `already_connected`. Remove+re-add wymusza czysty re-scan z GitHub HEAD.
+
+> **Dla zespołu w praktyce:** instalujesz **raz**, działa. Aktualizacje pluginu są rzadkie — gdy wyjdzie nowa wersja, zrób remove+re-add (30 sekund). W CLI aktualizacja jest prostsza: `/plugin marketplace update` + `/plugin update heart-vb`.
+
+---
+
 ## Najprostsza rekomendacja dla pracownika
 
 1. **Szybkie zadanie** → pisz naturalnie (Wzorzec 1)
