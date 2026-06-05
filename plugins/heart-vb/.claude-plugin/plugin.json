@@ -1,43 +1,12 @@
 {
   "name": "heart-vb",
-  "version": "0.8.7",
-  "status": "stable",
+  "version": "0.8.8",
   "description": "Heart Venture Builder toolkit — kompletny VB stack aligned z firmowym procesem DD by Heart (12 milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). 47 skilli + 15 dedicated agents. Master orchestrator /heart-vb-process pokrywa cały proces od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork.",
   "author": {
     "name": "The Heart Vibe"
   },
-  "homepage": "https://github.com/The-Heart-Vibe/claude-code-marketplace",
   "repository": "https://github.com/The-Heart-Vibe/claude-code-marketplace",
   "license": "MIT",
-  "keywords": [
-    "venture-building",
-    "the-heart",
-    "fundraising",
-    "pitch-deck",
-    "investor-relations",
-    "due-diligence",
-    "vb-process",
-    "venture-capital",
-    "agents",
-    "skills"
-  ],
-  "agents": [
-    "./agents/vb-orchestrator.md",
-    "./agents/vc-partner.md",
-    "./agents/pricing-analyst.md",
-    "./agents/cfo.md",
-    "./agents/regulatory-officer-pl.md",
-    "./agents/founder-skeptic.md",
-    "./agents/growth-lead.md",
-    "./agents/vp-product.md",
-    "./agents/comps-analyst.md",
-    "./agents/customer-research-lead.md",
-    "./agents/pitch-coach.md",
-    "./agents/operator.md",
-    "./agents/it-architect.md",
-    "./agents/ic-memo-writer.md",
-    "./agents/red-flag-detector.md"
-  ],
   "skills": [
     "./skills/council",
     "./skills/self-improving/self-improving-agent",
