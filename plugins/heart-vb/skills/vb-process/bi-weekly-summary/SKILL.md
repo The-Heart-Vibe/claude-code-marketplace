@@ -1,6 +1,6 @@
 ---
 name: bi-weekly-summary
-description: Krok 3 procesu VB — side product produkowany co 2 tygodnie. Krótkie podsumowanie sprintu: co zrobione, jakie wnioski, jakie red flags, sygnały do zmiany kierunku. Buduje bazę wiedzy która później trafia do pitch deck'a (M11) i materiałów. Use gdy zespół projektowy kończy 2-tygodniowy sprint i potrzebuje przygotować podsumowanie dla zarządu lub własnego archiwum. Triggeruj na: "bi-weekly summary", "podsumowanie sprintu", "summary co 2 tygodnie", "wnioski ze sprintu", "co zrobiliśmy w sprincie".
+description: "Krok 3 procesu VB — side product produkowany co 2 tygodnie. Krótkie podsumowanie sprintu: co zrobione, jakie wnioski, jakie red flags, sygnały do zmiany kierunku. Buduje bazę wiedzy która później trafia do pitch deck'a (M11) i materiałów. Use gdy zespół projektowy kończy 2-tygodniowy sprint i potrzebuje przygotować podsumowanie dla zarządu lub własnego archiwum. Triggeruj na: \"bi-weekly summary\", \"podsumowanie sprintu\", \"summary co 2 tygodnie\", \"wnioski ze sprintu\", \"co zrobiliśmy w sprincie\"."
 ---
 
 # Bi-Weekly Summary (Krok 3 — Side Product)

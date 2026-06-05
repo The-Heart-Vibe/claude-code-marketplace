@@ -1,6 +1,6 @@
 ---
 name: heart-comps-analysis
-description: Robi trading + transaction comps dla ventures w portfolio Heart — analizuje 3-7 porównywalnych firm z multiplami (EV/Revenue, EV/EBITDA, EV/ARR), benchmarki rynkowe, valuation range. Atomic daily task — odpalasz raz, dostajesz structured comps table. Use when user pyta "comps dla X", "ile warta jest firma taka jak Y", "benchmark valuation dla HealthTech SaaS przy €5M ARR".
+description: "Robi trading + transaction comps dla ventures w portfolio Heart — analizuje 3-7 porównywalnych firm z multiplami (EV/Revenue, EV/EBITDA, EV/ARR), benchmarki rynkowe, valuation range. Atomic daily task — odpalasz raz, dostajesz structured comps table. Use when user pyta \"comps dla X\", \"ile warta jest firma taka jak Y\", \"benchmark valuation dla HealthTech SaaS przy €5M ARR\"."
 ---
 
 # Heart Comps Analysis

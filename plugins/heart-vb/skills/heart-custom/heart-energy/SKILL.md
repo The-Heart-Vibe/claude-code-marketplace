@@ -1,6 +1,6 @@
 ---
 name: heart-energy
-description: Context dla ventures w szeroko rozumianej branży energetycznej w Polsce/EU — generation (OZE, nuclear/SMR, gas), T&D (PSE/DSO), storage (BESS/V2G), e-mobility (CPO/EMSP/charging), wodór (H2), heat & buildings (heat pumps, district heating), energy services (PPA, demand response, aggregation), EnergyTech SaaS (forecasting, EMS, trading). Pokrywa regulator stack (URE, PSE, EU Battery Reg, EU ETS, RED III, CSRD, Fit-for-55), funding (NFOŚiGW, NCBR FENG, EU Innovation Fund), buyer typology, polskie realia rynkowe. Use przy building ventures w energetyce oraz oceny opportunities w tym sektorze.
+description: "Context dla ventures w szeroko rozumianej branży energetycznej w Polsce/EU — generation (OZE, nuclear/SMR, gas), T&D (PSE/DSO), storage (BESS/V2G), e-mobility (CPO/EMSP/charging), wodór (H2), heat & buildings (heat pumps, district heating), energy services (PPA, demand response, aggregation), EnergyTech SaaS (forecasting, EMS, trading). Pokrywa regulator stack (URE, PSE, EU Battery Reg, EU ETS, RED III, CSRD, Fit-for-55), funding (NFOŚiGW, NCBR FENG, EU Innovation Fund), buyer typology, polskie realia rynkowe. Use przy building ventures w energetyce oraz oceny opportunities w tym sektorze."
 ---
 
 # Heart Energy Context

@@ -1,6 +1,6 @@
 ---
 name: heart-dd-checklist
-description: Generuje sector-aware due diligence checklist dla venture na etapie pre-IC. Atomic daily task — odpalasz raz, dostajesz structured checklist który możesz dac founderowi/zespołowi do uzupełnienia. Use when user pyta "wygeneruj DD checklist dla X", "co sprawdzić na DD dla HealthTech venture", "checklist do DD dla academic spinout".
+description: "Generuje sector-aware due diligence checklist dla venture na etapie pre-IC. Atomic daily task — odpalasz raz, dostajesz structured checklist który możesz dac founderowi/zespołowi do uzupełnienia. Use when user pyta \"wygeneruj DD checklist dla X\", \"co sprawdzić na DD dla HealthTech venture\", \"checklist do DD dla academic spinout\"."
 ---
 
 # Heart DD Checklist

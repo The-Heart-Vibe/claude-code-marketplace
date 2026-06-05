@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use dla generic, exploratory tasków BEZ precyzyjnego VB kontekstu — kiedy żaden z bardziej specyficznych skilli nie pasuje (np. organizacja eventu, struktura spotkania, ad-hoc decyzja personal/operacyjna, draft notki do partnera, ułożenie agenda, refleksja strategiczna). Pomaga przejść od mglistej idei do konkretnego planu/specu przez clarifying questions one-at-a-time + propozycję 2-3 podejść + approval gate.
+description: "Use dla generic, exploratory tasków BEZ precyzyjnego VB kontekstu — kiedy żaden z bardziej specyficznych skilli nie pasuje (np. organizacja eventu, struktura spotkania, ad-hoc decyzja personal/operacyjna, draft notki do partnera, ułożenie agenda, refleksja strategiczna). Pomaga przejść od mglistej idei do konkretnego planu/specu przez clarifying questions one-at-a-time + propozycję 2-3 podejść + approval gate."
 ---
 
 # Brainstorming — Generic Thinking Partner

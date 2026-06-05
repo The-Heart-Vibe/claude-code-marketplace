@@ -1,6 +1,6 @@
 ---
 name: council
-description: Multi-LLM debate via the-llm-council CLI. Invoke ONLY when user explicitly types /council. Do NOT auto-trigger on generic "let's discuss" or "what next" prompts.
+description: "Multi-LLM debate via the-llm-council CLI. Invoke ONLY when user explicitly types /council. Do NOT auto-trigger on generic \"let's discuss\" or \"what next\" prompts."
 ---
 
 # LLM Council Skill (v0.7.16)

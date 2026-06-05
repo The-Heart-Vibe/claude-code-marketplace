@@ -1,6 +1,6 @@
 ---
 name: heart-pitch-deck
-description: Buduje lub poprawia pitch deck inwestorski dla venture w portfolio Heart. Atomic daily task — odpalasz raz, dostajesz structured deck outline z thesis/problem/solution/traction/team/financials/ask. Sector-aware (HealthTech/academic/energy/FinTech). Use when user pyta "zbuduj deck dla X", "popraw deck Y", "co powinno być na slide thesis".
+description: "Buduje lub poprawia pitch deck inwestorski dla venture w portfolio Heart. Atomic daily task — odpalasz raz, dostajesz structured deck outline z thesis/problem/solution/traction/team/financials/ask. Sector-aware (HealthTech/academic/energy/FinTech). Use when user pyta \"zbuduj deck dla X\", \"popraw deck Y\", \"co powinno być na slide thesis\"."
 ---
 
 # Heart Pitch Deck

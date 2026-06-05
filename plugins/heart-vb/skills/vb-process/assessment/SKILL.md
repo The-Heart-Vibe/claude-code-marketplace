@@ -1,6 +1,6 @@
 ---
 name: assessment
-description: Krok 1 procesu VB — checker stanu zastanego projektu. Wykonuje 12-row matrycę oceny (per milestone): ilościowo (✓/◐/☐ — jest/jest ale wymaga weryfikacji/brak) plus jakościowo (czy to jest dobrze zrobione, czy mogę iść z tym do inwestora). Use gdy projekt przychodzi z częścią rzeczy zrobionych albo gdy chcesz wiedzieć ile pracy przed Wami. Triggeruj na: "oceń projekt", "gdzie stoimy", "assessment", "ile milestones done", "checker", "audyt projektu".
+description: "Krok 1 procesu VB — checker stanu zastanego projektu. Wykonuje 12-row matrycę oceny (per milestone): ilościowo (✓/◐/☐ — jest/jest ale wymaga weryfikacji/brak) plus jakościowo (czy to jest dobrze zrobione, czy mogę iść z tym do inwestora). Use gdy projekt przychodzi z częścią rzeczy zrobionych albo gdy chcesz wiedzieć ile pracy przed Wami. Triggeruj na: \"oceń projekt\", \"gdzie stoimy\", \"assessment\", \"ile milestones done\", \"checker\", \"audyt projektu\"."
 ---
 
 # Krok 1 — Assessment (Checker)

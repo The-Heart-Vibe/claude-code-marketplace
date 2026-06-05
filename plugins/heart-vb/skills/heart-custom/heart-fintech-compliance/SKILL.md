@@ -1,6 +1,6 @@
 ---
 name: heart-fintech-compliance
-description: Load FinTech regulatory context for The Heart ventures (KNF, AMLD6, MIFID2, PSD2, RODO). Use when analyzing/building FinTech ventures w portfolio (VASBOX, Digital Gateways) lub oceniając nowe opportunities w tym sektorze.
+description: "Load FinTech regulatory context for The Heart ventures (KNF, AMLD6, MIFID2, PSD2, RODO). Use when analyzing/building FinTech ventures w portfolio (VASBOX, Digital Gateways) lub oceniając nowe opportunities w tym sektorze."
 ---
 
 # Heart FinTech Compliance Context

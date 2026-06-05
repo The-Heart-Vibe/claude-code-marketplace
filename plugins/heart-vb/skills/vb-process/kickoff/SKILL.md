@@ -1,6 +1,6 @@
 ---
 name: kickoff
-description: Krok 2 procesu VB — po assessment generuje harmonogram dla projektu. Risk ranking brakujących milestones, podział na sprinty 2-3 tygodniowe, capacity planning, OKR per milestone (Objective + Key Results). Output: timeline z przypisanymi sprintami i jasnym celem per sprint, max 2-3 streamy in progress jednocześnie. Use po assessment lub gdy projekt startuje od zera. Triggeruj na: "kickoff", "harmonogram projektu", "sprint planning", "od czego zacząć", "rozpisz milestones na sprinty".
+description: "Krok 2 procesu VB — po assessment generuje harmonogram dla projektu. Risk ranking brakujących milestones, podział na sprinty 2-3 tygodniowe, capacity planning, OKR per milestone (Objective + Key Results). Output: timeline z przypisanymi sprintami i jasnym celem per sprint, max 2-3 streamy in progress jednocześnie. Use po assessment lub gdy projekt startuje od zera. Triggeruj na: \"kickoff\", \"harmonogram projektu\", \"sprint planning\", \"od czego zacząć\", \"rozpisz milestones na sprinty\"."
 ---
 
 # Krok 2 — Kickoff

@@ -1,6 +1,6 @@
 ---
 name: exit-strategy
-description: M6 (milestone 6) procesu VB — exit strategy & potencjalni acquirers. To jest "pierwsze pytanie z funduszy" i najczęściej pomijany milestone w projektach VB. Output: lista 5-10 acquirers z uzasadnieniem, comparable exits (kto kupił, za ile, mnożniki), exit narrative. Bez tego nie da się rozmawiać z VC. Triggeruj na: "exit strategy", "kto to kupi", "acquirers", "comparable exits", "mnożniki przy sprzedaży", "exit narrative", "pierwsze pytanie funduszu".
+description: "M6 (milestone 6) procesu VB — exit strategy & potencjalni acquirers. To jest \"pierwsze pytanie z funduszy\" i najczęściej pomijany milestone w projektach VB. Output: lista 5-10 acquirers z uzasadnieniem, comparable exits (kto kupił, za ile, mnożniki), exit narrative. Bez tego nie da się rozmawiać z VC. Triggeruj na: \"exit strategy\", \"kto to kupi\", \"acquirers\", \"comparable exits\", \"mnożniki przy sprzedaży\", \"exit narrative\", \"pierwsze pytanie funduszu\"."
 ---
 
 # Exit Strategy & Acquirers (Milestone 6)

@@ -1,6 +1,6 @@
 ---
 name: heart-healthtech-compliance
-description: Load HealthTech regulatory context for The Heart ventures (MDR, RODO art. 9, IRB approval, NFZ procurement). Use when analyzing/building HealthTech ventures w portfolio (Wellnoted) lub oceniając nowe opportunities z domeny medycznej.
+description: "Load HealthTech regulatory context for The Heart ventures (MDR, RODO art. 9, IRB approval, NFZ procurement). Use when analyzing/building HealthTech ventures w portfolio (Wellnoted) lub oceniając nowe opportunities z domeny medycznej."
 ---
 
 # Heart HealthTech Compliance Context

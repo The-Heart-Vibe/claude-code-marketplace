@@ -1,6 +1,6 @@
 ---
 name: heart-stakeholder-update
-description: Pisze weekly/monthly stakeholder update dla portfolio company → investors lub IC The Heart. Atomic daily task — odpalasz raz, dostajesz structured update z progress/blockers/asks. Use when user pyta "napisz update do investors za October", "monthly update dla IC za Q3", "co wpisać do email do stakeholders".
+description: "Pisze weekly/monthly stakeholder update dla portfolio company → investors lub IC The Heart. Atomic daily task — odpalasz raz, dostajesz structured update z progress/blockers/asks. Use when user pyta \"napisz update do investors za October\", \"monthly update dla IC za Q3\", \"co wpisać do email do stakeholders\"."
 ---
 
 # Heart Stakeholder Update

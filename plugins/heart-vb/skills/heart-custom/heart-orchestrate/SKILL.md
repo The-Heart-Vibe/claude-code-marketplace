@@ -1,6 +1,6 @@
 ---
 name: heart-orchestrate
-description: Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/decision/research prompty i spawnuje cowork agents w jednym z dwóch patternów: Pattern E (persona-driven divergence) lub Pattern F (multi-LLM debate, 3 różne providery). Działa z poziomu Claude Code (main session lub cowork worktree) bez nested CLI block. Analityk pisze normalnie — orchestrator wybiera pattern i model routing.
+description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/decision/research prompty i spawnuje cowork agents w jednym z dwóch patternów: Pattern E (persona-driven divergence) lub Pattern F (multi-LLM debate, 3 różne providery). Działa z poziomu Claude Code (main session lub cowork worktree) bez nested CLI block. Analityk pisze normalnie — orchestrator wybiera pattern i model routing."
 ---
 
 # Heart Orchestrate — Persona Parallel + Multi-LLM Debate

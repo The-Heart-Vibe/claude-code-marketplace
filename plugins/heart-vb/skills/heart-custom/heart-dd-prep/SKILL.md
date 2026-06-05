@@ -1,6 +1,6 @@
 ---
 name: heart-dd-prep
-description: Przygotowuje strukturalny DD case dla venture pre-IC. Atomic daily task — odpalasz raz, dostajesz one-page DD case z thesis/strengths/concerns/asks gotowy do IC. Use when user pyta "przygotuj DD case dla X", "co wpisać w pre-IC memo o tym venture", "zsyntezuj findings z DD do prezentacji IC".
+description: "Przygotowuje strukturalny DD case dla venture pre-IC. Atomic daily task — odpalasz raz, dostajesz one-page DD case z thesis/strengths/concerns/asks gotowy do IC. Use when user pyta \"przygotuj DD case dla X\", \"co wpisać w pre-IC memo o tym venture\", \"zsyntezuj findings z DD do prezentacji IC\"."
 ---
 
 # Heart DD Prep

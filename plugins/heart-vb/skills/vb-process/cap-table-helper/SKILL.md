@@ -1,6 +1,6 @@
 ---
 name: cap-table-helper
-description: M7 (milestone 7) procesu VB — zespół & cap table. Strukturuje equity split między founderami/CEO/zespołem, ESOP planning, advisory agreements, status spółki (LLC/Sp. z o.o. założona?). Bez CEO i czystego cap table fundusz nie zainwestuje. Use przy onboarding nowego CEO, negocjacji equity z technical founderem, planowaniu ESOP, lub gdy projekt zbliża się do M11 a struktura prawna nie jest dopięta. Triggeruj na: "cap table", "equity split", "ESOP", "advisory agreements", "spółka założona", "kto jest CEO", "negocjacja udziałów".
+description: "M7 (milestone 7) procesu VB — zespół & cap table. Strukturuje equity split między founderami/CEO/zespołem, ESOP planning, advisory agreements, status spółki (LLC/Sp. z o.o. założona?). Bez CEO i czystego cap table fundusz nie zainwestuje. Use przy onboarding nowego CEO, negocjacji equity z technical founderem, planowaniu ESOP, lub gdy projekt zbliża się do M11 a struktura prawna nie jest dopięta. Triggeruj na: \"cap table\", \"equity split\", \"ESOP\", \"advisory agreements\", \"spółka założona\", \"kto jest CEO\", \"negocjacja udziałów\"."
 ---
 
 # Cap Table & Team Structure (Milestone 7)

@@ -1,6 +1,6 @@
 ---
 name: heart-academic-spinouts
-description: Context dla ventures budowanych z polskimi uczelniami i instytutami PAN — tech transfer, IP ownership, NCBR/NCN funding paths, cooperation models z academic founderami. Use przy screeningu opportunities od profesorów/researcherów oraz przy building ventures z uczelnianym IP.
+description: "Context dla ventures budowanych z polskimi uczelniami i instytutami PAN — tech transfer, IP ownership, NCBR/NCN funding paths, cooperation models z academic founderami. Use przy screeningu opportunities od profesorów/researcherów oraz przy building ventures z uczelnianym IP."
 ---
 
 # Heart Academic Spinouts Context
