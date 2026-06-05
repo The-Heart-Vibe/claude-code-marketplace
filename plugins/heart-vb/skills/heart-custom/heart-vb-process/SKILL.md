@@ -140,5 +140,5 @@ Stuck? → /heart-vb-process
   └─ "LOI/pilot?" → vb-commercial/pricing-strategist (M9)
   └─ "deck?" → heart-pitch-deck (M11)
   └─ "inwestorzy?" → vb-comms/investor-outreach (M12)
-  └─ "status?" → /heart-vb:status
+  └─ "status?" → /heart-status
 ```

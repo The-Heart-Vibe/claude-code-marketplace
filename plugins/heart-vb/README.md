@@ -54,7 +54,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 | **vb-commercial** | pricing-strategist (M9), deal-desk, commercial-forecaster, channel-economics | alirezarezvani (MIT) |
 | **vb-comms** | board-prep (M11 IC memo), stress-test, hard-call, investor-materials (M11), investor-outreach (M12) | mixed (MIT) |
 | **vb-process** ⭐ NEW v0.7 | assessment (Krok 1), kickoff (Krok 2), bi-weekly-summary (Krok 3), fundraising-readiness (Krok 4), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3) | The Heart Vibe |
-| **heart-custom** | **Master:** heart-vb-process (12-milestone orchestrator). **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża energetyczna), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck (M11), heart-stakeholder-update, heart-comps-analysis (M6 inputs), heart-dd-checklist (M10), heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork Pattern E/F). **Utility:** brainstorming (generic thinking partner), status (/heart-vb:status self-diagnostic) | The Heart Vibe + obra (MIT) |
+| **heart-custom** | **Master:** heart-vb-process (12-milestone orchestrator). **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża energetyczna), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck (M11), heart-stakeholder-update, heart-comps-analysis (M6 inputs), heart-dd-checklist (M10), heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork Pattern E/F). **Utility:** brainstorming (generic thinking partner), status (/heart-status self-diagnostic) | The Heart Vibe + obra (MIT) |
 
 **Total: 47 skilli w 9 kategoriach.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
@@ -82,7 +82,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 
 Czyli: **gemini-cli i codex CLI działają w Cowork** (przez Pattern F workers), tylko `council` binary nie. Pattern F to pełna funkcjonalna alternatywa.
 
-> **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. Hooki auto-load przy starcie sesji. Sprawdź stan przez `/heart-vb:status`.
+> **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. Hooki auto-load przy starcie sesji. Sprawdź stan przez `/heart-status`.
 
 ## Co plugin install załatwia automatycznie
 
@@ -102,12 +102,12 @@ Dla pełnej funkcjonalności (Pattern E/F multi-LLM, milestone tracking) potrzeb
 |---|---|---|---|
 | **`gemini-cli`** | **Strongly recommended** | `npm install -g @google/gemini-cli` → `gemini` (Google Workspace OAuth) | Pattern E multi-persona z Gemini, Pattern F voice #2 |
 | **`codex` CLI** | Optional (Tier 3) | Install Codex CLI + `codex login` (wymaga ChatGPT Plus €22/mc) | Pattern F voice #3 (full multi-LLM debate). Bez Codex Pattern F nadal działa jako 2-voice |
-| **Notion MCP connector** | Optional (od v0.7.1) | W Cowork UI: Settings → Connectors → Notion (OAuth). Lub CLI: `claude mcp add notion <package>` | `/heart-vb:status` milestone progress detection (X/12) z Project Card |
+| **Notion MCP connector** | Optional (od v0.7.1) | W Cowork UI: Settings → Connectors → Notion (OAuth). Lub CLI: `claude mcp add notion <package>` | `/heart-status` milestone progress detection (X/12) z Project Card |
 | **`council` CLI binary** | Optional, **terminal-only** | `bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh)` | Multi-LLM debate z terminala. **NIE działa z poziomu CC/Cowork** (self-invocation block) — Pattern F to alternatywa |
 
 > **Minimum viable konfiguracja:** `gemini-cli` zainstalowany w terminalu + plugin install w Cowork = pełen Pattern E + 2-voice Pattern F + chrome-devtools auto-loaded. Pozostałe są nice-to-have.
 
-**Weryfikacja:** odpal `/heart-vb:status` po setup — pokaże tier readiness (1/2/3) + concrete fix commands jeśli czegoś brakuje.
+**Weryfikacja:** odpal `/heart-status` po setup — pokaże tier readiness (1/2/3) + concrete fix commands jeśli czegoś brakuje.
 
 ## Path A: Install przez Cowork (rekomendowane dla większości pracowników)
 
@@ -120,7 +120,7 @@ Dla pełnej funkcjonalności (Pattern E/F multi-LLM, milestone tracking) potrzeb
 # Plugin + hooki + chrome-devtools-mcp są aktywne
 
 # Verify:
-/heart-vb:status
+/heart-status
 ```
 
 **Co dostajesz:** Wszystko z "Co plugin install załatwia automatycznie" działa od razu. Dla pełnego Pattern F musisz zainstalować gemini-cli w terminalu (jednorazowo, w przeglądarce login).
@@ -154,7 +154,7 @@ codex login  # wymaga ChatGPT Plus
 
 # 7. Verify wszystko działa
 claude
-/heart-vb:status
+/heart-status
 ```
 
 **Zalety Path B:**
@@ -416,7 +416,7 @@ Loaderzy `--context` dla council + standalone reference podczas IC memo. **Dla s
 ### Z poziomu Claude Code / Cowork (rekomendowane)
 
 ```
-/heart-vb:status
+/heart-status
 ```
 
 Self-diagnostic skill — wykrywa environment (CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, chrome-devtools-mcp), auth providers, gotowość Pattern E/F (Tier 1/2/3). Read-only, bez konsumpcji tokenów. **Pierwsze co odpalić gdy plugin "nie działa".**
@@ -447,7 +447,7 @@ council config --show
 bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh)
 
 # 5. Verify
-/heart-vb:status
+/heart-status
 # Spodziewaj się: 4/4 hooks auto-loaded, 0 legacy hooks, gemini ✅
 ```
 

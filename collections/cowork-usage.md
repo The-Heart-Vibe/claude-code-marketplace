@@ -46,7 +46,7 @@ Po prostu opisz zadanie. Model dopasuje skill/agenta z opisu.
 | "Kto może kupić nasz BESS venture za 5-10 lat?" | → skill `exit-strategy` (M6) |
 | "Porównaj 5 konkurentów na rynku AI-EHR" | → skill `competitive-teardown` lub agent `comps-analyst` |
 | "Czy nasz pricing €99/€299 vs flat €2500 ma sens?" | → `pricing-analyst` + `cfo`, lub Pattern E (3 ekspertów) |
-| "Sprawdź stan projektu / gdzie jesteśmy" | → `/heart-vb:status` |
+| "Sprawdź stan projektu / gdzie jesteśmy" | → `/heart-status` |
 
 **Działa bez żadnego prefiksu.** Jak każdy normalny chat.
 
@@ -78,7 +78,7 @@ Slash command lub wprost po nazwie:
 
 ```
 /heart-vb-process          → master orchestrator (cały framework)
-/heart-vb:status           → diagnostyka: co działa, jaki tier gotowości
+/heart-status           → diagnostyka: co działa, jaki tier gotowości
 ```
 
 Albo opisowo:
@@ -137,6 +137,6 @@ Model spawnuje 3 dedicated agents równolegle i syntetyzuje. To samo co stary au
 
 1. **Szybkie zadanie** → pisz naturalnie (Wzorzec 1)
 2. **Praca nad projektem** → zacznij od *"użyj heart-vb-process dla projektu [X]"* (Wzorzec 2), potem normalnie
-3. **Nie wiesz czy plugin działa** → `/heart-vb:status`
+3. **Nie wiesz czy plugin działa** → `/heart-status`
 
 Żadnego magicznego prefiksu przy każdym prompcie. Maksymalnie jedno zdanie na starcie sesji.

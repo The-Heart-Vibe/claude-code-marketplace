@@ -23,7 +23,7 @@ Cel: **regular cadence** podsumowania pracy zespołu — co 2 tygodnie krótka n
 
 - **M11 stakeholder update** — to formalniejsze, dla portfolio investorów (kwartalne)
 - **Daily standup** — to live spotkanie zespołu
-- **Pełny progress report** — to robi `/heart-vb:status` (snapshot per projekt)
+- **Pełny progress report** — to robi `/heart-status` (snapshot per projekt)
 - **Pitch update** — bi-weekly to **internal**, pitch update to dla VC w trakcie fundraising
 
 ## Flow
@@ -228,5 +228,5 @@ TLDR (3 bullet'y dla zarządu):
 - **Updates do M11 materiałów** — bi-weekly learnings spływają do pitch deck'a (data points, case studies)
 - **Aktualizacja M3 lista inwestorów** — jeśli w sprincie były rozmowy z VC, update CRM (`vb-comms/investor-outreach`)
 - **Eskalacja red flags** — high-severity red flag → spotkanie strategiczne z zarządem (Krok 4 fundraising readiness check)
-- **Pełen progress check** — gdy potrzebujesz X/12 milestones overview → `/heart-vb:status`
+- **Pełen progress check** — gdy potrzebujesz X/12 milestones overview → `/heart-status`
 - **Stakeholder update kwartalny** — bardziej formalna wersja co kwartał → `heart-stakeholder-update`
