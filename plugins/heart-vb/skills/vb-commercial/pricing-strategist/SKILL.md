@@ -156,3 +156,12 @@ Ten skill jest **primary tool dla M9** w procesie Venture Building w The Heart (
 - **M9 wymaga M8 done** — bez MVP nie ma co pokazywać klientowi
 - **M9 feeds M11** — slajd "Traction" / "Validation" w pitch deck'u (LOI list, pipeline)
 - **M9 jest must-have dla seed fundraising** (mniej krytyczny dla pre-seed)
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`pricing-analyst`** — spawn jako persona w panelu (M5 revenue / M9 / Pattern E) — autonomous zamiast dialogu.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `pricing-analyst` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

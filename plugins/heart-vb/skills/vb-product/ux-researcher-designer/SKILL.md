@@ -417,3 +417,12 @@ Detailed reference guides in `references/`:
 
 - **UI Design System** (`product-team/ui-design-system/`) — Research findings inform design system decisions
 - **Product Manager Toolkit** (`product-team/product-manager-toolkit/`) — Customer interview analysis complements persona research
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`customer-research-lead`** — spawn jako persona dla research synthesis w panelu.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `customer-research-lead` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

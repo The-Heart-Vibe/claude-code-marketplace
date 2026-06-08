@@ -141,3 +141,12 @@ Ten skill jest **primary tool dla M4** w procesie Venture Building w The Heart (
 - **Po M4 done** → M5 napkin math (mając jasny segment + koszt problemu można policzyć ARPU)
 - **M4 feeds M8** — segmenty i ich potrzeby informują MVP scope
 - **M4 feeds M11** — slajd "Problem" + "Target Customer" w pitch deck'u
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`customer-research-lead`** — spawn jako persona dla M4 walidacja / M9 pilot — autonomous.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `customer-research-lead` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

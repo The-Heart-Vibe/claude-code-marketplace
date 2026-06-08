@@ -94,3 +94,12 @@ Before delivering:
 - assumptions are visible, not buried
 - the story is clear without hype language
 - the final asset is defensible in a partner meeting
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`pitch-coach`** — spawn jako synthesis agent dla materiałów M11.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `pitch-coach` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

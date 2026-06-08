@@ -156,3 +156,12 @@ python scripts/unit_economics_simulator.py --mrr 50000 --growth 10 --churn 3 --c
 
 - **financial-analyst**: Use for DCF valuation, budget variance analysis, and traditional financial modeling. NOT for SaaS-specific metrics like CAC, LTV, or churn.
 - **business-growth/customer-success**: Use for retention strategies and customer health scoring. Complements this skill when churn is flagged as CRITICAL.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`cfo`** — spawn jako persona gdy chcesz unit econ jako delegated task w panelu.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `cfo` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

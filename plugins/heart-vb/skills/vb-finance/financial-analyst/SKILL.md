@@ -146,3 +146,12 @@ All scripts accept JSON input files. See `assets/sample_financial_data.json` for
 ## Dependencies
 
 **None** - All scripts use Python standard library only (`math`, `statistics`, `json`, `argparse`, `datetime`). No numpy, pandas, or scipy required.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`cfo`** — spawn jako persona dla M5 cost / M7 cap table / M11 model 3Y — autonomous zamiast dialogu.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `cfo` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

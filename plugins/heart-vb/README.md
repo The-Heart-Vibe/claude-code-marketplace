@@ -1,6 +1,6 @@
 # heart-vb — The Heart Venture Builder toolkit
 
-**Jedna instalacja, kompletny VB stack.** 36 skilli w 8 kategoriach pod jednym pluginem.
+**Jedna instalacja, kompletny VB stack.** 48 skilli w 9 kategoriach pod jednym pluginem.
 
 ```
 /plugin marketplace add The-Heart-Vibe/the-heart-marketplace
@@ -56,14 +56,14 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 | **vb-process** ⭐ NEW v0.7 | assessment (Krok 1), kickoff (Krok 2), bi-weekly-summary (Krok 3), fundraising-readiness (Krok 4), napkin-math (M5), exit-strategy (M6), cap-table-helper (M7), investor-early-signal (M3) | The Heart Vibe |
 | **heart-custom** | **Master:** heart-vb-process (12-milestone orchestrator). **Sector contexts:** heart-healthtech-compliance ⭐, heart-academic-spinouts ⭐, heart-energy ⭐ (cała branża energetyczna), heart-fintech-compliance (legacy). **Atomic daily tools:** heart-pitch-deck (M11), heart-stakeholder-update, heart-comps-analysis (M6 inputs), heart-dd-checklist (M10), heart-dd-prep. **Meta:** heart-orchestrate (auto-cowork Pattern E/F). **Utility:** brainstorming (generic thinking partner), status (/heart-status self-diagnostic) | The Heart Vibe + obra (MIT) |
 
-**Total: 47 skilli w 9 kategoriach.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
+**Total: 48 skilli w 9 kategoriach.** Pełna lista [w plugin.json](.claude-plugin/plugin.json). Atrybucja w [skills/ATTRIBUTION.md](skills/ATTRIBUTION.md).
 
 ## Gdzie plugin działa
 
-| Środowisko | Skille | Hooki (UserPromptSubmit) | Heart-orchestrate Pattern E/F | Council CLI (binary) | Gemini/Codex CLI w Pattern F worker |
+| Środowisko | Skille | Hooki (SessionStart+PreCompact) | Heart-orchestrate Pattern E/F | Council CLI (binary) | Gemini/Codex CLI w Pattern F worker |
 |---|---|---|---|---|---|
-| **Claude Code (CLI/IDE)** | ✅ przez `/plugin install` | ✅ auto-load z `hooks/hooks.json` | ✅ Agent tool spawn | ❌ self-invocation block | ✅ przez `bash -c "gemini -p ..."` |
-| **Claude Desktop → Cowork tab** | ✅ przez `/plugin install` (w Cowork session) | ✅ auto-load z `hooks/hooks.json` (od v0.6.10) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ✅ przez `bash -c "gemini -p ..."` |
+| **Claude Code (CLI/IDE)** | ✅ przez `/plugin install` | ✅ SessionStart+PreCompact | ✅ Agent tool spawn | ❌ self-invocation block | ✅ przez `bash -c "gemini -p ..."` |
+| **Claude Desktop → Cowork tab** | ✅ przez `/plugin install` (w Cowork session) | ✅ SessionStart+PreCompact (od v0.8.14) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ✅ przez `bash -c "gemini -p ..."` |
 | **Terminal (standalone, poza CC)** | ❌ brak Agent tool | ❌ | ❌ brak orchestratora | ✅ działa natywnie | ✅ działa natywnie |
 | **claude.ai (web)** | ❌ brak plugin support | ❌ | ❌ brak Agent tool | ❌ | ❌ brak Bash |
 | **Claude Desktop (standardowy chat)** | ⚠️ via MCP/Extensions | ❌ | ❌ | ❌ | ❌ |
@@ -88,9 +88,9 @@ Czyli: **gemini-cli i codex CLI działają w Cowork** (przez Pattern F workers),
 
 Od v0.7.4 plugin install (`/plugin install heart-vb`) załatwia:
 
-- ✅ **47 skilli** (vb-process, vb-product, vb-finance, vb-comms, heart-custom, etc.)
-- ✅ **5 hooków** auto-loaded z `hooks/hooks.json` (4× UserPromptSubmit + 1× PreCompact learning prompt)
-- ✅ **`chrome-devtools-mcp`** auto-registered jako MCP server (od v0.7.4 przez `plugin.json` mcpServers field) — działa w CLI i Cowork bez install.sh
+- ✅ **48 skilli** (vb-process, vb-product, vb-finance, vb-comms, heart-custom, etc.)
+- ✅ **2 hooki** auto-loaded z `hooks/hooks.json`: SessionStart (one-shot framework context) + PreCompact (learning prompt). UserPromptSubmit auto-suggest usunięte (Cowork compat) — zastąpione SessionStart + Wzorcem 2 z cowork-usage.md
+- ⚠️ **`chrome-devtools-mcp`** instaluje się osobno przez `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest` (NIE w plugin.json — mcpServers usunięte dla Cowork compat)
 
 Wszystko above działa **out of the box** po `/plugin install` w obu environments (Claude Code CLI + Claude Desktop Cowork).
 
@@ -208,9 +208,13 @@ council doctor
 | `codex` | `codex login` (wymaga ChatGPT Plus/Pro) | Council używa GPT-5 zamiast Claude session |
 | `gemini-cli` | `gemini` (OAuth przez Google Workspace) | Council używa Gemini — największa pula tokenów |
 
-## Hooks (4 rekomendowane — install.sh instaluje wszystkie)
+## Hooks
 
-Plugin instaluje 4 hooki UserPromptSubmit. Wszystkie opcjonalne ale wzajemnie dopełniające. Każdy ma własny opt-out prefix.
+> **⚠️ STAN AKTUALNY (od v0.8.14):** Plugin auto-loaduje **2 hooki** przez `hooks/hooks.json`: **SessionStart** (`session-init.sh` — one-shot framework context na start sesji) + **PreCompact** (`learning-prompt.sh`). Działa w Claude Code CLI i Cowork.
+>
+> **4 hooki UserPromptSubmit opisane niżej (vb-suggest, devtools-suggest, cowork-suggest, model-route) to LEGACY/CLI-opt-in** — pliki `.sh` zostają w `hooks/` jako referencja, ale NIE są auto-loaded (Cowork je blokował + per-prompt injection zastąpiony przez SessionStart). Power user CLI może je ręcznie wpiąć w `~/.claude/settings.json`. Ich esencja (routing per intent) jest teraz w `session-init.sh` jako one-shot context.
+
+### Legacy hooki UserPromptSubmit (CLI-opt-in, NIE auto-loaded)
 
 ### 1. Venture Builder Suggest (`vb-suggest.sh`)
 

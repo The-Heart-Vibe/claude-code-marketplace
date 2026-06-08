@@ -225,3 +225,12 @@ See `references/examples/sample_growth_okrs.json` for a complete example.
 
 - **Senior PM** (`project-management/senior-pm/`) — Portfolio management and risk analysis inform strategic planning
 - **Competitive Teardown** (`product-team/competitive-teardown/`) — Competitive intelligence feeds product strategy
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`vp-product`** — spawn jako persona dla M8 roadmap / Pattern E product decisions.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `vp-product` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

@@ -246,3 +246,12 @@ Loader kontekstu dla ventures w **całej branży energetycznej** (nie tylko stor
 ---
 
 > **Uwaga:** Polski rynek energetyczny przechodzi największą transformację od dekad — offshore wind Baltic (5.9 GW Phase 1), Northvolt gigafactory Gdańsk (planned), nuclear Choczewo (2033+), heat pump boom, SMR pre-commercial. Compliance landscape (Fit-for-55, Battery Reg, CSRD, EPBD recast) ewoluuje co kwartał — sprawdzaj aktualne wymogi przed major business decisions. Konsultacja z energy lawyer + grid engineer + (dla offshore) maritime engineer rekomendowana.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`regulatory-officer-pl`** — spawn jako persona z Pattern F dla regulator stack verification.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `regulatory-officer-pl` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

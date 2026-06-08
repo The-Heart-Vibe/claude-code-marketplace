@@ -60,3 +60,12 @@ Uwzględnij: KNF requirements, AMLD6 explainability mandate, RODO art. 22
 - DORA: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2554
 
 > **Uwaga:** Modele LLM mogą podawać przestarzałe info. Zawsze weryfikuj z prawnikiem przed merytoryczną decyzją.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`regulatory-officer-pl`** — spawn jako persona z Pattern F multi-LLM verification.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `regulatory-officer-pl` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

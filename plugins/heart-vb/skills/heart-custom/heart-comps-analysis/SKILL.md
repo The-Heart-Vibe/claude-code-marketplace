@@ -145,3 +145,12 @@ Plus optional sections:
 - Po comps: **board-prep** żeby wcisnąć valuation w IC memo narrative
 
 **Output = analytical artifact ready do IC memo / pitch deck slide 11 / fundraising deck**.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`comps-analyst`** — spawn jako persona z live data (Bash+WebSearch) + Pattern F verify exitów.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `comps-analyst` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

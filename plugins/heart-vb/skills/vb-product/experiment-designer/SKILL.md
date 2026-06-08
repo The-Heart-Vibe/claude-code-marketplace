@@ -102,3 +102,12 @@ python3 scripts/sample_size_calculator.py \
   --alpha 0.05 \
   --power 0.8
 ```
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`customer-research-lead`** — spawn jako persona dla pilot/experiment design.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `customer-research-lead` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

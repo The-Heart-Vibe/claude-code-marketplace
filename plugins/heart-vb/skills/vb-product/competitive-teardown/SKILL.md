@@ -202,3 +202,12 @@ M1+M2 razem = **wystarczające do M3 (walidacja z inwestorami early signal)**. P
 - **Po M2 done** → M3 (early signal z inwestorami) lub M4 (walidacja problemu)
 - **M2 feeds M11** — slajd "Competitive Landscape" w pitch deck'u
 - **M2 inputs do M6** — konkurenci są potential acquirers (consolidation play)
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`comps-analyst`** — spawn jako persona dla M2/M6 z live data pulls (Bash+WebSearch) — autonomous.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `comps-analyst` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

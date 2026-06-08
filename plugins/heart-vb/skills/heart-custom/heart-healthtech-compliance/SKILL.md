@@ -65,3 +65,12 @@ council run planner --mode assess \
 - NFZ procurement: https://www.nfz.gov.pl/
 
 > **Uwaga:** Modele LLM mogą podawać przestarzałe info. Zawsze weryfikuj z prawnikiem MedTech + lekarzem przed merytoryczną decyzją.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`regulatory-officer-pl`** — spawn jako persona z Pattern F multi-LLM verification (regulacje hallucination-prone).
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `regulatory-officer-pl` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

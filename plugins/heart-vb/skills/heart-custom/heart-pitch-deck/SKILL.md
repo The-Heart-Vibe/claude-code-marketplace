@@ -140,3 +140,12 @@ Ten skill jest **primary tool dla pitch deck w M11** procesu Venture Building w 
 - **M11 wymaga 9/12 milestones done** — bez tego deck jest hollow
 - **M11 + M12 (lista inwestorów)** = pełna fundraising gotowość
 - **M11 outputs do M12** — deck jest sent z personalized cover note do każdego target VC
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`pitch-coach`** — spawn jako synthesis agent — czyta outputy cfo/comps/vp-product i składa deck.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `pitch-coach` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.

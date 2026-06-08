@@ -134,3 +134,12 @@ Less equity dilution for founder, ale więcej stakeholders w cap table.
 - IP Box guide (MF): https://www.podatki.gov.pl/
 
 > **Uwaga:** Polskie programy publiczne zmieniają warunki co rok (FENG, NCBR Szybka Ścieżka updates). Sprawdzaj aktualne calls co kwartał. Specyfika IP per uczelnia różni się — zawsze konsultuj z CTT przed agreement.
+
+
+---
+
+## 🤝 Agent-bliźniak
+
+Ten skill ma agenta-bliźniaka: **`regulatory-officer-pl`** — spawn jako persona z Pattern F dla NCBR/IP rules verification.
+
+**Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `regulatory-officer-pl` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.
