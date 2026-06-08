@@ -63,7 +63,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 | Środowisko | Skille | Hooki (SessionStart+PreCompact) | Heart-orchestrate Pattern E/F | Council CLI (binary) | Gemini/Codex CLI w Pattern F worker |
 |---|---|---|---|---|---|
 | **Claude Code (CLI/IDE)** | ✅ przez `/plugin install` | ✅ SessionStart+PreCompact | ✅ Agent tool spawn | ❌ self-invocation block | ✅ przez `bash -c "gemini -p ..."` |
-| **Claude Desktop → Cowork tab** | ✅ przez `/plugin install` (w Cowork session) | ✅ SessionStart+PreCompact (od v0.8.14) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ✅ przez `bash -c "gemini -p ..."` |
+| **Claude Desktop → Cowork tab** | ✅ przez `/plugin install` (w Cowork session) | ⚠️ NIE odpalają się w sandboxie (skille routują natywnie z opisów) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ⚠️ tylko przez Desktop Commander (host); bez DC → emulated |
 | **Terminal (standalone, poza CC)** | ❌ brak Agent tool | ❌ | ❌ brak orchestratora | ✅ działa natywnie | ✅ działa natywnie |
 | **claude.ai (web)** | ❌ brak plugin support | ❌ | ❌ brak Agent tool | ❌ | ❌ brak Bash |
 | **Claude Desktop (standardowy chat)** | ⚠️ via MCP/Extensions | ❌ | ❌ | ❌ | ❌ |
@@ -77,10 +77,10 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 
 **Pattern F bypassuje obie sprawy** przez Agent tool isolation:
 - Zamiast jednego `council run ...` binary → 3 osobne `Agent({...})` calls
-- Każdy worker w isolated context, spawnuje 1 CLI (`bash -c "gemini -p ..."`, `bash -c "codex exec ..."`) lub używa Sonnet native
+- Każdy worker w isolated context, spawnuje 1 CLI (`bash -c "gemini -p ..."`, `bash -c "codex exec ..."`) lub używa Sonnet native — **w Coworku ten bash idzie przez Desktop Commander na host** (sandbox nie ma CLI w PATH)
 - Self-invocation block nie pojawia się bo workery nie wywołują nested Claude — wywołują tylko gemini/codex
 
-Czyli: **gemini-cli i codex CLI działają w Cowork** (przez Pattern F workers), tylko `council` binary nie. Pattern F to pełna funkcjonalna alternatywa.
+Czyli: w **CLI/IDE** gemini-cli i codex działają w Pattern F natywnie przez Bash. W **Coworku** sandbox ich nie ma — Pattern F wymaga **Desktop Commander** (woła gemini/codex na hoście); bez DC plugin robi emulated single-model cross-check (oznaczony). `council` binary nie działa w żadnym z tych dwóch (terminal-only).
 
 > **Cowork install:** w Cowork tab wpisz `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. Hooki auto-load przy starcie sesji. Sprawdź stan przez `/heart-status`.
 

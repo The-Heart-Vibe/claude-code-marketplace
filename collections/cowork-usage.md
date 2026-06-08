@@ -24,11 +24,13 @@
 | Praca | Rekomendowane środowisko | Dlaczego |
 |---|---|---|
 | Długoterminowy projekt VB (tygodnie) | **Claude Code CLI/IDE** | Cross-session memory (si:*), pełne auto-hooki, council CLI |
-| Szybkie zadanie / pojedyncza analiza | **Cowork** | Wygodny UI, mniej frykcji, dependencies dziedziczone z CLI |
+| Szybkie zadanie / pojedyncza analiza | **Cowork** | Wygodny UI, mniej frykcji; multi-LLM tylko przez Desktop Commander (patrz niżej) |
 | Pojedyncza decyzja (Pattern E/F) | Dowolne | Działa wszędzie gdzie plugin zainstalowany |
 | Portfolio / cross-venture analiza | **Claude Code CLI** | Cross-session learnings, bi-weekly cadence |
 
-> **Dependencies (gemini-cli, codex, council) instalujesz raz w Terminalu** — są system-level, więc Cowork je dziedziczy. Sam plugin (skille+agenci) instalujesz przez `/plugin install` w obu środowiskach niezależnie.
+> **Dependencies (gemini-cli, codex, council) — UWAGA, sprostowanie:** Cowork **NIE dziedziczy** ich z Twojego Maca. Sandbox Coworka jest izolowany (osobny VM) — instalacje Homebrew na hoście są dla niego niewidoczne. Sam plugin (skille+agenci) instalujesz przez `/plugin install` niezależnie w każdym środowisku i działa wszędzie.
+>
+> **Multi-LLM (Pattern F) w Coworku = przez Desktop Commander MCP.** DC działa na hoście, więc `start_process("gemini -p ...")` wykonuje się tam, gdzie masz gemini/codex zainstalowane — omijając sandbox. Zweryfikowane empirycznie (gemini odpowiada z Coworka przez DC, z flagą `GEMINI_CLI_TRUST_WORKSPACE=true`). Bez DC w Coworku Pattern F jest niedostępny — plugin zrobi emulated single-model cross-check (jawnie oznaczony). W CLI/IDE Pattern F działa natywnie przez Bash.
 
 ---
 
@@ -125,7 +127,8 @@ Model spawnuje 3 dedicated agents równolegle i syntetyzuje. To samo co stary au
 |---|---|---|
 | Skille (47) | ✅ | ✅ |
 | Agenci (15) | ✅ | ✅ |
-| Pattern E/F (multi-ekspert / multi-LLM) | ✅ | ✅ (wywołaj wprost) |
+| Pattern E (multi-ekspert) | ✅ | ✅ (wywołaj wprost) |
+| Pattern F (multi-LLM cross-check) | ✅ (Bash) | ⚠️ tylko z Desktop Commander; bez DC → emulated single-model |
 | DD by Heart framework | ✅ | ✅ (przez heart-vb-process) |
 | Auto-suggest "💡 użyj skilla X" przy każdym prompcie | ✅ (hook) | ❌ — model routuje sam z opisów |
 | Auto-consent gate przy każdej decyzji | ✅ (hook) | ⚠️ częściowo — wbudowane w skille gdy aktywne |

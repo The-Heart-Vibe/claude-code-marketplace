@@ -1,6 +1,6 @@
 ---
 name: heart-status
-description: "Self-diagnostic dla heart-vb — wykrywa środowisko (Claude Code CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, chrome-devtools-mcp, council CLI, Notion MCP), auth providers, gotowość Pattern E/F. Od v0.7.1 z opcjonalnym **milestone progress detection** — jeśli Notion MCP connector aktywny i user poda link do Project Card, skill czyta X/12 progress z linked database Streams/Milestones (Warstwa 2 DD by Heart). Use gdy plugin nie działa, przed demo/onboardingiem, lub gdy chcesz sprawdzić \"gdzie stoimy z projektem\". Trigger przez `/heart-status` lub fraza \"sprawdź czy plugin działa\", \"milestone progress\", \"ile zostało do fundraisingu\"."
+description: "Self-diagnostic dla heart-vb — wykrywa środowisko (Claude Code CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, Desktop Commander MCP, chrome-devtools-mcp, council CLI, Notion MCP), auth providers, gotowość Pattern E/F. Od v0.7.1 z opcjonalnym **milestone progress detection** — jeśli Notion MCP connector aktywny i user poda link do Project Card, skill czyta X/12 progress z linked database Streams/Milestones (Warstwa 2 DD by Heart). Use gdy plugin nie działa, przed demo/onboardingiem, lub gdy chcesz sprawdzić \"gdzie stoimy z projektem\". Trigger przez `/heart-status` lub fraza \"sprawdź czy plugin działa\", \"milestone progress\", \"ile zostało do fundraisingu\"."
 ---
 
 # Heart-vb Status — Self-Diagnostic
@@ -119,6 +119,15 @@ if [ -x ~/.local/bin/council ]; then
   echo "council CLI: ✅ installed (TYLKO TERMINAL — w CC/Cowork użyj Pattern F)"
 else
   echo "council CLI: ⚠️ brak — opcjonalny (Pattern F to alternatywa)"
+fi
+
+# Desktop Commander MCP — KLUCZOWE dla Pattern F w Cowork (bridge gemini/codex do hosta)
+if claude mcp list 2>/dev/null | grep -qiE "desktop.?commander"; then
+  echo "Desktop Commander MCP: ✅ — Pattern F działa w Cowork (gemini/codex na hoście przez DC)"
+elif grep -qliE "desktop.?commander" ~/.claude.json ~/Library/Application\ Support/Claude/*.json 2>/dev/null; then
+  echo "Desktop Commander MCP: ✅ in config"
+else
+  echo "Desktop Commander MCP: ⚠️ brak — bez niego Pattern F w Cowork niedostępny (CLI nadal działa przez Bash)"
 fi
 ```
 
@@ -253,6 +262,7 @@ Legacy hooks: <N> w settings.json — ⚠️ DUAL-FIRE RISK jeśli >0
 Dependencies:
   gemini-cli      ✅/❌ <version/issue>
   codex           ✅/⚠️ <version/optional>
+  Desktop Cmder   ✅/⚠️ <Pattern F bridge w Cowork>
   chrome-devtools ✅/⚠️ <registered/install command>
   council CLI     ✅/⚠️ <terminal-only note>
   Notion MCP      ✅/⚠️ <connector dla milestone tracking>

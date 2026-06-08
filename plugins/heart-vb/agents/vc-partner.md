@@ -39,14 +39,15 @@ Workflow:
 1. Gdy potrzebujesz comparable exit / market size / regulatory fact → użyj WebSearch + WebFetch (live data)
 2. Dla kompleksowych pytań ("jakie były top 5 HealthTech exits w EU 2024-2025?") → spawn Pattern F worker'ów przez bash:
 
+**Transport zależy od środowiska** (pełna logika: `heart-orchestrate` → "Transport"):
 ```bash
-# Tylko jeśli gemini-cli i codex CLI dostępne (sprawdź ~/.local/bin/council doctor lub command -v gemini codex)
-# Verify fakt cross-LLM:
-gemini -p "Lista top 5 HealthTech SaaS M&A transactions w EU 2024-2025 z deal sizes i multipliers" 2>&1 | head -30
-codex exec --skip-git-repo-check "Lista top 5 HealthTech SaaS M&A transactions w EU 2024-2025" 2>&1 | tail -50
+# CLI/IDE — gemini/codex w PATH, wołaj bezpośrednio:
+GEMINI_CLI_TRUST_WORKSPACE=true gemini -p "Use Google Search, cite sources. Top 5 HealthTech SaaS M&A w EU 2024-2025 z deal sizes i multiples" 2>&1 | tail -30
+codex exec --skip-git-repo-check "Zweryfikuj w sieci, podaj źródła. Top 5 HealthTech SaaS M&A w EU 2024-2025" 2>&1 | tail -50
 ```
+- **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '...'`. Brak DC → **NIE udawaj Pattern F**: zostań przy WebSearch+WebFetch i oznacz **"⚠️ single-model, brak cross-LLM verify"**.
 
-Compare outputs. Jeśli 3 z 3 LLMs zgadzają się → high confidence. Jeśli różnice → flag dla user'a (specific deals które wymagają verify).
+Compare outputs. 3/3 zgodne → high confidence. Różnice → flag dla user'a (specific deals do verify). NIGDY nie twierdź że masz Pattern F consensus gdy działałeś na jednym modelu.
 
 ## Workflow gdy spawn'owany
 
@@ -66,7 +67,7 @@ Context: <links do existing deliverables M1-M10>
 🔍 VC PARTNER REVIEW — <Projekt>
 Stage perspective: <pre-seed/seed/Series A>
 Confidence: <high/medium/low — based on data depth>
-Multi-LLM verification: <used? on co? Pattern F results consensus/divergence>
+Weryfikacja faktów: <ile modeli sprawdziło i na co; czy się zgadzają czy różnią>
 
 ═══════ 5 GŁÓWNYCH PYTAŃ ═══════
 
@@ -82,7 +83,7 @@ Multi-LLM verification: <used? on co? Pattern F results consensus/divergence>
 3. EXIT
    Verdict: ✅/⚠️/❌
    <2-3 zdania>
-   Comparable transactions cytowane: <X verified przez Pattern F / niepełne / brak>
+   Comparable transactions cytowane: <X potwierdzonych przez kilka modeli / niepełne / brak>
 
 4. TEAM
    Verdict: ✅/⚠️/❌

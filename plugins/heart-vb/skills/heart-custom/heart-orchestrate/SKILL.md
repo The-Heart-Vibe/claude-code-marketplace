@@ -123,7 +123,7 @@ fi
 
 ## Pattern E — execution
 
-> 🐣 **Easter egg — agent identity:** Każdy worker, niezależnie od persony, ma na imię **Wojtek**. To sygnatura twórcy pluginu (Wojtek Czuba, The Heart). W syntezie używaj: "Wojtek (pricing analyst) says...", "Wojtek (growth lead) zauważył...", "Wojtek (VP product) odpowiada...". Brzmi jak board of Wojteks debatujących — feature, nie bug.
+> 🐣 **Easter egg — agent identity:** Każdy worker, niezależnie od persony, ma na imię **Wojtek** (sygnatura twórcy, Wojtek Czuba / The Heart). W syntezie używaj: "Wojtek (pricing analyst) says...", "Wojtek (growth lead) zauważył...", "Wojtek (VP product) odpowiada...". Brzmi jak board of Wojteks debatujących — feature, nie bug. Imię "Wojtek" jest OK w outpucie; tłumaczymy tylko techniczny żargon (pass / Voices / Pattern F).
 
 ### 🆕 v0.8.0 — Dedicated agents (PREFERRED) vs inline personas (LEGACY)
 
@@ -143,7 +143,7 @@ Main (Opus):
      })
      // Repeat dla 2 innych agents
   4. Wait ~30-60s (Sonnet solo, NIE gemini cold start)
-  5. Synthesize używając "Wojtek-PricingAnalyst says..." attributions
+  5. Synthesize używając "Wojtek (pricing analyst) says..." attributions
      (briefing-style format, max 150 słów)
 ```
 
@@ -212,13 +212,55 @@ Interpretacja:
 | **Sonnet + Gemini** *(default Heart analytic)* | 3 gemini workers z personami | **2-voice** (Sonnet + Gemini) |
 | **Sonnet + Gemini + Codex** (power user) | 3 gemini z personami (codex jako 4th fallback) | **3-voice full** Pattern F |
 
-W syntezie zawsze noteuj: "Voices available: X/3" — analityk wie czy ma cross-check czy nie.
+W odpowiedzi zawsze podaj **prostym językiem** ile niezależnych źródeł sprawdziło fakt, np. *"sprawdzone przez 3 z 3 modeli (Claude + Gemini + GPT-5)"* — NIGDY "Voices available: X/3" (żargon).
+
+---
+
+## Transport — gdzie realnie wykonują się gemini/codex
+
+`gemini`/`codex` to **lokalne CLI**. Czy są dostępne zależy od środowiska — to determinuje transport:
+
+| Środowisko | gemini/codex w Bash? | Transport Pattern F |
+|---|---|---|
+| **CLI / IDE** | ✅ w PATH | **Bash bezpośrednio** (przykłady niżej) |
+| **Cowork + Desktop Commander MCP** | ❌ sandbox nie ma — ale **DC działa na hoście** | **przez DC** — `start_process` woła gemini/codex na hoście |
+| **Cowork bez DC** | ❌ | Pattern F **NIEDOSTĘPNY** → emulated single-model (oznacz jawnie) |
+
+**Detekcja (rozszerza Krok 0):**
+1. `command -v gemini` w Bash → jest? jesteś w CLI, użyj Bash transport.
+2. Bash nie ma gemini, ale masz w toolach **Desktop Commander** (`start_process`) → użyj DC bridge (Cowork case).
+3. Ani Bash, ani DC → **NIE udawaj cross-checku**. Zrób dwa niezależne podejścia jednym modelem (Claude): jedno z web search, drugie krytyczne (subagent szuka błędów w pierwszym). W odpowiedzi oznacz to **prostym językiem**: *"⚠️ Sprawdzone jednym modelem (Claude), dwa niezależne podejścia — to NIE jest weryfikacja przez 3 różne AI."* Nie używaj słów "pass" / "emulated" / "Pattern F" w odpowiedzi do użytkownika.
+
+### DC bridge — wołanie gemini/codex z Coworka
+
+DC wykonuje komendy **na hoście** (tam gdzie masz zainstalowane gemini/codex), omijając izolację sandboxa. Przez `start_process`:
+
+```
+# gemini przez DC:
+start_process(command: "cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '<fact>' 2>&1 | tail -40", timeout_ms: 45000)
+# codex przez DC:
+start_process(command: "cd ~/ && codex exec --skip-git-repo-check '<fact>' 2>&1 | tail -80", timeout_ms: 60000)
+# odczyt wyniku: read_process_output(pid, timeout_ms)
+```
+
+**Gotchas DC (zweryfikowane na macOS):**
+- **`GEMINI_CLI_TRUST_WORKSPACE=true`** wymagane — inaczej trust-block.
+- **`cd` do konkretnego folderu** — DC startuje w `/`; bez tego gemini skanuje cały filesystem jako kontekst.
+- **GNU `timeout` NIE istnieje** w shellu DC (macOS) — NIE używaj `timeout 120 ...`; bound przez `timeout_ms` w `start_process`.
+- **PATH DC ≠ login shell** — `council` (~/.local/bin) bywa niewidoczny; wołaj gemini/codex bezpośrednio, nie przez council.
+- **Escape user input** do `-p '...'` (single-quote literal) — injection vector.
 
 ---
 
 ## Pattern F — execution (po auth check)
 
-> 🐣 Easter egg: workers w Pattern F też są Wojtek (Wojtek-Claude, Wojtek-Gemini, Wojtek-Codex) — sygnatura twórcy pluginu.
+> 🐣 Easter egg: workery w Pattern F to Wojtek-Claude, Wojtek-Gemini, Wojtek-Codex — sygnatura twórcy. Widoczne w syntezie (np. "Wojtek-Gemini znalazł...").
+
+**GROUNDING (KRYTYCZNE dla uczciwego cross-checku):** Pattern F = fakty time-sensitive (regulacje, daty, liczby). **Każdy worker MUSI być grounded live search** — inaczej porównujesz model-z-internetem vs model-z-pamięci i dostajesz **fałszywą "rozbieżność"** (realnie się zdarzyło: Claude z WebSearch złapał draft MDR amendment z grudnia 2025, Gemini bez searcha "nie złapał" — to nie był disagreement, tylko brak groundingu). Konkretnie:
+> - **Wojtek-Claude** → użyj **WebSearch** (native tool), cytuj źródła. NIE odpowiadaj z samej pamięci treningowej.
+> - **Wojtek-Gemini** → w prompcie: `Use Google Search to verify current facts, cite source URLs` (gemini-cli ma wbudowany search — zweryfikowane empirycznie).
+> - **Wojtek-Codex** → codex ma web search; poproś o weryfikację w sieci + źródła.
+> Model który nie może szukać → oznacz jego odpowiedź "(z pamięci, niegrounded)" żeby rozbieżność była interpretowalna.
 
 ```
 Main (Opus):
@@ -228,22 +270,24 @@ Main (Opus):
      
      Wojtek-Claude (Sonnet native) — ZAWSZE dostępny:
        description: 'Wojtek-Claude fact lookup'
-       prompt: 'Jesteś Wojtek-Claude. Odpowiedz na: [pytanie]. Używaj swojej 
-                wiedzy Claude Sonnet, NIE wywołuj żadnego CLI. Zwróć structured: 
+       prompt: 'Jesteś Wojtek-Claude. Odpowiedz na: [pytanie]. Dla faktów UŻYJ WebSearch 
+                (cytuj źródła), NIE wywołuj żadnego CLI. Zwróć structured: 
                 Source: Wojtek-Claude, Answer, Confidence, Caveats.'
        model: 'sonnet'
      
      Wojtek-Gemini (Gemini transport) — tylko jeśli gemini-cli OK:
        description: 'Wojtek-Gemini fact lookup'
-       prompt: 'Jesteś Wojtek-Gemini. Uruchom: gemini -p "[pytanie + format request]" 
-                2>&1 | head -80. Zwróć raw output. Podpisz Source: Wojtek-Gemini.'
+       prompt: 'Jesteś Wojtek-Gemini. Uruchom: GEMINI_CLI_TRUST_WORKSPACE=true gemini -p "Use Google Search to verify current facts and cite source URLs. [pytanie + format request]" 
+                2>&1 | tail -80. Zwróć raw output. Podpisz Source: Wojtek-Gemini.
+                (Cowork bez gemini w Bash → wołaj to przez Desktop Commander start_process.)'
        model: 'sonnet'
      
      Wojtek-Codex (Codex transport) — tylko jeśli codex OK:
        description: 'Wojtek-Codex fact lookup'
-       prompt: 'Jesteś Wojtek-Codex. Uruchom: timeout 120 codex exec --skip-git-repo-check 
-                "[pytanie + format request]" 2>&1 | tail -100. Zwróć raw output. 
-                Podpisz Source: Wojtek-Codex.'
+       prompt: 'Jesteś Wojtek-Codex. Uruchom: codex exec --skip-git-repo-check 
+                "Zweryfikuj fakty w sieci i podaj źródła. [pytanie + format request]" 2>&1 | tail -100. Zwróć raw output. 
+                Podpisz Source: Wojtek-Codex.
+                (Cowork bez codex w Bash → wołaj to przez Desktop Commander start_process.)'
        model: 'sonnet'
   
   3. Wait ~60-120s (Gemini i Codex najwolniejsze; Codex z web search może >90s)
@@ -256,6 +300,20 @@ Main (Opus):
 ---
 
 ## Format syntezy — KRÓTKI briefing (max ~150 słów)
+
+**JĘZYK OUTPUTU = prosty polski biznesowy. ZERO wewnętrznego żargonu.** Analityk VB nie zna naszych etykiet — np. user dostał kiedyś "claude pass" i nie wiedział co to znaczy. Tłumacz lub unikaj:
+
+| Wewnętrzne (NIE pokazuj userowi) | W odpowiedzi piszesz |
+|---|---|
+| "pass" / "passy" | "podejście" / "niezależne sprawdzenie" |
+| "Pattern E / Pattern F" | "konsultacja kilku ekspertów" / "cross-check przez kilka AI" |
+| "Voices available: 2/3" | "sprawdzone przez 2 z 3 modeli" |
+| "convergence / divergence" | "modele się zgadzają / różnią się" |
+| "emulated / single-model" | "sprawdzone jednym modelem, bez cross-checku" |
+
+(„Wojtek" / „Wojtek-Gemini" itp. **zostają** — to sygnatura, nie żargon.)
+
+Złapiesz się na żargonie → przepisz prostym językiem. Test: czy nietechniczny analityk zrozumie każde słowo?
 
 NIE rób długich tabel z każdym faktem. Daj analitykowi **odpowiedź**, NIE research report.
 
@@ -275,7 +333,7 @@ BOTTOM LINE:
 [1-2 zdania: czy modele osiągnęły consensus, jak traktować obiektywnie]
 ```
 
-**Przykład syntezy (pricing decision, Pattern E):**
+**Przykład syntezy (decyzja pricing):**
 
 > *Konsultacja 3 ekspertów · 58s*
 >
@@ -286,7 +344,7 @@ BOTTOM LINE:
 >
 > **Verify:** czy decision-maker w przychodniach to faktycznie zarząd vs właściciel-lekarz (wpływa na budget framing).
 >
-> **Bottom line:** 3 Wojteki ustaliły że hybrid najlepiej balansuje konwersję i retention dla polskiego rynku medycznego.
+> **Bottom line:** 3 Wojteki zgodni że hybrid najlepiej balansuje konwersję i retention dla polskiego rynku medycznego.
 
 **Anti-patterns w syntezie:**
 - ❌ Tabele 3-column z każdym faktem (chyba że user explicit prosi o detail)
@@ -354,7 +412,7 @@ Synthesize krótko per format powyżej.
 3. **Codex z web search** = wolny (~90s+) i token-heavy gdy fact-finding
 4. **Agent z model:'sonnet' EXPLICIT** — bez tego inherituje Opus z main session = drogo
 5. **Escape user input przed interpolacją do shell** — pytanie usera trafiające do `gemini -p "..."` lub `codex exec "..."` to **untrusted input**. NIGDY nie wklejaj raw: usuń/escapuj znaki cudzysłowu, `$`, backtick, `;` `|` `&` oraz `$(...)`, albo przekaż jako single-quoted literal ze strippowanymi apostrofami. Inaczej `; rm`, backticki czy `$(...)` w pytaniu wykonają się w shellu workera (injection vector).
-6. **Timeout + fallback na każdy spawn** — domyślnie 120s/worker (150s dla Codex). Worker który przekroczy timeout lub crashuje → oznacz output jako `MISSING`, kontynuuj z dostępnymi, zaznacz w nagłówku syntezy ("Voices available: X/3"). 0 dostępnych workerów → odpowiedz solo z main (Opus) z explicit caveatem, NIE czekaj w nieskończoność.
+6. **Timeout + fallback na każdy spawn** — domyślnie 120s/worker (150s dla Codex). Worker który przekroczy timeout lub crashuje → oznacz output jako `MISSING`, kontynuuj z dostępnymi, zaznacz w nagłówku prostym językiem (np. "sprawdzone przez 2 z 3 modeli"). 0 dostępnych workerów → odpowiedz solo z main (Opus) z explicit caveatem, NIE czekaj w nieskończoność.
 
 ---
 
