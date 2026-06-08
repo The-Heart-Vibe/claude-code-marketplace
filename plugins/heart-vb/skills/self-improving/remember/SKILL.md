@@ -3,6 +3,9 @@ name: "remember"
 description: "Explicitly save important knowledge to auto-memory with timestamp and context. Use when a discovery is too important to rely on auto-capture."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # /si:remember — Save Knowledge Explicitly
 
 Writes an explicit entry to auto-memory when something is important enough that you don't want to rely on Claude noticing it automatically.

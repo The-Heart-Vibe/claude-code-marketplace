@@ -3,6 +3,9 @@ name: heart-healthtech-compliance
 description: "Load HealthTech regulatory context for The Heart ventures (MDR, RODO art. 9, IRB approval, NFZ procurement). Use when analyzing/building HealthTech ventures w portfolio (Wellnoted) lub oceniając nowe opportunities z domeny medycznej."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart HealthTech Compliance Context
 
 Loader kontekstu regulacyjnego dla HealthTech ventures The Heart.

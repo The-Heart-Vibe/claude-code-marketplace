@@ -8,6 +8,9 @@ tags: [commercial, pricing, packaging, wtp, van-westendorp, value-based-pricing,
 compatible_tools: [claude-code, codex-cli, cursor, antigravity, opencode, gemini-cli]
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # pricing-strategist
 
 ## Purpose
@@ -157,6 +160,17 @@ Ten skill jest **primary tool dla M9** w procesie Venture Building w The Heart (
 - **M9 feeds M11** — slajd "Traction" / "Validation" w pitch deck'u (LOI list, pipeline)
 - **M9 jest must-have dla seed fundraising** (mniej krytyczny dla pre-seed)
 
+
+---
+
+
+## ⚠️ Cross-check przed użyciem do VC
+
+Benchmarki pricingu i WTP są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):
+
+> *„Te liczby idą do VC i są łatwe do pomylenia — chcesz cross-check przez drugi LLM (Pattern F: Claude + Gemini + GPT-5, każdy grounded w sieci)? Wykrywa gdzie pojedynczy model halucynuje. ~60-90s."*
+
+→ Żeby zrobić cross-check **załaduj skill `heart-orchestrate`** (albo spawn agent `vc-partner` / `regulatory-officer-pl`) — NIE rób Pattern F z pamięci, bo pominiesz transport + grounding rules. W Coworku wymaga Desktop Commander; bez niego oznacz wynik jako single-model.
 
 ---
 

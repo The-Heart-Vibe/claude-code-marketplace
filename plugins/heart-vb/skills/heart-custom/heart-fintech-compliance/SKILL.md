@@ -3,6 +3,9 @@ name: heart-fintech-compliance
 description: "Load FinTech regulatory context for The Heart ventures (KNF, AMLD6, MIFID2, PSD2, RODO). Use when analyzing/building FinTech ventures w portfolio (VASBOX, Digital Gateways) lub oceniając nowe opportunities w tym sektorze."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart FinTech Compliance Context
 
 Loader kontekstu regulacyjnego dla FinTech ventures The Heart. Używaj jako `--context` dla council, lub jako standalone reference przy IC memo / pricing decisions.

@@ -3,6 +3,9 @@ name: "competitive-teardown"
 description: "Analyzes competitor products and companies by synthesizing data from pricing pages, app store reviews, job postings, SEO signals, and social media into structured competitive intelligence. Produces feature comparison matrices scored across 12 dimensions, SWOT analyses, positioning maps, UX audits, pricing model breakdowns, action item roadmaps, and stakeholder presentation templates. Use when conducting competitor analysis, comparing products against competitors, researching the competitive landscape, building battle cards for sales, preparing for a product strategy or roadmap session, responding to a competitor's new feature or pricing change, or performing a quarterly competitive review."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Competitive Teardown
 
 **Tier:** POWERFUL  
@@ -203,6 +206,17 @@ M1+M2 razem = **wystarczające do M3 (walidacja z inwestorami early signal)**. P
 - **M2 feeds M11** — slajd "Competitive Landscape" w pitch deck'u
 - **M2 inputs do M6** — konkurenci są potential acquirers (consolidation play)
 
+
+---
+
+
+## ⚠️ Cross-check przed użyciem do VC
+
+Funding konkurencji i raised amounts są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):
+
+> *„Te liczby idą do VC i są łatwe do pomylenia — chcesz cross-check przez drugi LLM (Pattern F: Claude + Gemini + GPT-5, każdy grounded w sieci)? Wykrywa gdzie pojedynczy model halucynuje. ~60-90s."*
+
+→ Żeby zrobić cross-check **załaduj skill `heart-orchestrate`** (albo spawn agent `vc-partner` / `regulatory-officer-pl`) — NIE rób Pattern F z pamięci, bo pominiesz transport + grounding rules. W Coworku wymaga Desktop Commander; bez niego oznacz wynik jako single-model.
 
 ---
 

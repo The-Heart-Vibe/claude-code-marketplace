@@ -3,6 +3,9 @@ name: heart-energy
 description: "Context dla ventures w szeroko rozumianej branży energetycznej w Polsce/EU — generation (OZE, nuclear/SMR, gas), T&D (PSE/DSO), storage (BESS/V2G), e-mobility (CPO/EMSP/charging), wodór (H2), heat & buildings (heat pumps, district heating), energy services (PPA, demand response, aggregation), EnergyTech SaaS (forecasting, EMS, trading). Pokrywa regulator stack (URE, PSE, EU Battery Reg, EU ETS, RED III, CSRD, Fit-for-55), funding (NFOŚiGW, NCBR FENG, EU Innovation Fund), buyer typology, polskie realia rynkowe. Use przy building ventures w energetyce oraz oceny opportunities w tym sektorze."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart Energy Context
 
 Loader kontekstu dla ventures w **całej branży energetycznej** (nie tylko storage) — Polska + EU.

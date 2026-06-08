@@ -3,6 +3,9 @@ name: "extract"
 description: "Turn a proven pattern or debugging solution into a standalone reusable skill with SKILL.md, reference docs, and examples."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # /si:extract — Create Skills from Patterns
 
 Transforms a recurring pattern or debugging solution into a standalone, portable skill that can be installed in any project.

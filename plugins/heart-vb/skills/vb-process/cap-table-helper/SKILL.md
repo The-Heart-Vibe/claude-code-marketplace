@@ -3,6 +3,9 @@ name: cap-table-helper
 description: "M7 (milestone 7) procesu VB — zespół & cap table. Strukturuje equity split między founderami/CEO/zespołem, ESOP planning, advisory agreements, status spółki (LLC/Sp. z o.o. założona?). Bez CEO i czystego cap table fundusz nie zainwestuje. Use przy onboarding nowego CEO, negocjacji equity z technical founderem, planowaniu ESOP, lub gdy projekt zbliża się do M11 a struktura prawna nie jest dopięta. Triggeruj na: \"cap table\", \"equity split\", \"ESOP\", \"advisory agreements\", \"spółka założona\", \"kto jest CEO\", \"negocjacja udziałów\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Cap Table & Team Structure (Milestone 7)
 
 Cel: przed fundraisingiem trzeba mieć **CEO/lead, czyste equity, podpisane umowy, założoną spółkę**. Brak tego = pierwsza rozmowa z funduszem skończona.

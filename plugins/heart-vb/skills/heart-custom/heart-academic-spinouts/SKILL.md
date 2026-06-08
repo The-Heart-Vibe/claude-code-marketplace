@@ -3,6 +3,9 @@ name: heart-academic-spinouts
 description: "Context dla ventures budowanych z polskimi uczelniami i instytutami PAN — tech transfer, IP ownership, NCBR/NCN funding paths, cooperation models z academic founderami. Use przy screeningu opportunities od profesorów/researcherów oraz przy building ventures z uczelnianym IP."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart Academic Spinouts Context
 
 Loader kontekstu dla ventures wywodzących się z polskiego systemu akademickiego — tech transfer, IP, funding, cooperation patterns.

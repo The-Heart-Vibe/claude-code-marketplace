@@ -3,6 +3,9 @@ name: kickoff
 description: "Krok 2 procesu VB — po assessment generuje harmonogram dla projektu. Risk ranking brakujących milestones, podział na sprinty 2-3 tygodniowe, capacity planning, OKR per milestone (Objective + Key Results). Output: timeline z przypisanymi sprintami i jasnym celem per sprint, max 2-3 streamy in progress jednocześnie. Use po assessment lub gdy projekt startuje od zera. Triggeruj na: \"kickoff\", \"harmonogram projektu\", \"sprint planning\", \"od czego zacząć\", \"rozpisz milestones na sprinty\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Krok 2 — Kickoff
 
 Po assessment (lub przy projekcie od zera) — generuje **harmonogram operacyjny**: które milestones w jakim sprincie, kto co robi, jakie OKR.

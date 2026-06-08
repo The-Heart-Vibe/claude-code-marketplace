@@ -3,6 +3,9 @@ name: heart-dd-prep
 description: "Przygotowuje strukturalny DD case dla venture pre-IC. Atomic daily task — odpalasz raz, dostajesz one-page DD case z thesis/strengths/concerns/asks gotowy do IC. Use when user pyta \"przygotuj DD case dla X\", \"co wpisać w pre-IC memo o tym venture\", \"zsyntezuj findings z DD do prezentacji IC\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart DD Prep
 
 Atomic skill — bierze findings z DD process (odpowiedzi od founder, customer interviews, market data) i przygotowuje **structured one-page case** dla IC. NIE jest to process management — to synthesis output.

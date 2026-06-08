@@ -3,6 +3,9 @@ name: exit-strategy
 description: "M6 (milestone 6) procesu VB — exit strategy & potencjalni acquirers. To jest \"pierwsze pytanie z funduszy\" i najczęściej pomijany milestone w projektach VB. Output: lista 5-10 acquirers z uzasadnieniem, comparable exits (kto kupił, za ile, mnożniki), exit narrative. Bez tego nie da się rozmawiać z VC. Triggeruj na: \"exit strategy\", \"kto to kupi\", \"acquirers\", \"comparable exits\", \"mnożniki przy sprzedaży\", \"exit narrative\", \"pierwsze pytanie funduszu\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Exit Strategy & Acquirers (Milestone 6)
 
 Cel: wiemy kto to kupi za 5-10 lat, jakie są mnożniki, jakie były comparable exits. To jest **pierwsze pytanie funduszy** i **najczęściej pomijany milestone**. Określa, w jaką grę gramy.
@@ -204,3 +207,14 @@ Spytaj: *"Zapisać do `docs/projekty/<projekt>/exit-strategy.md`?"*
 - **Po M6** → uwzględnij exit narrative w M11 (heart-pitch-deck — slide "Exit / Vision")
 - **Comparable exits research** → użyj `heart-comps-analysis` jako toolkit dla benchmarków
 - **Deep research na M&A activity** → `vb-research/deep-research` lub `exa-search`
+
+
+---
+
+## ⚠️ Cross-check przed użyciem do VC
+
+Comparable exits, transaction multiples i wyceny acquirerów są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):
+
+> *„Te liczby idą do VC i są łatwe do pomylenia — chcesz cross-check przez drugi LLM (Pattern F: Claude + Gemini + GPT-5, każdy grounded w sieci)? Wykrywa gdzie pojedynczy model halucynuje. ~60-90s."*
+
+→ Żeby zrobić cross-check **załaduj skill `heart-orchestrate`** (albo spawn agent `vc-partner` / `regulatory-officer-pl`) — NIE rób Pattern F z pamięci, bo pominiesz transport + grounding rules. W Coworku wymaga Desktop Commander; bez niego oznacz wynik jako single-model.

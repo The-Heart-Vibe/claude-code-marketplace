@@ -3,6 +3,9 @@ name: investor-early-signal
 description: "M3 (milestone 3) procesu VB — szybki reality check z 2-3 inwestorami z networku, ZANIM mamy gotowe materiały. To NIE jest formalny fundraising (M12) — to jest sanity check \"czy to w ogóle jest ciekawe?\" w fazie Discovery. Jeśli 3 inwestorów mówi \"zapomnijcie\" — sygnał do rewizji projektu. Triggeruj na: \"early signal\", \"walidacja z inwestorami\", \"reality check z VC\", \"2-3 rozmowy z funduszami\", \"czy to jest ciekawe\", \"feedback od inwestorów wczesny\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Investor Early Signal (Milestone 3)
 
 Cel: po M1+M2 (rynek + konkurencja) — szybki **reality check** z 2-3 inwestorami z networku. Nie czekamy na gotowy dek. Jeśli 3 z 3 mówi "zapomnijcie" → sygnał do rewizji. Jeśli 2 z 3 mówi "ciekawe, pokaż jak się rozwinie" → mamy go-signal dla reszty Discovery + Creation.

@@ -3,6 +3,9 @@ name: council
 description: "Multi-LLM debate via the-llm-council CLI. Invoke ONLY when user explicitly types /council. Do NOT auto-trigger on generic \"let's discuss\" or \"what next\" prompts."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # LLM Council Skill (v0.7.16)
 
 > ⚠️ **WAŻNE — z poziomu Claude Code session council CLI rzadko działa**.

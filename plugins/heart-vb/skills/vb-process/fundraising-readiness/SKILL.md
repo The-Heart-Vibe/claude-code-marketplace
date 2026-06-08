@@ -3,6 +3,9 @@ name: fundraising-readiness
 description: "Krok 4 procesu VB — regularny check \"czy już możemy iść z tym do inwestorów?\". To NIE jest assessment (Krok 1 — pełny 12-milestone checker), tylko go/no-go gate decision oparty o weighted scoring najważniejszych milestones. Z dokumentu firmy \"nie czekaj na 12/12 — czasami 8/12 wystarczy, a IP dopracujesz po term sheet\". Triggeruj na: \"fundraising readiness\", \"czy idziemy do inwestorów\", \"ready do VC\", \"minimum viable fundraising\", \"stempel The Heart\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Fundraising Readiness Check (Krok 4)
 
 Cel: regularny **go/no-go gate** czy projekt jest gotowy żeby rozpocząć M12 outreach do inwestorów. NIE czekamy na perfekcyjne 12/12 — celujemy w **minimum viable fundraising state**, zwykle 8-10/12 z konkretnymi milestones jako absolute requirements.

@@ -3,6 +3,9 @@ name: "hard-call"
 description: "Framework dla wysokostawkowych decyzji bez dobrego wyjścia — zwolnienie co-foundera, layoffs, zabicie lubianego produktu, pivot, zamknięcie spółki. Reversibility test, 10/10/10, Andy Grove test, stakeholder mapping, pre-announcement test. Use gdy stoisz przed nieodwracalną lub bolesną decyzją liderską i potrzebujesz struktury, nie pocieszenia. Triggeruj na: 'trudna decyzja', 'hard call', 'zwolnić co-foundera', 'layoffs', 'czy pivotować', 'zamknąć projekt', 'decyzja bez dobrego wyjścia'."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Hard Call — Framework for Decisions With No Good Options
 
 For the decisions that keep you up at 3am. Firing a co-founder. Laying off 20% of the team. Killing a product that customers love. Pivoting. Shutting down.

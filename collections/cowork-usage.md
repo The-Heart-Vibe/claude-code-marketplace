@@ -181,10 +181,31 @@ Remove+re-add wymusza świeży re-scan, ale też podlega cooldownowi.
 
 ---
 
+## ⚠️ Długie sesje — „coasting" po pierwszym skillu
+
+**Obserwacja potwierdzona (2026-06-08):** Cowork ładuje skill przy **pierwszym** triggerze (np. `napkin-math`), a potem model **jedzie na tym co ma w kontekście** i często NIE ładuje skilli właściwych dla kolejnych kroków — improwizuje. W panelu Skills po prawej widać wtedy tylko ten pierwszy skill, mimo że model robił dalej np. Pattern F.
+
+**Dlaczego to ważne:** metodyka i reguły (transport, grounding, cross-check nudge, język) żyją w **treści skilla**. Jeśli skill się nie załaduje, model działa z ogólnej wiedzy — bez naszych guardrails.
+
+**Co z tym zrobione (po stronie pluginu):**
+- 🔒 **CORE block** w każdym z 48 skilli — cokolwiek się załaduje, niesie 5 inwariantów (język PL / cross-check faktów / załaduj skill per milestone / KROK -1 consent / confidence tags).
+- Handoffy mówią wprost **„załaduj skill X"** zamiast tylko o nim wspominać.
+- SessionStart hook wstrzykuje CORE (działa w CLI; w Coworku hook się nie odpala — stąd CORE w skillach).
+
+**Co MUSI zrobić pracownik (niezawodny lever):**
+- Przy przejściu do **nowego milestone** — wywołaj skill **jawnie**: `/heart-vb:exit-strategy`, `/heart-vb:market-research` itp. Nie zakładaj że model sam dociągnie.
+- Albo: **świeża sesja per milestone** (gwarantuje czysty load właściwej metodyki).
+- Pattern F (cross-check) — jeśli model robi go „z głowy", poproś: *„załaduj heart-orchestrate i zrób to stamtąd"*.
+
+> Plugin podnosi floor (CORE wszędzie), ale **enforcement w Coworku nie istnieje** — żaden hook nie zablokuje improwizacji w sandboxie. Jawne wywołanie skilla to jedyna gwarancja.
+
+---
+
 ## Najprostsza rekomendacja dla pracownika
 
 1. **Szybkie zadanie** → pisz naturalnie (Wzorzec 1)
 2. **Praca nad projektem** → zacznij od *"użyj heart-vb-process dla projektu [X]"* (Wzorzec 2), potem normalnie
-3. **Nie wiesz czy plugin działa** → `/heart-status`
+3. **Nowy milestone w trakcie sesji** → wywołaj skill jawnie (`/heart-vb:<skill>`) — patrz „coasting" wyżej
+4. **Nie wiesz czy plugin działa** → `/heart-status`
 
-Żadnego magicznego prefiksu przy każdym prompcie. Maksymalnie jedno zdanie na starcie sesji.
+Żadnego magicznego prefiksu przy każdym prompcie. Maksymalnie jedno zdanie na starcie sesji — ale przy zmianie milestone wywołaj właściwy skill jawnie.

@@ -3,6 +3,9 @@ name: "review"
 description: "Analyze auto-memory for promotion candidates, stale entries, consolidation opportunities, and health metrics."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # /si:review — Analyze Auto-Memory
 
 Performs a comprehensive audit of Claude Code's auto-memory and produces actionable recommendations.

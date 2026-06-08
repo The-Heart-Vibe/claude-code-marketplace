@@ -3,6 +3,9 @@ name: "stress-test"
 description: "Rozwal założenie biznesowe zanim zrobi to rynek — projekcje przychodów, market size (TAM/SAM/SOM), competitive moat, tempo rekrutacji, retencja. Isolate assumption → counter-evidence → downside model (bear/stress/catastrophic) → sensitivity → hedge. Use gdy liczba lub założenie wygląda zbyt dobrze, zanim na nim postawisz, albo przy red-teamingu planu/modelu. Triggeruj na: 'stress test', 'rozwal to założenie', 'bear case', 'czy ta projekcja jest realna', 'red-team', 'sensitivity', 'co jeśli się mylimy'."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Stress Test — Business Assumption Stress Testing
 
 Take any business assumption and break it before the market does. Revenue projections. Market size. Competitive moat. Hiring velocity. Customer retention.

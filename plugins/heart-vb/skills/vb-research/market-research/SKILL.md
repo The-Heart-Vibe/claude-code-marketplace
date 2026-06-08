@@ -4,6 +4,9 @@ description: "Conduct market research, competitive analysis, investor due dilige
 origin: ECC
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Market Research
 
 Produce research that supports decisions, not research theater.
@@ -114,3 +117,14 @@ Output musi spełniać 3 wymiary (z dokumentu firmy):
 - **M1 + M2 razem** = wystarczające do M3 (early signal z inwestorami)
 - **M1 feeds M11** — slajd Market w pitch deck'u
 - **M1 inputs do M5** — SAM/SOM size używane do break-even calc
+
+
+---
+
+## ⚠️ Cross-check przed użyciem do VC
+
+Liczby rynkowe (TAM/SAM/SOM, growth rates) są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):
+
+> *„Te liczby idą do VC i są łatwe do pomylenia — chcesz cross-check przez drugi LLM (Pattern F: Claude + Gemini + GPT-5, każdy grounded w sieci)? Wykrywa gdzie pojedynczy model halucynuje. ~60-90s."*
+
+→ Żeby zrobić cross-check **załaduj skill `heart-orchestrate`** (albo spawn agent `vc-partner` / `regulatory-officer-pl`) — NIE rób Pattern F z pamięci, bo pominiesz transport + grounding rules. W Coworku wymaga Desktop Commander; bez niego oznacz wynik jako single-model.

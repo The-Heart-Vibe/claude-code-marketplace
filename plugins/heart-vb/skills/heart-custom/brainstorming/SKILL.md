@@ -3,6 +3,9 @@ name: brainstorming
 description: "Use dla generic, exploratory tasków BEZ precyzyjnego VB kontekstu — kiedy żaden z bardziej specyficznych skilli nie pasuje (np. organizacja eventu, struktura spotkania, ad-hoc decyzja personal/operacyjna, draft notki do partnera, ułożenie agenda, refleksja strategiczna). Pomaga przejść od mglistej idei do konkretnego planu/specu przez clarifying questions one-at-a-time + propozycję 2-3 podejść + approval gate."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Brainstorming — Generic Thinking Partner
 
 Skill dla **dziennych nie-produktowych tasków** które nie mają wyraźnego VB intentu (decision/research/modeling/writing/validation/screening). Pomaga przejść od mglistej idei do konkretnego planu przez ustrukturyzowany dialog.

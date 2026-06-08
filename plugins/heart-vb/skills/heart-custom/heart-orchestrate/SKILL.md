@@ -3,6 +3,9 @@ name: heart-orchestrate
 description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/decision/research prompty i spawnuje cowork agents w jednym z dwóch patternów: Pattern E (persona-driven divergence) lub Pattern F (multi-LLM debate, 3 różne providery). Działa z poziomu Claude Code (main session lub cowork worktree) bez nested CLI block. Analityk pisze normalnie — orchestrator wybiera pattern i model routing."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart Orchestrate — Persona Parallel + Multi-LLM Debate
 
 **Cel:** Analityk pisze normalnie. Ty (Claude w main session) wybierasz właściwy pattern, spawnujesz agents, syntetyzujesz wynik. Brak ręcznej selekcji modeli/skilli.

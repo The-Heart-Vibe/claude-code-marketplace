@@ -3,6 +3,9 @@ name: heart-dd-checklist
 description: "Generuje sector-aware due diligence checklist dla venture na etapie pre-IC. Atomic daily task — odpalasz raz, dostajesz structured checklist który możesz dac founderowi/zespołowi do uzupełnienia. Use when user pyta \"wygeneruj DD checklist dla X\", \"co sprawdzić na DD dla HealthTech venture\", \"checklist do DD dla academic spinout\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart DD Checklist
 
 Atomic skill — odpalasz raz, dostajesz gotowy DD checklist dopasowany do sektora i etapu venture. NIE jest to workflow management ani process tracking — tylko **generation** checklist'a (czy ktoś go potem realizuje — to user's job).

@@ -3,6 +3,9 @@ name: heart-status
 description: "Self-diagnostic dla heart-vb — wykrywa środowisko (Claude Code CLI vs Cowork), wersję pluginu, status hooków, dependencies (gemini-cli, codex, Desktop Commander MCP, chrome-devtools-mcp, council CLI, Notion MCP), auth providers, gotowość Pattern E/F. Od v0.7.1 z opcjonalnym **milestone progress detection** — jeśli Notion MCP connector aktywny i user poda link do Project Card, skill czyta X/12 progress z linked database Streams/Milestones (Warstwa 2 DD by Heart). Use gdy plugin nie działa, przed demo/onboardingiem, lub gdy chcesz sprawdzić \"gdzie stoimy z projektem\". Trigger przez `/heart-status` lub fraza \"sprawdź czy plugin działa\", \"milestone progress\", \"ile zostało do fundraisingu\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart-vb Status — Self-Diagnostic
 
 Sprawdza wszystkie komponenty pluginu, środowisko wykonawcze i gotowość workflow'ów. Output: jeden zwięzły raport z verdict per komponent.

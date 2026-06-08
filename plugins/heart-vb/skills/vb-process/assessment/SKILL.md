@@ -3,6 +3,9 @@ name: assessment
 description: "Krok 1 procesu VB — checker stanu zastanego projektu. Wykonuje 12-row matrycę oceny (per milestone): ilościowo (✓/◐/☐ — jest/jest ale wymaga weryfikacji/brak) plus jakościowo (czy to jest dobrze zrobione, czy mogę iść z tym do inwestora). Use gdy projekt przychodzi z częścią rzeczy zrobionych albo gdy chcesz wiedzieć ile pracy przed Wami. Triggeruj na: \"oceń projekt\", \"gdzie stoimy\", \"assessment\", \"ile milestones done\", \"checker\", \"audyt projektu\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Krok 1 — Assessment (Checker)
 
 Pierwszy krok kickoffu nowego projektu lub regularny check istniejącego. Cel: wypełnić **12-row matrix** ze statusem per milestone i jakością deliverable. Output: gdzie zacząć (od czego największe ryzyko), co już można skreślić, co wymaga weryfikacji.

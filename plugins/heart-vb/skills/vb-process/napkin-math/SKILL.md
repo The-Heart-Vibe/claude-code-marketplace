@@ -3,6 +3,9 @@ name: napkin-math
 description: "M5 (milestone 5) procesu VB — 1-stronicowy szybki test ekonomiczny czy projekt się spina. Revenue model, unit economics (COGS/CAC/LTV szacunkowe), break-even, go/no-go decision. NIE jest to pełny model finansowy (M11 = financial-analyst) — to jest sanity check na kartce. Najczęściej kluczowe dla projektów naukowych gdzie founderzy nie mają pomysłu na model biznesowy. Triggeruj na: \"napkin math\", \"unit economics\", \"czy to się spina\", \"CAC LTV szybko\", \"ROI na kartce\", \"break-even\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Napkin Math (Milestone 5)
 
 Szybki **test ekonomiczny na kartce**. Cel: czy projekt **w ogóle** spina się ekonomicznie, bez budowania pełnego modelu. Jeśli nie → STOP, pivot, lub zmiana modelu. Lepiej wiedzieć po 3-5 dniach niż po 6 miesiącach.
@@ -186,3 +189,14 @@ Spytaj user'a: *"Zapisać do `docs/projekty/<projekt>/napkin-math.md` jako basel
 - **Po napkin math MAYBE** → flag dla M11 (pełny model finansowy będzie krytyczny)
 - **Dla SaaS metrics deep-dive po napkin** → `vb-finance/saas-metrics-coach`
 - **Dla pricing optimization** → `vb-commercial/pricing-strategist`
+
+
+---
+
+## ⚠️ Cross-check przed użyciem do VC
+
+Unit economics (CAC/LTV, break-even, margins) są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):
+
+> *„Te liczby idą do VC i są łatwe do pomylenia — chcesz cross-check przez drugi LLM (Pattern F: Claude + Gemini + GPT-5, każdy grounded w sieci)? Wykrywa gdzie pojedynczy model halucynuje. ~60-90s."*
+
+→ Żeby zrobić cross-check **załaduj skill `heart-orchestrate`** (albo spawn agent `vc-partner` / `regulatory-officer-pl`) — NIE rób Pattern F z pamięci, bo pominiesz transport + grounding rules. W Coworku wymaga Desktop Commander; bez niego oznacz wynik jako single-model.

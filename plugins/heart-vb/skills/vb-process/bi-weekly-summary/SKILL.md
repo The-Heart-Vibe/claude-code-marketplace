@@ -3,6 +3,9 @@ name: bi-weekly-summary
 description: "Krok 3 procesu VB — side product produkowany co 2 tygodnie. Krótkie podsumowanie sprintu: co zrobione, jakie wnioski, jakie red flags, sygnały do zmiany kierunku. Buduje bazę wiedzy która później trafia do pitch deck'a (M11) i materiałów. Use gdy zespół projektowy kończy 2-tygodniowy sprint i potrzebuje przygotować podsumowanie dla zarządu lub własnego archiwum. Triggeruj na: \"bi-weekly summary\", \"podsumowanie sprintu\", \"summary co 2 tygodnie\", \"wnioski ze sprintu\", \"co zrobiliśmy w sprincie\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Bi-Weekly Summary (Krok 3 — Side Product)
 
 Cel: **regular cadence** podsumowania pracy zespołu — co 2 tygodnie krótka notatka. Nie jest to milestone deliverable, ale **continuous output** który buduje:

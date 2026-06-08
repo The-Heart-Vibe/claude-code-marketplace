@@ -3,6 +3,9 @@ name: heart-stakeholder-update
 description: "Pisze weekly/monthly stakeholder update dla portfolio company → investors lub IC The Heart. Atomic daily task — odpalasz raz, dostajesz structured update z progress/blockers/asks. Use when user pyta \"napisz update do investors za October\", \"monthly update dla IC za Q3\", \"co wpisać do email do stakeholders\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart Stakeholder Update
 
 Atomic skill dla pisania regularnych updateów. Format zaprojektowany dla VB analyst → IC / external investors / corporate partners.

@@ -3,6 +3,9 @@ name: heart-vb-process
 description: "Master skill dla procesu Venture Building w The Heart — 12 non-negotiable milestones w 4 fazach (Discovery → Creation → Validation → Fundraising). Use jako entry point dla projektów VB. Wykrywa z konwersacji który milestone właśnie jest robiony (na podstawie vocabulary: TAM/SAM/SOM → M1, \"konkurenci\" → M2, \"LOI\" → M9, \"exit\" → M6 etc.) i deleguje do właściwego sub-skill. ALBO prowadzi przez całość (\"przepuść projekt przez cały proces\"). Triggeruj na: \"kickoff projektu\", \"DD by Heart\", \"12 milestones\", \"fundraising readiness\", \"stempel The Heart\"."
 ---
 
+> 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+
 # Heart VB Process — Master Orchestrator
 
 Jeden entry point dla wszystkiego co dotyczy procesu **Venture Building w The Heart**. Zawiera framework 12 non-negotiable milestones, routing do sub-skilli per milestone, i tryb "full process" (przepuść projekt przez cały framework).
