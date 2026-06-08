@@ -63,7 +63,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 | Środowisko | Skille | Hooki (SessionStart+PreCompact) | Heart-orchestrate Pattern E/F | Council CLI (binary) | Gemini/Codex CLI w Pattern F worker |
 |---|---|---|---|---|---|
 | **Claude Code (CLI/IDE)** | ✅ przez `/plugin install` | ✅ SessionStart+PreCompact | ✅ Agent tool spawn | ❌ self-invocation block | ✅ przez `bash -c "gemini -p ..."` |
-| **Claude Desktop → Cowork tab** | ✅ przez **GUI** (Directory → Plugins) — Cowork NIE ma `/plugin` | ⚠️ NIE odpalają się w sandboxie (skille routują natywnie z opisów) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ⚠️ tylko przez Desktop Commander (host); bez DC → emulated |
+| **Claude Desktop → Cowork tab** | ✅ przez **GUI**: Customize → Personal plugins → + (Cowork NIE ma `/plugin`) | ⚠️ NIE odpalają się w sandboxie (skille routują natywnie z opisów) | ✅ Agent tool spawn | ❌ self-invocation block + sandbox | ⚠️ tylko przez Desktop Commander (host); bez DC → emulated |
 | **Terminal (standalone, poza CC)** | ❌ brak Agent tool | ❌ | ❌ brak orchestratora | ✅ działa natywnie | ✅ działa natywnie |
 | **claude.ai (web)** | ❌ brak plugin support | ❌ | ❌ brak Agent tool | ❌ | ❌ brak Bash |
 | **Claude Desktop (standardowy chat)** | ⚠️ via MCP/Extensions | ❌ | ❌ | ❌ | ❌ |
@@ -82,7 +82,7 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 
 Czyli: w **CLI/IDE** gemini-cli i codex działają w Pattern F natywnie przez Bash. W **Coworku** sandbox ich nie ma — Pattern F wymaga **Desktop Commander** (woła gemini/codex na hoście); bez DC plugin robi emulated single-model cross-check (oznaczony). `council` binary nie działa w żadnym z tych dwóch (terminal-only).
 
-> **Cowork install (GUI — Cowork NIE ma slash-komend `/plugin`):** w Claude Desktop → **Directory → Plugins** → dodaj marketplace `The-Heart-Vibe/the-heart-marketplace` i zainstaluj `heart-vb` przez interfejs. Slash-komendy `/plugin marketplace add` / `/plugin install` działają **tylko w Claude Code CLI/IDE**. Stan sprawdzisz skillem `/heart-status`.
+> **Cowork install (GUI — Cowork NIE ma slash-komend `/plugin`):** w Claude Desktop → **Customize** → przy **Personal plugins** kliknij **"+"** → **Create plugin → Add marketplace** → wklej `The-Heart-Vibe/the-heart-marketplace` → zainstaluj `heart-vb`. Slash-komendy `/plugin marketplace add` / `/plugin install` działają **tylko w Claude Code CLI/IDE**. Stan sprawdzisz skillem `/heart-status`.
 
 ## Co plugin install załatwia automatycznie
 
@@ -92,7 +92,7 @@ Od v0.7.4 plugin install (`/plugin install heart-vb`) załatwia:
 - ✅ **2 hooki** auto-loaded z `hooks/hooks.json`: SessionStart (one-shot framework context) + PreCompact (learning prompt). UserPromptSubmit auto-suggest usunięte (Cowork compat) — zastąpione SessionStart + Wzorcem 2 z cowork-usage.md
 - ⚠️ **`chrome-devtools-mcp`** instaluje się osobno przez `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest` (NIE w plugin.json — mcpServers usunięte dla Cowork compat)
 
-Wszystko above działa **out of the box** po instalacji w obu environments — **CLI/IDE:** `/plugin install`; **Cowork:** panel Directory → Plugins (GUI).
+Wszystko above działa **out of the box** po instalacji w obu environments — **CLI/IDE:** `/plugin install`; **Cowork:** Customize → Personal plugins → + → Add marketplace (GUI).
 
 ## Co MUSI być pre-installed manualnie (poza pluginem)
 

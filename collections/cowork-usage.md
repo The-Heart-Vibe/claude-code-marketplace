@@ -28,7 +28,7 @@
 | Pojedyncza decyzja (Pattern E/F) | Dowolne | Działa wszędzie gdzie plugin zainstalowany |
 | Portfolio / cross-venture analiza | **Claude Code CLI** | Cross-session learnings, bi-weekly cadence |
 
-> **Dependencies (gemini-cli, codex, council) — UWAGA, sprostowanie:** Cowork **NIE dziedziczy** ich z Twojego Maca. Sandbox Coworka jest izolowany (osobny VM) — instalacje Homebrew na hoście są dla niego niewidoczne. Sam plugin (skille+agenci) instalujesz w każdym środowisku osobno: w **Cowork przez panel Directory → Plugins (GUI — Cowork nie ma `/plugin install`)**, w CLI/IDE przez `/plugin install`. Działa wszędzie.
+> **Dependencies (gemini-cli, codex, council) — UWAGA, sprostowanie:** Cowork **NIE dziedziczy** ich z Twojego Maca. Sandbox Coworka jest izolowany (osobny VM) — instalacje Homebrew na hoście są dla niego niewidoczne. Sam plugin (skille+agenci) instalujesz w każdym środowisku osobno: w **Cowork przez Customize → Personal plugins → "+" → Create plugin → Add marketplace (GUI — Cowork nie ma `/plugin install`)**, w CLI/IDE przez `/plugin install`. Działa wszędzie.
 >
 > **Multi-LLM (Pattern F) w Coworku = przez Desktop Commander MCP.** DC działa na hoście, więc `start_process("gemini -p ...")` wykonuje się tam, gdzie masz gemini/codex zainstalowane — omijając sandbox. Zweryfikowane empirycznie (gemini odpowiada z Coworka przez DC, z flagą `GEMINI_CLI_TRUST_WORKSPACE=true`). Bez DC w Coworku Pattern F jest niedostępny — plugin zrobi emulated single-model cross-check (jawnie oznaczony). W CLI/IDE Pattern F działa natywnie przez Bash.
 
@@ -163,7 +163,7 @@ Przetestowaliśmy realnie w Coworku (świeże sesje + analiza logu `~/Library/Lo
 
 **Normalna aktualizacja (zalecana):**
 ```
-1. Directory → Plugins → tab "the-heart-marketplace" → Update
+1. Customize → Personal plugins → "the-heart-marketplace" → Update
 2. POCZEKAJ ~15-30 sekund (server re-scan repo)
 3. Jeśli pokazuje "Already up to date" mimo nowej wersji → cooldown aktywny,
    odczekaj ~minutę i kliknij Update ponownie

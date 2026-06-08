@@ -243,7 +243,7 @@ Po zebraniu danych ZAWSZE generuj sekcję **Action items** jeśli wykryjesz prob
 
 | Wykryty problem | Action item (paste-able command) |
 |---|---|
-| `Plugin: NIE WYKRYTY` | **CLI/IDE:** `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. **Cowork:** Directory → Plugins → dodaj marketplace + install (GUI, brak slash-komend). Potem restart sesji |
+| `Plugin: NIE WYKRYTY` | **CLI/IDE:** `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace`. **Cowork:** Customize → Personal plugins → "+" → Create plugin → Add marketplace → install (GUI, brak slash-komend). Potem restart sesji |
 | `Hooks: 0/4` mimo plugin OK | Restart Claude Code / Cowork tab — hooks/hooks.json loaduje się przy starcie |
 | `Legacy hooks (settings.json): >0` | Pobierz → przejrzyj → uruchom (NIE pipe-to-bash na ślepo): `curl -fsSL -o /tmp/hv-install.sh https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh && less /tmp/hv-install.sh && bash /tmp/hv-install.sh` — usuwa legacy z backupem. **WAŻNE: bez tego hooki strzelają 2× per prompt (dual-fire)** |
 | `gemini-cli: ❌` | `npm install -g @google/gemini-cli` (wymaga Node.js) → `gemini` (OAuth w przeglądarce) |
@@ -290,7 +290,7 @@ Verdict: <one sentence — ready to use / fix X first / requires Notion for mile
 
 - **Brak `claude` w PATH**: w Cowork pewnie nie ma — fallback na inne sygnały (CLAUDE_PLUGIN_ROOT env)
 - **Council doctor failuje w Cowork**: spodziewane — note że terminal-only, nie blocker dla Pattern F
-- **Plugin nie wykryty**: nie zainstalowany w aktualnym environment. **CLI/IDE:** `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` + `/plugin install heart-vb@the-heart-marketplace`. **Cowork:** Directory → Plugins → dodaj marketplace + install przez GUI (Cowork nie ma slash-komend `/plugin`)
+- **Plugin nie wykryty**: nie zainstalowany w aktualnym environment. **CLI/IDE:** `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` + `/plugin install heart-vb@the-heart-marketplace`. **Cowork:** Customize → Personal plugins → "+" → Create plugin → Add marketplace → install (GUI, Cowork nie ma slash-komend `/plugin`)
 - **Legacy hooks present**: backup + clean przez install.sh — pobierz i przejrzyj przed uruchomieniem: `curl -fsSL -o /tmp/hv-install.sh https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh && less /tmp/hv-install.sh && COUNCIL_INSTALL_HOOK=skip bash /tmp/hv-install.sh` (NIE curl|bash na ślepo)
 
 ## NIE rób

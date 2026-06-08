@@ -39,14 +39,17 @@ Jeden plugin `heart-vb` zawiera **36 skilli** w 8 kategoriach:
 
 ## 2. Install (~3 min)
 
-W Claude Code:
+**Cowork (Claude Desktop):** Customize → przy **Personal plugins** kliknij **"+"** → **Create plugin → Add marketplace** → wklej `The-Heart-Vibe/the-heart-marketplace` → zainstaluj **heart-vb**. (Cowork nie ma slash-komend `/plugin`.)
 
+**Claude Code CLI/IDE:**
 ```
 /plugin marketplace add The-Heart-Vibe/the-heart-marketplace
 /plugin install heart-vb@the-heart-marketplace
 ```
 
-Installer (run automatically) wykona w terminalu:
+> ⚠️ **`/plugin install` (ani GUI install) NIE instaluje gemini.** To ładuje tylko skille+agentów. Pattern F (multi-LLM cross-check) wymaga osobnego setupu: w terminalu odpal `install.sh` raz (gemini-cli + login) + podłącz Desktop Commander w Coworku. Szczegóły → cowork-usage.md.
+
+Installer `install.sh` — odpalany **RĘCZNIE w terminalu** (NIE automatycznie przy install) — wykona:
 1. Instaluje `uv` (Python package manager) jeśli brak
 2. Sprawdza Node.js
 3. Instaluje `@google/gemini-cli` globalnie jeśli brak

@@ -15,12 +15,15 @@
 
 ## Setup (jeden install)
 
+**Cowork:** Customize → Personal plugins → **"+"** → Create plugin → Add marketplace → wklej `The-Heart-Vibe/the-heart-marketplace` → install `heart-vb`.
+
+**CLI/IDE:**
 ```
 /plugin marketplace add The-Heart-Vibe/the-heart-marketplace
 /plugin install heart-vb@the-heart-marketplace
 ```
 
-Po tym masz wszystkie 36 skilli z tej kolekcji. Bez dodawania innych marketplaces. Pełne onboarding step-by-step → [onboarding-vb.md](onboarding-vb.md).
+Po tym masz wszystkie skille z tej kolekcji. Bez dodawania innych marketplaces. Pełne onboarding step-by-step → [onboarding-vb.md](onboarding-vb.md).
 
 ---
 
