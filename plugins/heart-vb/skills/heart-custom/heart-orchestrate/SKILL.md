@@ -239,19 +239,19 @@ W odpowiedzi zawsze podaj **prostym językiem** ile niezależnych źródeł spra
 DC wykonuje komendy **na hoście** (tam gdzie masz zainstalowane gemini/codex), omijając izolację sandboxa. Przez `start_process`:
 
 ```
-# KROK 0 — zweryfikuj że CLI jest NA HOŚCIE (DC obecny ≠ gemini obecny!):
-start_process(command: "command -v gemini || echo GEMINI_MISSING; command -v codex || echo CODEX_MISSING", timeout_ms: 8000)
-#   GEMINI_MISSING + CODEX_MISSING → NIE udawaj Pattern F; emulated single-model z "gemini/codex niedostępne na hoście"
-# gemini przez DC (tylko jeśli znalezione wyżej):
-start_process(command: "cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '<fact>' 2>&1 | tail -40", timeout_ms: 45000)
+# KROK 0 — zweryfikuj CLI NA HOŚCIE (DC obecny ≠ gemini obecny!). OS-aware check:
+start_process(command: "command -v gemini || where gemini || echo GEMINI_MISSING", timeout_ms: 8000)   # macOS/Linux: command -v | Windows: where
+#   GEMINI_MISSING → NIE udawaj Pattern F; emulated single-model z "gemini niedostępny na hoście"
+# gemini przez DC — PORTABLE (--skip-trust flag zamiast inline env; output przez read_process_output, NIE tail):
+start_process(command: "gemini --skip-trust -p '<fact>'", timeout_ms: 45000)
 # codex przez DC:
-start_process(command: "cd ~/ && codex exec --skip-git-repo-check '<fact>' 2>&1 | tail -80", timeout_ms: 60000)
-# odczyt wyniku: read_process_output(pid, timeout_ms)
+start_process(command: "codex exec --skip-git-repo-check '<fact>'", timeout_ms: 60000)
+# odczyt wyniku: read_process_output(pid, timeout_ms)  ← cross-platform, zastępuje tail (brak na Windows)
 ```
 
 **Gotchas DC (zweryfikowane na macOS):**
 - **DC obecny ≠ gemini obecny** — `command -v gemini` przez DC ZANIM użyjesz. Brak na hoście (świeży Mac, albo gemini w ścieżce niewidocznej dla non-interactive zsh) → emulated, NIE udawaj że masz cross-check.
-- **`GEMINI_CLI_TRUST_WORKSPACE=true`** wymagane — inaczej trust-block.
+- **Trust: użyj flagi `--skip-trust`** (cross-platform, zwykła flaga) zamiast inline env `GEMINI_CLI_TRUST_WORKSPACE=true` (POSIX-only, NIE działa w PowerShell) — inaczej trust-block. Zweryfikowane na macOS.
 - **`cd` do konkretnego folderu** — DC startuje w `/`; bez tego gemini skanuje cały filesystem jako kontekst.
 - **GNU `timeout` NIE istnieje** w shellu DC (macOS) — NIE używaj `timeout 120 ...`; bound przez `timeout_ms` w `start_process`.
 - **PATH DC ≠ login shell** — `council` (~/.local/bin) bywa niewidoczny; wołaj gemini/codex bezpośrednio, nie przez council.
@@ -285,7 +285,7 @@ Main (Opus):
      
      Wojtek-Gemini (Gemini transport) — tylko jeśli gemini-cli OK:
        description: 'Wojtek-Gemini fact lookup'
-       prompt: 'Jesteś Wojtek-Gemini. Uruchom: GEMINI_CLI_TRUST_WORKSPACE=true gemini -p "Use Google Search to verify current facts and cite source URLs. [pytanie + format request]" 
+       prompt: 'Jesteś Wojtek-Gemini. Uruchom: gemini --skip-trust -p "Use Google Search to verify current facts and cite source URLs. [pytanie + format request]" 
                 2>&1 | tail -80. Zwróć raw output. Podpisz Source: Wojtek-Gemini.
                 (Cowork bez gemini w Bash → wołaj to przez Desktop Commander start_process.)'
        model: 'sonnet'

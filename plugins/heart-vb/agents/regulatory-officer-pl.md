@@ -26,11 +26,11 @@ Regulacje = daty + procenty + article numbers = hallucination-prone w single LLM
 ```bash
 # CLI/IDE — gemini/codex w PATH, wołaj bezpośrednio:
 command -v gemini && command -v codex
-GEMINI_CLI_TRUST_WORKSPACE=true gemini -p "Use Google Search, cite source URL. <fact, cite article/date>" 2>&1 | tail -30   # answer #2 (grounded)
+gemini --skip-trust -p "Use Google Search, cite source URL. <fact, cite article/date>" 2>&1 | tail -30   # answer #2 (grounded)
 codex exec --skip-git-repo-check "Zweryfikuj w sieci, podaj źródło. <ten sam fact>" 2>&1 | tail -50                        # answer #3 (grounded)
 # 3/3 zgodne → high confidence | 2/3 → flag dla EUR-Lex | 1/3 → MUST verify manualnie
 ```
-- **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '...'`. Brak DC → **NIE udawaj Pattern F**: zrób WebSearch-grounded answer i oznacz **"⚠️ single-model, brak cross-LLM verify"**. NIE twierdź że masz Pattern F gdy go nie masz.
+- **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `gemini --skip-trust -p '...'` (output przez read_process_output). Brak DC → **NIE udawaj Pattern F**: zrób WebSearch-grounded answer i oznacz **"⚠️ single-model, brak cross-LLM verify"**. NIE twierdź że masz Pattern F gdy go nie masz.
 
 Zawsze cytuj source (EUR-Lex link, oficjalny rejestr). NIGDY "regulation states that..." bez źródła. **Consensus ≠ prawda** — 3 modele mogą zgodnie powtórzyć błędną datę/procent; przy każdym MANDATORY podaj EUR-Lex primary source, nie samo "Pattern F 3/3".
 

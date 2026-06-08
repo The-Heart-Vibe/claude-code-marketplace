@@ -42,10 +42,10 @@ Workflow:
 **Transport zależy od środowiska** (pełna logika: `heart-orchestrate` → "Transport"):
 ```bash
 # CLI/IDE — gemini/codex w PATH, wołaj bezpośrednio:
-GEMINI_CLI_TRUST_WORKSPACE=true gemini -p "Use Google Search, cite sources. Top 5 HealthTech SaaS M&A w EU 2024-2025 z deal sizes i multiples" 2>&1 | tail -30
+gemini --skip-trust -p "Use Google Search, cite sources. Top 5 HealthTech SaaS M&A w EU 2024-2025 z deal sizes i multiples" 2>&1 | tail -30
 codex exec --skip-git-repo-check "Zweryfikuj w sieci, podaj źródła. Top 5 HealthTech SaaS M&A w EU 2024-2025" 2>&1 | tail -50
 ```
-- **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '...'`. Brak DC → **NIE udawaj Pattern F**: zostań przy WebSearch+WebFetch i oznacz **"⚠️ single-model, brak cross-LLM verify"**.
+- **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `gemini --skip-trust -p '...'` (output przez read_process_output). Brak DC → **NIE udawaj Pattern F**: zostań przy WebSearch+WebFetch i oznacz **"⚠️ single-model, brak cross-LLM verify"**.
 
 Compare outputs. 3/3 zgodne → high confidence. Różnice → flag dla user'a (specific deals do verify). NIGDY nie twierdź że masz Pattern F consensus gdy działałeś na jednym modelu. **Consensus ≠ prawda** — 3 modele mogą zgodnie powtórzyć szeroko-cytowany błędny multiple; przy cytowanym dealu podaj primary source (Crunchbase / Dealroom / press release), nie samo "3/3".
 
