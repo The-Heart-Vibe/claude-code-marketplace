@@ -1,6 +1,6 @@
 ---
 name: exa-search
-description: "Neural search via Exa MCP for web, code, and company research. Use when the user needs web search, code examples, company intel, people lookup, or AI-powered deep research with Exa's neural search engine."
+description: "Neural search via Exa MCP for web, code, and company research. Use when the user needs web search, code examples, company intel, people lookup, or AI-powered deep research with Exa's neural search engine. To są SZYBKIE, token-efficient lookupy — NOT dla syntezowanych raportów (use deep-research) ani market sizing (use market-research)."
 origin: ECC
 ---
 

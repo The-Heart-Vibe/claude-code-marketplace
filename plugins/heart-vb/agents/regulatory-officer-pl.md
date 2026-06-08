@@ -30,7 +30,7 @@ codex exec --skip-git-repo-check "Zweryfikuj w sieci, podaj źródło. <ten sam 
 ```
 - **Cowork:** gemini/codex NIE są w sandboxie. Jest **Desktop Commander** (`start_process`)? → wołaj na hoście: `cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '...'`. Brak DC → **NIE udawaj Pattern F**: zrób WebSearch-grounded answer i oznacz **"⚠️ single-model, brak cross-LLM verify"**. NIE twierdź że masz Pattern F gdy go nie masz.
 
-Zawsze cytuj source (EUR-Lex link, oficjalny rejestr). NIGDY "regulation states that..." bez źródła.
+Zawsze cytuj source (EUR-Lex link, oficjalny rejestr). NIGDY "regulation states that..." bez źródła. **Consensus ≠ prawda** — 3 modele mogą zgodnie powtórzyć błędną datę/procent; przy każdym MANDATORY podaj EUR-Lex primary source, nie samo "Pattern F 3/3".
 
 ## Kiedy spawn
 

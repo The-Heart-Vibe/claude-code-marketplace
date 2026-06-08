@@ -239,7 +239,10 @@ W odpowiedzi zawsze podaj **prostym językiem** ile niezależnych źródeł spra
 DC wykonuje komendy **na hoście** (tam gdzie masz zainstalowane gemini/codex), omijając izolację sandboxa. Przez `start_process`:
 
 ```
-# gemini przez DC:
+# KROK 0 — zweryfikuj że CLI jest NA HOŚCIE (DC obecny ≠ gemini obecny!):
+start_process(command: "command -v gemini || echo GEMINI_MISSING; command -v codex || echo CODEX_MISSING", timeout_ms: 8000)
+#   GEMINI_MISSING + CODEX_MISSING → NIE udawaj Pattern F; emulated single-model z "gemini/codex niedostępne na hoście"
+# gemini przez DC (tylko jeśli znalezione wyżej):
 start_process(command: "cd ~/ && GEMINI_CLI_TRUST_WORKSPACE=true gemini -p '<fact>' 2>&1 | tail -40", timeout_ms: 45000)
 # codex przez DC:
 start_process(command: "cd ~/ && codex exec --skip-git-repo-check '<fact>' 2>&1 | tail -80", timeout_ms: 60000)
@@ -247,6 +250,7 @@ start_process(command: "cd ~/ && codex exec --skip-git-repo-check '<fact>' 2>&1 
 ```
 
 **Gotchas DC (zweryfikowane na macOS):**
+- **DC obecny ≠ gemini obecny** — `command -v gemini` przez DC ZANIM użyjesz. Brak na hoście (świeży Mac, albo gemini w ścieżce niewidocznej dla non-interactive zsh) → emulated, NIE udawaj że masz cross-check.
 - **`GEMINI_CLI_TRUST_WORKSPACE=true`** wymagane — inaczej trust-block.
 - **`cd` do konkretnego folderu** — DC startuje w `/`; bez tego gemini skanuje cały filesystem jako kontekst.
 - **GNU `timeout` NIE istnieje** w shellu DC (macOS) — NIE używaj `timeout 120 ...`; bound przez `timeout_ms` w `start_process`.
@@ -298,6 +302,7 @@ Main (Opus):
      - Convergence (3/3 zgadzają się) = high confidence
      - 2/3 = medium, flag dla weryfikacji
      - 1/3 unique = informacja, ale NIE używać w deliverable bez verify
+     - ⚠️ Consensus ≠ prawda: 3 LLM-y mogą zgodnie powtórzyć szeroko-cytowany błąd (systemic hallucination — cross-check łapie idiosynkratyczne, nie systemowe). Przy high-stakes liczbie ZAWSZE podaj primary source (EUR-Lex / rejestr / raport z datą), nie samo "3/3 się zgodziły".
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: "Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations."
+description: "Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations. To jest dla GŁĘBOKICH, wielo-źródłowych syntezowanych raportów — NOT dla szybkiego lookupu (use exa-search) ani market sizing/TAM (use market-research)."
 origin: ECC
 ---
 
