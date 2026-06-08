@@ -89,13 +89,12 @@ echo ""
 "$WRAPPER" doctor || true
 echo ""
 
-# ── 7. Hooks — auto-loaded przez Claude Code v2.1+ ────────────────────────────
-# Plugin zawiera hooks/hooks.json — Claude Code (CLI + Cowork w Desktop) auto-loaduje
-# hooki z tego pliku przy każdej sesji. NIE wpisujemy ręcznie do ~/.claude/settings.json
-# bo to powoduje "duplicate hooks" error (PLUGIN_SCHEMA_NOTES.md) i NIE działa w Cowork
-# (sandboxed per-session, nie czyta globalnego settings.json).
-say "Hooki auto-loaded przez Claude Code z hooks/hooks.json (działa w CLI i Cowork)"
-ok "vb-suggest, devtools-suggest, cowork-suggest, model-route — aktywne po restarcie sesji"
+# ── 7. Hooks — auto-loaded przez Claude Code z hooks/hooks.json ───────────────
+# hooks.json zawiera: SessionStart (session-init.sh) + PreCompact (learning-prompt.sh).
+# Auto-loaded w Claude Code CLI/IDE przy starcie sesji. NIE wpisujemy do ~/.claude/settings.json
+# (duplicate-hooks error + Cowork i tak nie czyta globalnego settings.json).
+say "Hooki (SessionStart + PreCompact) auto-loaded w Claude Code CLI/IDE z hooks/hooks.json"
+warn "Cowork (sandbox) NIE wykonuje plugin-shipped hooków — tam framework-awareness idzie z opisów skilli (to OK, potwierdzone empirycznie)."
 
 # ── 7b. Legacy cleanup — usuń stare wpisy w ~/.claude/settings.json ──────────
 # Wcześniejsze wersje pluginu (do v0.6.9) instalowały hooki ręcznie. Trzeba je usunąć
@@ -170,9 +169,21 @@ else
   fi
 fi
 
-# ── 9. Chrome DevTools MCP — VERIFY (od v0.7.4 auto-installed by plugin.json mcpServers) ────────
+# ── 8b. Desktop Commander — most dla Pattern F w COWORK ───────────────────────
 echo ""
-say "Chrome DevTools MCP — sprawdzam status (od v0.7.4 auto-installed przez /plugin install)"
+say "Desktop Commander MCP — most dla Pattern F (multi-LLM cross-check) w COWORK"
+cat <<EOF
+
+   W Cowork sandbox NIE ma gemini/codex. Pattern F w Coworku działa TYLKO przez
+   Desktop Commander MCP (wykonuje gemini/codex na hoście — tam gdzie ten installer
+   je postawił). Podłącz DC w Claude Desktop → Settings → Connectors/MCP.
+   Bez DC: Cowork robi emulated single-model cross-check (oznaczony). CLI/IDE: Pattern F przez Bash.
+   Trust gemini: flaga --skip-trust (cross-platform), NIE env var GEMINI_CLI_TRUST_WORKSPACE.
+EOF
+
+# ── 9. Chrome DevTools MCP — OPCJONALNY (manual; mcpServers usunięte w v0.8.2) ────────
+echo ""
+say "Chrome DevTools MCP — opcjonalny (token-efficient browser research). Sprawdzam status..."
 DEVTOOLS_INSTALLED="no"
 if command -v claude >/dev/null 2>&1; then
   if claude mcp list 2>/dev/null | grep -qi "chrome-devtools"; then
@@ -192,8 +203,7 @@ fi
 if [ "$DEVTOOLS_INSTALLED" = "yes" ]; then
   ok "chrome-devtools-mcp wykryty — devtools-suggest hook ma czego potrzebuje"
 else
-  say "Plugin spec deklaruje chrome-devtools w mcpServers — powinno być auto-installed przy /plugin install."
-  say "Jeśli brak — fallback: install manually..."
+  say "chrome-devtools NIE jest auto-installed (mcpServers usunięte w v0.8.2) — instaluję ręcznie jako opcjonalny..."
   if command -v claude >/dev/null 2>&1; then
     # Fallback dla pre-v0.7.4 setups lub jeśli mcpServers auto-install nie zadziałał
     if claude mcp add --scope user chrome-devtools npx chrome-devtools-mcp@latest 2>/dev/null \
