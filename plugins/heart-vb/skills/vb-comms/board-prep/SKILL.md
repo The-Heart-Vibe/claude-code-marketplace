@@ -3,9 +3,7 @@ name: "board-prep"
 description: "Board meeting preparation for the adversarial scenario, not the friendly one. Forces numbers-cold mastery, anticipates hard questions, builds a narrative that acknowledges weakness without losing the room. Use when preparing for a board meeting, an investor update, fundraising presentation, or any high-stakes adversarial review where every number must live in your head not just on a slide."
 ---
 
-# /em:board-prep — Board Meeting Preparation
-
-**Command:** `/em:board-prep <agenda>`
+# Board Prep — Adversarial Board Meeting Preparation
 
 Prepare for the adversarial version of your board, not the friendly one. Every hard question they'll ask. Every number you need cold. The narrative that acknowledges weakness without losing the room.
 

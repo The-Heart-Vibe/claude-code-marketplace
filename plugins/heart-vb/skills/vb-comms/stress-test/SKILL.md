@@ -1,11 +1,9 @@
 ---
 name: "stress-test"
-description: "/em -stress-test — Business Assumption Stress Testing"
+description: "Rozwal założenie biznesowe zanim zrobi to rynek — projekcje przychodów, market size (TAM/SAM/SOM), competitive moat, tempo rekrutacji, retencja. Isolate assumption → counter-evidence → downside model (bear/stress/catastrophic) → sensitivity → hedge. Use gdy liczba lub założenie wygląda zbyt dobrze, zanim na nim postawisz, albo przy red-teamingu planu/modelu. Triggeruj na: 'stress test', 'rozwal to założenie', 'bear case', 'czy ta projekcja jest realna', 'red-team', 'sensitivity', 'co jeśli się mylimy'."
 ---
 
-# /em:stress-test — Business Assumption Stress Testing
-
-**Command:** `/em:stress-test <assumption>`
+# Stress Test — Business Assumption Stress Testing
 
 Take any business assumption and break it before the market does. Revenue projections. Market size. Competitive moat. Hiring velocity. Customer retention.
 

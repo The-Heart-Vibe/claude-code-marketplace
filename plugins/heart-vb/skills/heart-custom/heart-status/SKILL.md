@@ -233,7 +233,7 @@ Po zebraniu danych ZAWSZE generuj sekcję **Action items** jeśli wykryjesz prob
 |---|---|
 | `Plugin: NIE WYKRYTY` | `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` → `/plugin install heart-vb@the-heart-marketplace` → restart sesji |
 | `Hooks: 0/4` mimo plugin OK | Restart Claude Code / Cowork tab — hooks/hooks.json loaduje się przy starcie |
-| `Legacy hooks (settings.json): >0` | `bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh)` — usuwa legacy z backupem. **WAŻNE: bez tego hooki strzelają 2× per prompt (dual-fire)** |
+| `Legacy hooks (settings.json): >0` | Pobierz → przejrzyj → uruchom (NIE pipe-to-bash na ślepo): `curl -fsSL -o /tmp/hv-install.sh https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh && less /tmp/hv-install.sh && bash /tmp/hv-install.sh` — usuwa legacy z backupem. **WAŻNE: bez tego hooki strzelają 2× per prompt (dual-fire)** |
 | `gemini-cli: ❌` | `npm install -g @google/gemini-cli` (wymaga Node.js) → `gemini` (OAuth w przeglądarce) |
 | `codex: ⚠️` (Pattern F będzie 2-voice) | Opcjonalne — Codex CLI install + `codex login` (wymaga ChatGPT Plus). Bez Codex pełny Pattern F nadal działa jako 2-voice fallback. |
 | `chrome-devtools-mcp: ⚠️` | `claude mcp add chrome-devtools npx chrome-devtools-mcp@latest` → restart sesji |
@@ -278,7 +278,7 @@ Verdict: <one sentence — ready to use / fix X first / requires Notion for mile
 - **Brak `claude` w PATH**: w Cowork pewnie nie ma — fallback na inne sygnały (CLAUDE_PLUGIN_ROOT env)
 - **Council doctor failuje w Cowork**: spodziewane — note że terminal-only, nie blocker dla Pattern F
 - **Plugin nie wykryty**: oznacza że `/plugin install heart-vb` nie został odpalony w aktualnym environment. Action: `/plugin marketplace add The-Heart-Vibe/the-heart-marketplace` + `/plugin install heart-vb@the-heart-marketplace`
-- **Legacy hooks present**: backup + clean przez install.sh (run `bash <(curl -s https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh)` z `COUNCIL_INSTALL_HOOK=skip`)
+- **Legacy hooks present**: backup + clean przez install.sh — pobierz i przejrzyj przed uruchomieniem: `curl -fsSL -o /tmp/hv-install.sh https://raw.githubusercontent.com/The-Heart-Vibe/the-heart-marketplace/main/plugins/heart-vb/install.sh && less /tmp/hv-install.sh && COUNCIL_INSTALL_HOOK=skip bash /tmp/hv-install.sh` (NIE curl|bash na ślepo)
 
 ## NIE rób
 

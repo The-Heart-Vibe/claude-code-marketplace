@@ -1,11 +1,9 @@
 ---
 name: "hard-call"
-description: "/em -hard-call — Framework for Decisions With No Good Options"
+description: "Framework dla wysokostawkowych decyzji bez dobrego wyjścia — zwolnienie co-foundera, layoffs, zabicie lubianego produktu, pivot, zamknięcie spółki. Reversibility test, 10/10/10, Andy Grove test, stakeholder mapping, pre-announcement test. Use gdy stoisz przed nieodwracalną lub bolesną decyzją liderską i potrzebujesz struktury, nie pocieszenia. Triggeruj na: 'trudna decyzja', 'hard call', 'zwolnić co-foundera', 'layoffs', 'czy pivotować', 'zamknąć projekt', 'decyzja bez dobrego wyjścia'."
 ---
 
-# /em:hard-call — Framework for Decisions With No Good Options
-
-**Command:** `/em:hard-call <decision>`
+# Hard Call — Framework for Decisions With No Good Options
 
 For the decisions that keep you up at 3am. Firing a co-founder. Laying off 20% of the team. Killing a product that customers love. Pivoting. Shutting down.
 

@@ -32,7 +32,9 @@
 
 ---
 
-> **Kontekst techniczny (dlaczego Cowork bez hooków):** Cowork to autonomous-agent sandbox. Plugin-shipped shell hooki (skrypty `.sh` odpalane przy każdym prompcie) to injection/RCE vector w środowisku gdzie agent działa samodzielnie — więc Cowork ukrywa pluginy które je shippują. CLI pozwala (user kontroluje terminal). Hooki w CLI robiły proaktywny "💡 użyj skilla X" przy każdym prompcie. W Cowork tego nudge'a nie ma — ale skille i agenci działają normalnie, bo model widzi ich opisy i sam je wywołuje. Różnica: musisz być odrobinę bardziej konkretny, jeśli model nie trafi za pierwszym razem.
+> **Kontekst techniczny (dlaczego Cowork bez hooków):** Cowork to autonomous-agent sandbox. Plugin **może shippować hooki i jest normalnie widoczny** (heart-vb shippuje SessionStart + PreCompact i instaluje się bez problemu) — ale Cowork **po prostu ich nie wykonuje** (cicho pomija plugin-shipped shell hooki, bo `.sh` odpalany autonomicznie to injection vector). CLI/IDE pozwala (user kontroluje terminal). Hooki w CLI robiły proaktywny "💡 użyj skilla X" przy każdym prompcie. W Cowork tego nudge'a nie ma — ale skille i agenci działają w pełni, bo model widzi ich opisy i sam je wywołuje. Różnica: musisz być odrobinę bardziej konkretny, jeśli model nie trafi za pierwszym razem.
+>
+> ⚠️ **Uwaga historyczna:** wcześniej myśleliśmy, że to hooki ukrywają plugin w Coworku. **Nieprawda** — przyczyną była kolizja nazw skilla (`status` zduplikowany), naprawiona w 0.8.10. Hooki nigdy nie ukrywały pluginu; po prostu się nie odpalają.
 
 ---
 
@@ -130,6 +132,25 @@ Model spawnuje 3 dedicated agents równolegle i syntetyzuje. To samo co stary au
 | PreCompact "zapisz learnings" | ✅ (hook) | ❌ — zapisuj ręcznie `/si:remember` |
 
 **Bottom line:** w Cowork masz **pełną funkcjonalność**, tracisz tylko proaktywne podpowiedzi. Wzorzec 2 (start od orkiestratora) odzyskuje większość tej proaktywności na całą sesję jednym zdaniem.
+
+---
+
+## Potwierdzone empirycznie (2026-06-08)
+
+Przetestowaliśmy realnie w Coworku (świeże sesje + analiza logu `~/Library/Logs/Claude/main.log`). Wnioski **potwierdzone**, nie teoretyczne:
+
+| Co sprawdzaliśmy | Wynik |
+|---|---|
+| Prompt konkretny ("napkin math dla HealthTech RPM") | ✅ skill `napkin-math` załadowany natywnie (`elicitation … via=PreToolUse`), output framework-aware: M5 + sektor + routing milestone'ów |
+| Prompt ogólnikowy ("czym możesz pomóc przy startupie?") | ✅ pełna mapa DD by Heart (12 milestones, 4 fazy) **bez ładowania żadnego skilla** — model zsyntetyzował z opisów w manifeście |
+| SessionStart hook (`session-init.sh`) | ❌ **zero śladu w logu** — hook **nie odpala się w Coworku** (loguje się wszystko inne, więc to nie kwestia braku logowania) |
+
+**Skąd więc świadomość frameworka w Coworku?** Z dwóch natywnych warstw — obu działających **bez hooka**:
+
+1. **Opisy (description) 47 skilli + 15 agentów w manifeście** — zawsze widoczne modelowi → framework overview nawet na ogólnikowy prompt, nawet bez ładowania skilla.
+2. **Treść skilla via PreToolUse elicitation** — gdy konkretne zadanie triggeruje → głęboka metodyka + consent (Krok 0) + routing do innych milestone'ów.
+
+**Wniosek operacyjny: pracownik NIE odpala niczego ręcznie.** Pisze zadanie zwykłym językiem — Cowork sam dobiera skill i wciąga framework. Żadnej komendy `/`, żadnej inicjalizacji. Hook jest **martwy w Coworku, ale zbędny** (te dwie warstwy pokrywają wszystko, co miał robić). W CLI/IDE hook nadal działa jako bonus — zostawiamy go.
 
 ---
 

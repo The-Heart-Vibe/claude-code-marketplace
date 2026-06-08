@@ -46,7 +46,7 @@ description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/de
 - Technical claims verification (czy ten algorytm/architektura jest realny?)
 - IC memo fact-check przed wysłaniem
 
-**Verified 2026-05-25:** Pattern F multi-LLM faktycznie działa z CC session — Agent tool isolation bypassuje nested CLI block (council CLI nie działa z tej samej przyczyny, tu jest workaround).
+**Pattern F multi-LLM działa z CC session** — Agent tool isolation bypassuje nested CLI block (council CLI nie działa z tej samej przyczyny, tu jest workaround).
 
 ---
 
@@ -99,6 +99,8 @@ description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/de
 **Wyjątek:** jeśli user wpisał `/orchestrate` lub explicit "zapytaj radę / cross-check / zapytaj ekspertów" — skip confirmation, spawn directly.
 
 **Anti-pattern:** auto-spawn na każdy multi-entity prompt bo hook tak sugeruje. **Friction > false-positive cost** dla non-tech analityka.
+
+**Token budget (orientacyjnie):** Pattern E/F z 3 workerami ≈ 20-50k tokenów; pojedynczy worker ≈ 8-15k. Wspomnij koszt w consent gdy user jest cost-aware. Nie spawnuj 3 jeśli 1 wystarczy.
 
 ### Cache council doctor (token saving)
 
@@ -345,12 +347,14 @@ Synthesize krótko per format powyżej.
 
 ---
 
-## Gotchas (live tested 2026-05-25)
+## Gotchas
 
 1. **Codex wymaga `--skip-git-repo-check`** gdy CWD nie jest git repo (analityk w niegit folderze)
 2. **Gemini Workspace OAuth ma rate limits** — przy parallel × 3 workers może hit cap, retry 5× wbudowane ale zwalnia
-3. **Codex z web search** = ~67k tokens i ~90s gdy fact-finding
+3. **Codex z web search** = wolny (~90s+) i token-heavy gdy fact-finding
 4. **Agent z model:'sonnet' EXPLICIT** — bez tego inherituje Opus z main session = drogo
+5. **Escape user input przed interpolacją do shell** — pytanie usera trafiające do `gemini -p "..."` lub `codex exec "..."` to **untrusted input**. NIGDY nie wklejaj raw: usuń/escapuj znaki cudzysłowu, `$`, backtick, `;` `|` `&` oraz `$(...)`, albo przekaż jako single-quoted literal ze strippowanymi apostrofami. Inaczej `; rm`, backticki czy `$(...)` w pytaniu wykonają się w shellu workera (injection vector).
+6. **Timeout + fallback na każdy spawn** — domyślnie 120s/worker (150s dla Codex). Worker który przekroczy timeout lub crashuje → oznacz output jako `MISSING`, kontynuuj z dostępnymi, zaznacz w nagłówku syntezy ("Voices available: X/3"). 0 dostępnych workerów → odpowiedz solo z main (Opus) z explicit caveatem, NIE czekaj w nieskończoność.
 
 ---
 

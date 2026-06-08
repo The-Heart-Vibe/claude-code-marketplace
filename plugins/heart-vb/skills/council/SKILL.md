@@ -7,7 +7,6 @@ description: "Multi-LLM debate via the-llm-council CLI. Invoke ONLY when user ex
 
 > ⚠️ **WAŻNE — z poziomu Claude Code session council CLI rzadko działa**.
 > Nested CLI invocation triggeruje self-invocation block w codex (i czasem gemini timeout).
-> Zweryfikowane 3× empirycznie 2026-05-25.
 >
 > **Z CC session używaj zamiast tego: `heart-orchestrate` Pattern F (multi-LLM debate przez Agent tool isolation).**
 > Daje to samo (Claude + Gemini + Codex perspectives) **i działa** z CC.
