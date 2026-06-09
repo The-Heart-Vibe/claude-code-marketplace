@@ -4,12 +4,12 @@
     "name": "The Heart Vibe",
     "url": "https://github.com/The-Heart-Vibe"
   },
-  "description": "The Heart Marketplace — wewnętrzny marketplace pluginów Claude Code (CLI/IDE + Claude Desktop Cowork) dla zespołu The Heart Vibe. Aligned z firmowym procesem Venture Building (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). Aktualnie 2 pluginy: heart-vb (47 skilli + 15 agentów, kompletny VB toolkit) i pptx-generator (branded .pptx decks + design system export).",
+  "description": "The Heart Marketplace — wewnętrzny marketplace pluginów Claude Code (CLI/IDE + Claude Desktop Cowork) dla zespołu The Heart Vibe. Aligned z firmowym procesem Venture Building (DD by Heart — 12 non-negotiable milestones w 4 fazach: Discovery → Creation → Validation → Fundraising). Aktualnie 2 pluginy: heart-vb (48 skilli + 15 agentów, kompletny VB toolkit) i pptx-generator (branded .pptx decks + design system export).",
   "plugins": [
     {
       "name": "heart-vb",
       "source": "./plugins/heart-vb",
-      "description": "Venture Builder toolkit dla The Heart — 47 skilli w 9 kategoriach (council, self-improving, vb-research, vb-product, vb-finance, vb-commercial, vb-comms, vb-process, heart-custom). Master orchestrator /heart-vb-process pokrywa wszystkie 12 milestones DD by Heart (Discovery → Creation → Validation → Fundraising). Jeden install, kompletne pokrycie od kickoffu do fundraisingu. Auto-loaded hooks działają w Claude Code CLI/IDE i Claude Desktop Cowork."
+      "description": "Venture Builder toolkit dla The Heart — 48 skilli w 9 kategoriach (council, self-improving, vb-research, vb-product, vb-finance, vb-commercial, vb-comms, vb-process, heart-custom) + 15 agentów. Master orchestrator /heart-vb-process pokrywa wszystkie 12 milestones DD by Heart (Discovery → Creation → Validation → Fundraising). Jeden install, kompletne pokrycie od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork (skille routują się natywnie; hooki SessionStart+PreCompact tylko w CLI/IDE)."
     },
     {
       "name": "pptx-generator",
