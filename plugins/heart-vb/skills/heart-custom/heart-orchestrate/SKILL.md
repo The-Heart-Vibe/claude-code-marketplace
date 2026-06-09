@@ -80,7 +80,7 @@ description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/de
 ```
 "To wygląda na decyzję wartą konsultacji z kilkoma ekspertami.
  Mogę puścić to przez 3 perspektywy ([persona X / Y / Z dostosowane do typu decyzji]) 
- — ~60s, dostaniesz multi-perspective rekomendację.
+ — ~20-40k tokenów (~60s), dostaniesz multi-perspective rekomendację.
  
  (a) Tak, zapytaj 3 ekspertów
  (b) Nie, odpowiedz Ty sam
@@ -90,7 +90,7 @@ description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/de
 **Dla research intent (F):**
 ```
 "To wygląda na pytanie faktualne. Mogę zweryfikować przez 3 niezależne AI 
- (Claude + Gemini + GPT-5) — wykryje hallucinacje pojedynczego modelu, ~90s.
+ (Claude + Gemini + GPT-5) — ~30-50k tokenów (~90s), wykryje hallucinacje pojedynczego modelu.
 
  (a) Tak, cross-check przez 3 AI
  (b) Nie, odpowiedź ze swojej wiedzy
@@ -103,7 +103,7 @@ description: "Auto-orchestracja dla zadań VB analityka. Wykrywa multi-entity/de
 
 **Anti-pattern:** auto-spawn na każdy multi-entity prompt bo hook tak sugeruje. **Friction > false-positive cost** dla non-tech analityka.
 
-**Token budget (orientacyjnie):** Pattern E/F z 3 workerami ≈ 20-50k tokenów; pojedynczy worker ≈ 8-15k. Wspomnij koszt w consent gdy user jest cost-aware. Nie spawnuj 3 jeśli 1 wystarczy.
+**Token budget (orientacyjnie):** Pattern E/F z 3 workerami ≈ 20-50k tokenów; pojedynczy worker ≈ 8-15k. **ZAWSZE podawaj koszt w TOKENACH na pierwszym miejscu w consent** — analityk widzi licznik tokenów w Cowork, nie czas wykonania. Nie spawnuj 3 jeśli 1 wystarczy.
 
 ### Cache council doctor (token saving)
 

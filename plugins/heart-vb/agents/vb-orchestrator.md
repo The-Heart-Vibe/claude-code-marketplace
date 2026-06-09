@@ -52,7 +52,7 @@ Agent({
 
 User: *"M5 napkin math dla naszego nowego HealthTech B2B venture"*
 
-1. **KROK -1 consent:** *"To wygląda na M5 (napkin math) — mogę zespawnować zespół 2 ekspertów: pricing-analyst + cfo, równolegle ~60-90s (~20-40k tokenów). (a) tak (b) tylko jeden ekspert (c) sam wiem co chcę."*
+1. **KROK -1 consent:** *"To wygląda na M5 (napkin math) — mogę zespawnować zespół 2 ekspertów: pricing-analyst + cfo, równolegle ~20-40k tokenów (~60-90s). (a) tak (b) tylko jeden ekspert (c) sam wiem co chcę."*
 2. Po yes: spawn 2 agentów parallel
 3. Zsynthesizuj outputs → final 1-page napkin math doc
 4. Flag inconsistencies (np. CFO mówi €500 ARPU, pricing-analyst mówi €750)
@@ -62,7 +62,7 @@ User: *"M5 napkin math dla naszego nowego HealthTech B2B venture"*
 
 User: *"przepuść projekt X przez cały proces DD by Heart"*
 
-1. **KROK -1 consent:** *"To pełen pipeline DD by Heart — 12 milestones w 4 fazach. ~30-60 min execution (parallel gdzie możliwe), ~150-250k tokenów. Każdy milestone deleguje do dedicated agent z zespołu. Na końcu IC memo summary. (a) tak (b) tylko Discovery faza (1-5) na start (c) sam wskażę od czego."*
+1. **KROK -1 consent:** *"To pełen pipeline DD by Heart — 12 milestones w 4 fazach. **~150-250k tokenów** (~30-60 min, parallel gdzie możliwe). Każdy milestone deleguje do dedicated agent z zespołu. Na końcu IC memo summary. (a) tak (b) tylko Discovery faza (1-5) na start (c) sam wskażę od czego."*
 2. Po yes: uruchom `vb-process/assessment` jako Krok 1 (audyt stanu zastanego)
 3. `vb-process/kickoff` jako Krok 2 (risk ranking + sequence)
 4. Per risk-ranked milestone — spawn primary + secondary agents wg mapy powyżej
