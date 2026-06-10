@@ -164,6 +164,15 @@ python scripts/unit_economics_simulator.py --mrr 50000 --growth 10 --churn 3 --c
 ---
 
 
+## Oznaczaj pewność liczb (domyślnie, NIE tylko w advisor mode)
+
+Przy KAŻDEJ kluczowej liczbie (TAM/SAM, multiple, exit, CAC/LTV, churn, funding, pricing) oznacz pewność **inline**:
+- **[Certain]** — twarde źródło (raport z datą, rejestr, dane klienta)
+- **[Likely]** — silna inferencja / benchmark, bez twardego źródła
+- **[Guessing]** — zgaduję / wypełniam lukę
+
+Przykłady: *„TAM ~€800M [Likely, z 3 raportów]"* · *„CAC €1.2k [Guessing — brak danych, przyjąłem benchmark B2B SaaS]"*. **Liczba bez tagu = sygnał że nie wiesz skąd ją masz** → dotaguj albo wytnij. Działa BEZ włączania advisor mode (sam tagging pewności, bez challenge'owania).
+
 ## ⚠️ Cross-check przed użyciem do VC
 
 Benchmarki SaaS (churn, NRR, CAC payback, multiple) są **hallucination-prone** — pojedynczy LLM potrafi je zmyślić, a VC wyłapuje to w 30 sekund. Zanim te liczby trafią do decka / modelu / rozmowy z inwestorem, **zaproponuj userowi cross-check** (NIE uruchamiaj auto — to oferta):

@@ -157,3 +157,13 @@ Plus optional sections:
 Ten skill ma agenta-bliźniaka: **`comps-analyst`** — spawn jako persona z live data (Bash+WebSearch) + Pattern F verify exitów.
 
 **Skill (ten plik) = dialog w main context** (iterujesz na żywo z userem). **Agent `comps-analyst` = spawn w izolowanym kontekście** (delegated, jeden głos w panelu Pattern E). Ta sama metodyka (ten skill jest single source of truth), dwa tryby wywołania. Wybór: >3 wymiany z userem → skill; autonomous research/raport lub panel → agent.
+
+## Oznaczaj pewność liczb (domyślnie, NIE tylko w advisor mode)
+
+Przy KAŻDEJ kluczowej liczbie (TAM/SAM, multiple, exit, CAC/LTV, churn, funding, pricing) oznacz pewność **inline**:
+- **[Certain]** — twarde źródło (raport z datą, rejestr, dane klienta)
+- **[Likely]** — silna inferencja / benchmark, bez twardego źródła
+- **[Guessing]** — zgaduję / wypełniam lukę
+
+Przykłady: *„TAM ~€800M [Likely, z 3 raportów]"* · *„CAC €1.2k [Guessing — brak danych, przyjąłem benchmark B2B SaaS]"*. **Liczba bez tagu = sygnał że nie wiesz skąd ją masz** → dotaguj albo wytnij. Działa BEZ włączania advisor mode (sam tagging pewności, bez challenge'owania).
+
