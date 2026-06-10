@@ -2,6 +2,8 @@
 
 **TL;DR: nie musisz nic dodawać do każdego prompta.** Pisz normalnie — model sam widzi wszystkie skille i agentów heart-vb i dobiera właściwy. Ta instrukcja pokazuje 3 wzorce użycia od najprostszego do najbardziej "sterowanego".
 
+> **Nie musisz być w żadnym milestone DD by Heart.** Plugin pomaga w **codziennej pracy** (research, pricing, deck, update, decyzja, regulacja) tak samo jak w prowadzeniu venture przez cały proces. Proces (12 milestones) to **jeden tryb, nie wymóg** — do zadania dnia po prostu opisz co potrzebujesz.
+
 ---
 
 ## Najpierw — 3 środowiska Claude (gdzie co działa)

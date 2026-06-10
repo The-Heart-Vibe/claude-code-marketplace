@@ -4,11 +4,13 @@ description: "Master skill dla procesu Venture Building w The Heart — 12 non-n
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
-> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) nowy milestone → **załaduj jego skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
+> (1) output = prosty polski, zero żargonu (pass/Voices/Pattern-F-internal) · (2) fakty do VC (TAM/multiple/exit/CAC-LTV/regulacje) → zaproponuj cross-check Pattern F zanim trafią do decka · (3) zmiana zadania lub milestone → **załaduj właściwy skill** (`/heart-vb:X`), nie improwizuj · (4) KROK -1 consent przed kosztownym spawnem · (5) taguj [Guessing] na niepewnych liczbach, nie udawaj cross-checku na jednym modelu.
 
 # Heart VB Process — Master Orchestrator
 
 Jeden entry point dla wszystkiego co dotyczy procesu **Venture Building w The Heart**. Zawiera framework 12 non-negotiable milestones, routing do sub-skilli per milestone, i tryb "full process" (przepuść projekt przez cały framework).
+
+> **To jest tryb PROJEKTOWY — nie jedyny sposób użycia pluginu.** Większość codziennej pracy analityka/konsultanta NIE wymaga tego skilla: do ad-hoc zadań (szybki research, pricing sanity-check, draft update, porównanie konkurentów, deck, pytanie regulacyjne, analiza) **po prostu opisz zadanie** — plugin dobierze właściwy skill bez wchodzenia w proces. `heart-vb-process` odpalaj gdy realnie prowadzisz venture przez cały framework (kickoff, assessment, full pipeline) — nie do pojedynczego zadania dnia.
 
 ## Framework — 12 milestones w 4 fazach
 

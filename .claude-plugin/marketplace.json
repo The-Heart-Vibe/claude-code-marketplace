@@ -9,7 +9,7 @@
     {
       "name": "heart-vb",
       "source": "./plugins/heart-vb",
-      "description": "Venture Builder toolkit dla The Heart — 48 skilli w 9 kategoriach (council, self-improving, vb-research, vb-product, vb-finance, vb-commercial, vb-comms, vb-process, heart-custom) + 15 agentów. Master orchestrator /heart-vb-process pokrywa wszystkie 12 milestones DD by Heart (Discovery → Creation → Validation → Fundraising). Jeden install, kompletne pokrycie od kickoffu do fundraisingu. Działa w Claude Code CLI/IDE i Claude Desktop Cowork (skille routują się natywnie; hooki SessionStart+PreCompact tylko w CLI/IDE)."
+      "description": "Venture Builder toolkit dla analityków/konsultantów The Heart — 49 skilli + 15 agentów. Pomaga w CODZIENNEJ PRACY (szybki research, pricing, competitive teardown, deck, stakeholder update, decyzje, regulacje) ORAZ prowadzi venture przez firmowy proces DD by Heart (12 milestones, Discovery → Creation → Validation → Fundraising). Nie musisz być w milestone — opisz zadanie dnia. Działa w Claude Code CLI/IDE i Claude Desktop Cowork (skille routują się natywnie; hooki tylko w CLI/IDE)."
     },
     {
       "name": "pptx-generator",
