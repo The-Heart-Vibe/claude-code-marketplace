@@ -1,6 +1,6 @@
 ---
 name: heart-dd-prep
-description: "Przygotowuje strukturalny DD case dla venture pre-IC. Atomic daily task — odpalasz raz, dostajesz one-page DD case z thesis/strengths/concerns/asks gotowy do IC. Use when user pyta \"przygotuj DD case dla X\", \"co wpisać w pre-IC memo o tym venture\", \"zsyntezuj findings z DD do prezentacji IC\"."
+description: "Przygotowuje strukturalną ANALIZĘ POTENCJAŁU INWESTYCYJNEGO / DD case dla venture pre-IC (Investment Committee The Heart). Atomic daily task — one-page case z thesis/strengths/concerns/asks gotowy do IC. To DOMYŚLNY skill gdy ktoś prosi o ocenę/analizę projektu dla inwestora lub IC. Triggeruj na: 'analiza potencjału inwestycyjnego', 'analiza inwestycyjna projektu', 'oceń venture dla IC', 'przygotuj na Investment Committee', 'czy warto zainwestować', 'potencjał inwestycyjny X', 'przygotuj DD case dla X', 'pre-IC memo', 'zsyntezuj findings do IC', 'weryfikacja danych z pitch decku przed inwestycją', 'investment analysis', 'investment potential'."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

@@ -3,6 +3,8 @@
 **TL;DR: nie musisz nic dodawać do każdego prompta.** Pisz normalnie — model sam widzi wszystkie skille i agentów heart-vb i dobiera właściwy. Ta instrukcja pokazuje 3 wzorce użycia od najprostszego do najbardziej "sterowanego".
 
 > **Nie musisz być w żadnym milestone DD by Heart.** Plugin pomaga w **codziennej pracy** (research, pricing, deck, update, decyzja, regulacja) tak samo jak w prowadzeniu venture przez cały proces. Proces (12 milestones) to **jeden tryb, nie wymóg** — do zadania dnia po prostu opisz co potrzebujesz.
+>
+> ⚠️ **W Coworku OPISUJESZ ZADANIE, nie „wołasz plugin".** Pisanie *„użyj pluginu /heart-vb"* **NIE wymusza** skilli — Cowork dobiera skill po **opisie tego co robisz**, nie po nazwie pluginu (nie ma skilla „heart-vb"). Np. *„analiza potencjału inwestycyjnego EndoFind na IC"* → routuje do `heart-dd-prep`; *„użyj /heart-vb i przygotuj analizę"* może spaść na generyczne docx. **Opisz cel zadania, nie narzędzie** — wtedy właściwy skill się załaduje.
 
 ---
 
