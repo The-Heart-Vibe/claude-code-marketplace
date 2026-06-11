@@ -20,18 +20,18 @@ Discovery (1-5) → Creation (6-8) → Validation (9-10) → Fundraising (11-12)
 
 | # | Faza | Milestone | DoD (główne kryteria) | Sub-skill heart-vb |
 |---|---|---|---|---|
-| **1** | D | **Analiza rynku** | TAM/SAM/SOM, 3-5 trendów, wzrost YoY, slajd Market | `vb-research/market-research` + `vb-research/deep-research` |
-| **2** | D | **Analiza konkurencji** | 5-10 konkurentów, funding, model, defensible advantage | `vb-product/competitive-teardown` |
-| **3** | D | **Walidacja z inwestorami (early signal)** | 2-3 rozmowy z networku, feedback, go/no-go | `vb-process/investor-early-signal` (W FAZIE 2 v0.7.0) |
-| **4** | D | **Walidacja problemu z klientami** | 10-20 rozmów, 2-3 segmenty, problem confirmed | `vb-product/product-discovery` + `vb-product/ux-researcher-designer` |
-| **5** | D | **Napkin math** | 1-strona, revenue model, unit econ (COGS/CAC/LTV), break-even, go/no-go | `vb-process/napkin-math` ⭐ |
-| **6** | C | **Exit strategy & acquirers** | 5-10 acquirers, comparable exits, mnożniki, exit narrative | `vb-process/exit-strategy` ⭐ |
-| **7** | C | **Zespół & cap table** | CEO/lead, equity, umowy, spółka założona | `vb-process/cap-table-helper` (FAZA 2) |
-| **8** | C | **MVP / produkt & roadmapa** | Działający demo, roadmapa 6-18mc, %docelowego produktu | `vb-product/product-strategist` + `vb-product/experiment-designer` |
-| **9** | V | **Walidacja rozwiązania & pricing** | 5+ LOI/pilotów, pricing potwierdzony, pipeline | `vb-commercial/pricing-strategist` + `vb-product/experiment-designer` |
-| **10** | V | **IP, regulacje & prawo** | IP secured, regulatory path, no legal red flags | `heart-dd-checklist` + sector context (healthtech/academic/energy/fintech) |
-| **11** | F | **Materiały fundraisingowe** | Pitch deck, one-pager, model finansowy, data room | `heart-pitch-deck` + `vb-comms/board-prep` + `vb-finance/financial-analyst` + `vb-comms/investor-materials` |
-| **12** | F | **Lista inwestorów & outreach** | 20-30 targets, intro, CRM, gotowość | `vb-comms/investor-outreach` + `heart-stakeholder-update` |
+| **1** | Discovery | **Analiza rynku** | TAM/SAM/SOM, 3-5 trendów, wzrost YoY, slajd Market | `vb-research/market-research` + `vb-research/deep-research` |
+| **2** | Discovery | **Analiza konkurencji** | 5-10 konkurentów, funding, model, defensible advantage | `vb-product/competitive-teardown` |
+| **3** | Discovery | **Walidacja z inwestorami (early signal)** | 2-3 rozmowy z networku, feedback, go/no-go | `vb-process/investor-early-signal` (W FAZIE 2 v0.7.0) |
+| **4** | Discovery | **Walidacja problemu z klientami** | 10-20 rozmów, 2-3 segmenty, problem confirmed | `vb-product/product-discovery` + `vb-product/ux-researcher-designer` |
+| **5** | Discovery | **Napkin math** | 1-strona, revenue model, unit econ (COGS/CAC/LTV), break-even, go/no-go | `vb-process/napkin-math` ⭐ |
+| **6** | Creation | **Exit strategy & acquirers** | 5-10 acquirers, comparable exits, mnożniki, exit narrative | `vb-process/exit-strategy` ⭐ |
+| **7** | Creation | **Zespół & cap table** | CEO/lead, equity, umowy, spółka założona | `vb-process/cap-table-helper` (FAZA 2) |
+| **8** | Creation | **MVP / produkt & roadmapa** | Działający demo, roadmapa 6-18mc, %docelowego produktu | `vb-product/product-strategist` + `vb-product/experiment-designer` |
+| **9** | Validation | **Walidacja rozwiązania & pricing** | 5+ LOI/pilotów, pricing potwierdzony, pipeline | `vb-commercial/pricing-strategist` + `vb-product/experiment-designer` |
+| **10** | Validation | **IP, regulacje & prawo** | IP secured, regulatory path, no legal red flags | `heart-dd-checklist` + sector context (healthtech/academic/energy/fintech) |
+| **11** | Fundraising | **Materiały fundraisingowe** | Pitch deck, one-pager, model finansowy, data room | `heart-pitch-deck` + `vb-comms/board-prep` + `vb-finance/financial-analyst` + `vb-comms/investor-materials` |
+| **12** | Fundraising | **Lista inwestorów & outreach** | 20-30 targets, intro, CRM, gotowość | `vb-comms/investor-outreach` + `heart-stakeholder-update` |
 
 ⭐ = nowe skille w v0.7.0
 
