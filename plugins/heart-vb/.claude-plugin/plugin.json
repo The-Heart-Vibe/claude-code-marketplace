@@ -1,7 +1,7 @@
 {
   "name": "heart-vb",
-  "version": "0.9.17",
-  "description": "Heart Venture Builder toolkit dla analityk\u00f3w/konsultant\u00f3w The Heart \u2014 pomaga w CODZIENNEJ PRACY (research, pricing, competitive teardown, deck, stakeholder update, decyzje, regulacje, analiza) ORAZ prowadzi venture przez firmowy proces DD by Heart (12 milestones: Discovery \u2192 Creation \u2192 Validation \u2192 Fundraising). 49 skilli + 15 agent\u00f3w. Nie musisz by\u0107 w \u017cadnym milestone \u2014 opisz zadanie dnia, plugin dobierze narz\u0119dzie. Dzia\u0142a w Claude Code CLI/IDE i Claude Desktop Cowork.",
+  "version": "0.9.18",
+  "description": "Heart Venture Builder toolkit dla analityk\u00f3w/konsultant\u00f3w The Heart \u2014 pomaga w CODZIENNEJ PRACY (research, pricing, competitive teardown, deck, stakeholder update, decyzje, regulacje, analiza) ORAZ prowadzi venture przez firmowy proces DD by Heart (12 milestones: Discovery \u2192 Creation \u2192 Validation \u2192 Fundraising). 50 skilli + 15 agent\u00f3w. Nie musisz by\u0107 w \u017cadnym milestone \u2014 opisz zadanie dnia, plugin dobierze narz\u0119dzie. Dzia\u0142a w Claude Code CLI/IDE i Claude Desktop Cowork.",
   "author": {
     "name": "The Heart Vibe"
   },
@@ -68,6 +68,7 @@
     "./skills/heart-custom/heart-pitch-deck",
     "./skills/heart-custom/heart-stakeholder-update",
     "./skills/heart-custom/heart-deck-handoff",
+    "./skills/heart-custom/heart-start",
     "./skills/heart-custom/heart-comps-analysis",
     "./skills/heart-custom/heart-dd-checklist",
     "./skills/heart-custom/heart-dd-prep",

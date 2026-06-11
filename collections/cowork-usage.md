@@ -215,6 +215,7 @@ Remove+re-add wymusza świeży re-scan, ale też podlega cooldownowi.
 
 ## Najprostsza rekomendacja dla pracownika
 
+0. **Nie wiesz od czego zacząć / jak użyć?** → wpisz **`/heart-start`** — pokaże co plugin potrafi i skieruje do właściwego narzędzia (fallback; jak wiesz czego chcesz, po prostu opisz zadanie — to szybsze).
 1. **Szybkie zadanie** → pisz naturalnie (Wzorzec 1)
 2. **Praca nad projektem** → zacznij od *"użyj heart-vb-process dla projektu [X]"* (Wzorzec 2), potem normalnie
 3. **Nowy milestone w trakcie sesji** → wywołaj skill jawnie (`/heart-vb:<skill>`) — patrz „coasting" wyżej
