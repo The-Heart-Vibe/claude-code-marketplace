@@ -1,6 +1,6 @@
 ---
 name: investor-early-signal
-description: "M3 (milestone 3) procesu VB — szybki reality check z 2-3 inwestorami z networku, ZANIM mamy gotowe materiały. To NIE jest formalny fundraising (M12) — to jest sanity check \"czy to w ogóle jest ciekawe?\" w fazie Discovery. Jeśli 3 inwestorów mówi \"zapomnijcie\" — sygnał do rewizji projektu. Triggeruj na: \"early signal\", \"walidacja z inwestorami\", \"reality check z VC\", \"2-3 rozmowy z funduszami\", \"czy to jest ciekawe\", \"feedback od inwestorów wczesny\"."
+description: "Szybki reality check z 2-3 inwestorami z networku ZANIM mamy gotowe materiały — czy projekt jest w ogóle ciekawy. Use gdy: 'early signal', 'co inwestorzy o tym sądzą', 'reality check z VC', 'czy to ciekawe dla funduszy', 'pierwsze rozmowy z inwestorami'. M3 procesu DD by Heart."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

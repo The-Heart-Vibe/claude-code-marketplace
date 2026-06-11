@@ -1,6 +1,6 @@
 ---
 name: investor-materials
-description: "Create and update pitch decks, one-pagers, investor memos, accelerator applications, financial models, and fundraising materials. Use when the user needs investor-facing documents, projections, use-of-funds tables, milestone plans, or materials that must stay internally consistent across multiple fundraising assets."
+description: "Tworzy i poprawia materiały inwestorskie — pitch deck, one-pager, investor memo, aplikacje do akceleratorów, model finansowy, use-of-funds. Use gdy: 'materiały dla inwestorów', 'one-pager', 'investor memo', 'aplikacja do akceleratora', 'use of funds', 'materiały fundraisingowe', 'dokumenty na rundę'. Wizualny deck z gotowej treści → heart-deck-handoff."
 origin: ECC
 ---
 

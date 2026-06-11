@@ -1,6 +1,6 @@
 ---
 name: "product-strategist"
-description: "Strategic product leadership toolkit for Head of Product covering OKR cascade generation, quarterly planning, competitive landscape analysis, product vision documents, and team scaling proposals. Use when creating quarterly OKR documents, defining product goals or KPIs, building product roadmaps, running competitive analysis, drafting team structure or hiring plans, aligning product strategy across engineering and design, or generating cascaded goal hierarchies from company to team level. 'Competitive analysis' tutaj = input do strategii/OKR (high-level landscape); dla szczegółowego teardown konkretnego konkurenta use competitive-teardown."
+description: "Strategia produktu — OKR produktowe, roadmapa, vision, competitive landscape high-level, team scaling. Use gdy: 'roadmapa produktu', 'strategia produktowa', 'OKR produktu', 'vision produktu', 'co budować dalej', 'plan rozwoju produktu', 'priorytety produktowe'. Szczegółowy teardown konkurenta → competitive-teardown."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

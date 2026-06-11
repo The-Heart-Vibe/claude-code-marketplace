@@ -1,6 +1,6 @@
 ---
 name: kickoff
-description: "Krok 2 procesu VB — po assessment generuje harmonogram dla projektu. Risk ranking brakujących milestones, podział na sprinty 2-3 tygodniowe, capacity planning, OKR per milestone (Objective + Key Results). Output: timeline z przypisanymi sprintami i jasnym celem per sprint, max 2-3 streamy in progress jednocześnie. Use po assessment lub gdy projekt startuje od zera. Triggeruj na: \"kickoff\", \"harmonogram projektu\", \"sprint planning\", \"od czego zacząć\", \"rozpisz milestones na sprinty\"."
+description: "Układa PLAN DZIAŁAŃ dla projektu — OKR (Objective + Key Results + Definition of Done), podział na 2-3 tyg sprinty, risk ranking, capacity planning (max N równoległych sprintów). Co robić dalej żeby dojść do celu (np. rundy VC). Use gdy: 'ułóż plan', 'plan na 6 miesięcy', 'co musi się wydarzyć żeby [cel]', 'OKR', 'rozpisz na sprinty', 'roadmapa działań', 'plan żeby zebrać rundę', 'co robimy dalej', 'kickoff', 'harmonogram projektu', 'od czego zacząć'. Zwykle po assessment."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

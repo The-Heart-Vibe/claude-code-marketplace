@@ -1,6 +1,6 @@
 ---
 name: pricing-strategist
-description: "Use when designing or revisiting product pricing — selecting a pricing model (subscription seat-based, usage-based, value-based, freemium, or hybrid), running Van Westendorp Price Sensitivity Meter analysis on WTP survey data, or designing Good/Better/Best packaging tiers. Recommends a model and a price range with trade-offs, never a single number. For Commercial leads, Product Marketing, and CMOs at the pricing-design moment — not deal-by-deal discounting, not brand positioning."
+description: "Projekt cennika produktu — model (subskrypcja/usage/value/freemium/hybrid), Van Westendorp (WTP), Good/Better/Best tiers. Use gdy: 'jaki pricing', 'ile brać za produkt', 'jak wycenić produkt', 'model cenowy', 'pricing strategy', 'willingness to pay', 'tiery cenowe'. Nie deal-by-deal discounting (deal-desk)."
 version: 2.8.0
 author: claude-code-skills
 license: MIT

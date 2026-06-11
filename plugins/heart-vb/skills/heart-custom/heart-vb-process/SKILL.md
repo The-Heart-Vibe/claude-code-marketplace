@@ -1,6 +1,6 @@
 ---
 name: heart-vb-process
-description: "Master skill dla procesu Venture Building w The Heart — 12 non-negotiable milestones w 4 fazach (Discovery → Creation → Validation → Fundraising). Use jako entry point dla projektów VB. Wykrywa z konwersacji który milestone właśnie jest robiony (na podstawie vocabulary: TAM/SAM/SOM → M1, \"konkurenci\" → M2, \"LOI\" → M9, \"exit\" → M6 etc.) i deleguje do właściwego sub-skill. ALBO prowadzi przez całość (\"przepuść projekt przez cały proces\"). Triggeruj na: \"kickoff projektu\", \"DD by Heart\", \"12 milestones\", \"fundraising readiness\", \"stempel The Heart\"."
+description: "Master router procesu Venture Building (DD by Heart — 12 milestones). Front door gdy NOWY projekt trafia do venture buildera albo chcesz przeprowadzić projekt przez cały proces: oceń stan + ułóż plan. Wykrywa intencję i deleguje do assessment / kickoff / konkretnego milestone-skilla. Triggeruj na: 'nowy projekt do venture buildera', 'przepuść projekt przez proces', 'przeanalizuj projekt w ramach 12-milestone', 'oceń i ułóż plan dla venture', 'kickoff projektu', 'DD by Heart', 'cały proces dla projektu X'. Pojedyncze zadanie dnia → opisz zadanie, nie ten skill."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

@@ -1,6 +1,6 @@
 ---
 name: assessment
-description: "Krok 1 procesu VB — checker stanu zastanego projektu. Wykonuje 12-row matrycę oceny (per milestone): ilościowo (✓/◐/☐ — jest/jest ale wymaga weryfikacji/brak) plus jakościowo (czy to jest dobrze zrobione, czy mogę iść z tym do inwestora). Use gdy projekt przychodzi z częścią rzeczy zrobionych albo gdy chcesz wiedzieć ile pracy przed Wami. Triggeruj na: \"oceń projekt\", \"gdzie stoimy\", \"assessment\", \"ile milestones done\", \"checker\", \"audyt projektu\"."
+description: "Ocena na jakim ETAPIE jest projekt/startup — gdzie stoi w każdym z 12 obszarów DD by Heart, co zrobione vs czego brak, czy nadaje się do inwestora. Robi 12-row matrycę (✓/◐/☐ + jakość). Pierwszy krok gdy NOWY projekt trafia do venture buildera. Use gdy: 'nowy projekt do venture buildera', 'oceń na jakim etapie jest projekt', 'gdzie stoimy', 'audyt projektu/startupu', 'stan projektu', 'co już mamy a czego brakuje', 'oceń w ramach 12-milestone', 'assessment', 'ile milestones done'."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

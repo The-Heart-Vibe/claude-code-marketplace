@@ -1,6 +1,6 @@
 ---
 name: fundraising-readiness
-description: "Krok 4 procesu VB — regularny check \"czy już możemy iść z tym do inwestorów?\". To NIE jest assessment (Krok 1 — pełny 12-milestone checker), tylko go/no-go gate decision oparty o weighted scoring najważniejszych milestones. Z dokumentu firmy \"nie czekaj na 12/12 — czasami 8/12 wystarczy, a IP dopracujesz po term sheet\". Triggeruj na: \"fundraising readiness\", \"czy idziemy do inwestorów\", \"ready do VC\", \"minimum viable fundraising\", \"stempel The Heart\"."
+description: "Go/no-go check 'czy już możemy iść do inwestorów' — weighted scoring najważniejszych milestones (nie czekamy na 12/12). Use gdy: 'czy gotowi do inwestorów', 'czy idziemy do VC', 'ready do fundraisingu', 'czy możemy zaczynać rundę', 'minimum viable fundraising', 'stempel The Heart'."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

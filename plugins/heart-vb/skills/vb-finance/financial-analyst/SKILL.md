@@ -1,6 +1,6 @@
 ---
 name: "financial-analyst"
-description: "Performs financial ratio analysis, DCF valuation, budget variance analysis, and rolling forecast construction for strategic decision-making. Use when analyzing financial statements, building valuation models, assessing budget variances, or constructing financial projections and forecasts. Also applicable when users mention financial modeling, cash flow analysis, company valuation, financial projections, or spreadsheet analysis."
+description: "Model finansowy i analiza liczb — DCF/wycena, P&L 3-letni, rolling forecast, analiza wskaźników, budget variance. Use gdy: 'model finansowy', 'P&L na 3 lata', 'DCF', 'wycena spółki', 'projekcje finansowe', 'policz nam finanse', 'cash flow', 'model 3Y do decka'. M11 procesu DD by Heart."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

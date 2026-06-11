@@ -1,6 +1,6 @@
 ---
 name: exit-strategy
-description: "M6 (milestone 6) procesu VB — exit strategy & potencjalni acquirers. To jest \"pierwsze pytanie z funduszy\" i najczęściej pomijany milestone w projektach VB. Output: lista 5-10 acquirers z uzasadnieniem, comparable exits (kto kupił, za ile, mnożniki), exit narrative. Bez tego nie da się rozmawiać z VC. Triggeruj na: \"exit strategy\", \"kto to kupi\", \"acquirers\", \"comparable exits\", \"mnożniki przy sprzedaży\", \"exit narrative\", \"pierwsze pytanie funduszu\"."
+description: "Kto może KUPIĆ to venture i za ile — lista 5-10 acquirerów, comparable exits z mnożnikami, exit narrative. 'Pierwsze pytanie funduszu', często pomijane. Use gdy: 'kto to kupi', 'exit', 'acquirers', 'comparable exits', 'mnożniki przy sprzedaży', 'jak inwestor wyjdzie', 'exit strategy'. M6 procesu DD by Heart."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**

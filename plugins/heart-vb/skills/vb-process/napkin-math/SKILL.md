@@ -1,6 +1,6 @@
 ---
 name: napkin-math
-description: "M5 (milestone 5) procesu VB — 1-stronicowy szybki test ekonomiczny czy projekt się spina. Revenue model, unit economics (COGS/CAC/LTV szacunkowe), break-even, go/no-go decision. NIE jest to pełny model finansowy (M11 = financial-analyst) — to jest sanity check na kartce. Najczęściej kluczowe dla projektów naukowych gdzie founderzy nie mają pomysłu na model biznesowy. Triggeruj na: \"napkin math\", \"unit economics\", \"czy to się spina\", \"CAC LTV szybko\", \"ROI na kartce\", \"break-even\"."
+description: "Szybki test czy projekt SIĘ SPINA ekonomicznie (1 strona) — revenue model, unit economics (CAC/LTV/COGS szacunkowo), break-even, go/no-go. Sanity-check na kartce, nie pełny model. Use gdy: 'czy to się spina', 'czy ekonomia działa', 'unit economics', 'CAC LTV szybko', 'napkin math', 'break-even', 'czy zarobimy'. M5 procesu DD by Heart."
 ---
 
 > 🔒 **heart-vb CORE — zawsze, niezależnie od załadowanego skilla:**
